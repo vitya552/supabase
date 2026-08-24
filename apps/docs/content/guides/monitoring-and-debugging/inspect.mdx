@@ -11,7 +11,7 @@ Use this page to:
 - Run [CLI inspection commands](#using-the-cli)
 - Copy the matching [SQL](#using-sql)
 
-If you are checking whether something is wrong, start with the [debugging guide](/docs/guides/monitoring-and-debugging/debugging). For project logs, metrics, and advisors, see [Observe the data](/docs/guides/monitoring-and-debugging/access-data).
+If you are checking whether something is wrong, start with [Detecting](/docs/guides/monitoring-and-debugging/debugging). For project logs, metrics, and advisors, see [Observe the data](/docs/guides/monitoring-and-debugging/access-data).
 
 ## Using the CLI
 
@@ -236,6 +236,6 @@ from pg_statio_user_tables;
 
 This shows the ratio of data blocks fetched from the Postgres [shared_buffers](https://www.postgresql.org/docs/15/runtime-config-resource.html#RUNTIME-CONFIG-RESOURCE-MEMORY) cache against the data blocks that were read from disk or the OS cache.
 
-A ratio below 99% means Postgres is reading from disk more than from cache. Treat that as a performance signal in the [debugging guide](/docs/guides/monitoring-and-debugging/debugging), then search [troubleshooting](/docs/guides/troubleshooting).
+A ratio below 99% means Postgres is reading from disk more than from cache. Treat that as a [Performance](/docs/guides/monitoring-and-debugging/debugging) signal, then search [Diagnosing](/docs/guides/troubleshooting).
 
 When a check names a slow statement, get a query plan with [`explain`](/docs/guides/database/query-optimization#analyze-the-query-plan) in SQL, or [`explain()`](/docs/guides/database/debugging-performance) on the Data API. Pair `pg_stat_statements` with the [Metrics API](/docs/guides/monitoring-and-debugging/metrics) to read the same window from Postgres stats and host metrics.
