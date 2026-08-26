@@ -69,7 +69,7 @@ describe('serializeContentListingGroupToMarkdown', () => {
         items: [
           {
             title: 'Doctor',
-            href: '/guides/monitoring-and-debugging/automate-with-agents/health',
+            href: '/guides/observability/automate-with-agents/health',
             subtitle: 'Every 15 minutes',
             description: 'Watch logs for 5xx spikes and Auth failures.',
           },
@@ -79,7 +79,7 @@ describe('serializeContentListingGroupToMarkdown', () => {
     )
 
     expect(markdown).toContain(
-      '**[Doctor](https://supabase.com/docs/guides/monitoring-and-debugging/automate-with-agents/health):** Every 15 minutes. Watch logs for 5xx spikes and Auth failures.'
+      '**[Doctor](https://supabase.com/docs/guides/observability/automate-with-agents/health):** Every 15 minutes. Watch logs for 5xx spikes and Auth failures.'
     )
   })
 
@@ -278,7 +278,7 @@ describe('dashboard content listing hrefs', () => {
 describe('contentListingItemSchema icon', () => {
   const baseItem = {
     title: 'Datadog',
-    href: '/guides/monitoring-and-debugging/log-drains#datadog',
+    href: '/guides/observability/log-drains#datadog',
     description: 'Stream logs directly into Datadog for monitoring and analysis.',
   }
 
