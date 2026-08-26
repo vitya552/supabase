@@ -3090,7 +3090,7 @@ export const telemetry: NavMenuConstant = {
       ],
     },
     {
-      name: 'Detect and resolve issues',
+      name: 'Detect and diagnose',
       url: undefined,
       items: [
         {
