@@ -176,6 +176,7 @@ import { Route as ProjectRefAuthAuditLogsRouteImport } from './routes/project/$r
 import { Route as ProjectRefAdvisorsSecurityRouteImport } from './routes/project/$ref/advisors/security'
 import { Route as ProjectRefAdvisorsRulesRouteImport } from './routes/project/$ref/advisors/rules'
 import { Route as ProjectRefAdvisorsPerformanceRouteImport } from './routes/project/$ref/advisors/performance'
+import { Route as ProjectRefAdvisorsHealthRouteImport } from './routes/project/$ref/advisors/health'
 import { Route as ApiPlatformTelemetryEventRouteImport } from './routes/api/platform/telemetry/event'
 import { Route as ApiPlatformIntegrationsSlugRouteImport } from './routes/api/platform/integrations/$slug'
 import { Route as ApiAiSqlTitleV2RouteImport } from './routes/api/ai/sql/title-v2'
@@ -1225,6 +1226,12 @@ const ProjectRefAdvisorsPerformanceRoute =
     path: '/performance',
     getParentRoute: () => ProjectRefAdvisorsRoute,
   } as any)
+const ProjectRefAdvisorsHealthRoute =
+  ProjectRefAdvisorsHealthRouteImport.update({
+    id: '/health',
+    path: '/health',
+    getParentRoute: () => ProjectRefAdvisorsRoute,
+  } as any)
 const ApiPlatformTelemetryEventRoute =
   ApiPlatformTelemetryEventRouteImport.update({
     id: '/api/platform/telemetry/event',
@@ -2194,6 +2201,7 @@ export interface FileRoutesByFullPath {
   '/api/ai/sql/title-v2': typeof ApiAiSqlTitleV2Route
   '/api/platform/integrations/$slug': typeof ApiPlatformIntegrationsSlugRoute
   '/api/platform/telemetry/event': typeof ApiPlatformTelemetryEventRoute
+  '/project/$ref/advisors/health': typeof ProjectRefAdvisorsHealthRoute
   '/project/$ref/advisors/performance': typeof ProjectRefAdvisorsPerformanceRoute
   '/project/$ref/advisors/rules': typeof ProjectRefAdvisorsRulesRouteWithChildren
   '/project/$ref/advisors/security': typeof ProjectRefAdvisorsSecurityRoute
@@ -2499,6 +2507,7 @@ export interface FileRoutesByTo {
   '/api/ai/sql/title-v2': typeof ApiAiSqlTitleV2Route
   '/api/platform/integrations/$slug': typeof ApiPlatformIntegrationsSlugRoute
   '/api/platform/telemetry/event': typeof ApiPlatformTelemetryEventRoute
+  '/project/$ref/advisors/health': typeof ProjectRefAdvisorsHealthRoute
   '/project/$ref/advisors/performance': typeof ProjectRefAdvisorsPerformanceRoute
   '/project/$ref/advisors/rules': typeof ProjectRefAdvisorsRulesRouteWithChildren
   '/project/$ref/advisors/security': typeof ProjectRefAdvisorsSecurityRoute
@@ -2815,6 +2824,7 @@ export interface FileRoutesById {
   '/api/ai/sql/title-v2': typeof ApiAiSqlTitleV2Route
   '/api/platform/integrations/$slug': typeof ApiPlatformIntegrationsSlugRoute
   '/api/platform/telemetry/event': typeof ApiPlatformTelemetryEventRoute
+  '/project/$ref/advisors/health': typeof ProjectRefAdvisorsHealthRoute
   '/project/$ref/advisors/performance': typeof ProjectRefAdvisorsPerformanceRoute
   '/project/$ref/advisors/rules': typeof ProjectRefAdvisorsRulesRouteWithChildren
   '/project/$ref/advisors/security': typeof ProjectRefAdvisorsSecurityRoute
@@ -3133,6 +3143,7 @@ export interface FileRouteTypes {
     | '/api/ai/sql/title-v2'
     | '/api/platform/integrations/$slug'
     | '/api/platform/telemetry/event'
+    | '/project/$ref/advisors/health'
     | '/project/$ref/advisors/performance'
     | '/project/$ref/advisors/rules'
     | '/project/$ref/advisors/security'
@@ -3438,6 +3449,7 @@ export interface FileRouteTypes {
     | '/api/ai/sql/title-v2'
     | '/api/platform/integrations/$slug'
     | '/api/platform/telemetry/event'
+    | '/project/$ref/advisors/health'
     | '/project/$ref/advisors/performance'
     | '/project/$ref/advisors/rules'
     | '/project/$ref/advisors/security'
@@ -3753,6 +3765,7 @@ export interface FileRouteTypes {
     | '/api/ai/sql/title-v2'
     | '/api/platform/integrations/$slug'
     | '/api/platform/telemetry/event'
+    | '/project/$ref/advisors/health'
     | '/project/$ref/advisors/performance'
     | '/project/$ref/advisors/rules'
     | '/project/$ref/advisors/security'
@@ -5264,6 +5277,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectRefAdvisorsPerformanceRouteImport
       parentRoute: typeof ProjectRefAdvisorsRoute
     }
+    '/project/$ref/advisors/health': {
+      id: '/project/$ref/advisors/health'
+      path: '/health'
+      fullPath: '/project/$ref/advisors/health'
+      preLoaderRoute: typeof ProjectRefAdvisorsHealthRouteImport
+      parentRoute: typeof ProjectRefAdvisorsRoute
+    }
     '/api/platform/telemetry/event': {
       id: '/api/platform/telemetry/event'
       path: '/api/platform/telemetry/event'
@@ -6465,12 +6485,14 @@ const ProjectRefAdvisorsRulesRouteWithChildren =
   )
 
 interface ProjectRefAdvisorsRouteChildren {
+  ProjectRefAdvisorsHealthRoute: typeof ProjectRefAdvisorsHealthRoute
   ProjectRefAdvisorsPerformanceRoute: typeof ProjectRefAdvisorsPerformanceRoute
   ProjectRefAdvisorsRulesRoute: typeof ProjectRefAdvisorsRulesRouteWithChildren
   ProjectRefAdvisorsSecurityRoute: typeof ProjectRefAdvisorsSecurityRoute
 }
 
 const ProjectRefAdvisorsRouteChildren: ProjectRefAdvisorsRouteChildren = {
+  ProjectRefAdvisorsHealthRoute: ProjectRefAdvisorsHealthRoute,
   ProjectRefAdvisorsPerformanceRoute: ProjectRefAdvisorsPerformanceRoute,
   ProjectRefAdvisorsRulesRoute: ProjectRefAdvisorsRulesRouteWithChildren,
   ProjectRefAdvisorsSecurityRoute: ProjectRefAdvisorsSecurityRoute,
