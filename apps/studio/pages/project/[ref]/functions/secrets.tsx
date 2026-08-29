@@ -16,14 +16,16 @@ import { EdgeFunctionSecrets } from '@/components/interfaces/Functions/EdgeFunct
 import { DefaultLayout } from '@/components/layouts/DefaultLayout'
 import EdgeFunctionsLayout from '@/components/layouts/EdgeFunctionsLayout/EdgeFunctionsLayout'
 import { DocsButton } from '@/components/ui/DocsButton'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import { useDeploymentMode } from '@/hooks/misc/useDeploymentMode'
 import { DOCS_URL, IS_PLATFORM } from '@/lib/constants'
 import type { NextPageWithLayout } from '@/types'
 
 const SecretsPage: NextPageWithLayout = () => {
   const { isCli, isSelfHosted } = useDeploymentMode()
+  const isManagementApiEnabled = useIsManagementApiEnabled()
 
-  if (!IS_PLATFORM) {
+  if (!IS_PLATFORM && !isManagementApiEnabled) {
     return (
       <PageContainer size="large">
         <PageSection>

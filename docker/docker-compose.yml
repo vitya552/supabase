@@ -275,6 +275,9 @@ services:
       retries: 3
     volumes:
       - auth-runtime-config:/etc/auth:z
+      # Shared with the functions (edge-runtime) service so edge functions can
+      # be deployed and their secrets managed through the API.
+      - ./volumes/functions:/mnt/functions:z
     environment:
       PORT: 8085
       DATABASE_URL: postgres://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
@@ -282,6 +285,12 @@ services:
       AUTH_CONFIG_DIR: /etc/auth
       SELF_URL: http://management-api:8085
       API_EXTERNAL_URL: ${API_EXTERNAL_URL}
+      FUNCTIONS_DIR: /mnt/functions
+
+      # PostgREST env defaults, reported until overridden at runtime.
+      PGRST_DB_SCHEMAS: ${PGRST_DB_SCHEMAS}
+      PGRST_DB_MAX_ROWS: ${PGRST_DB_MAX_ROWS:-1000}
+      PGRST_DB_EXTRA_SEARCH_PATH: ${PGRST_DB_EXTRA_SEARCH_PATH:-public}
 
       # Baseline values mirroring the auth service environment, used until
       # overridden at runtime through the API.

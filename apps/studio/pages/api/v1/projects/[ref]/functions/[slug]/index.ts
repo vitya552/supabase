@@ -3,6 +3,7 @@ import { type NextApiRequest, type NextApiResponse } from 'next'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
 import { getFunctionsArtifactStore } from '@/lib/api/self-hosted/functions'
+import { IS_MANAGEMENT_API_ENABLED, proxyManagementApi } from '@/lib/api/self-hosted/management-api'
 import { uuidv4 } from '@/lib/helpers'
 
 export default function handlerWithErrorCatching(req: NextApiRequest, res: NextApiResponse) {
@@ -15,8 +16,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (method) {
     case 'GET':
       return handleGet(req, res)
+    case 'PATCH':
+      return handleMutate(req, res)
+    case 'DELETE':
+      return handleMutate(req, res)
     default:
-      res.setHeader('Allow', ['GET'])
+      res.setHeader('Allow', ['GET', 'PATCH', 'DELETE'])
       res.status(405).json({ data: null, error: { message: `Method ${method} Not Allowed` } })
   }
 }
@@ -46,4 +51,22 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
   } satisfies EdgeFunctionsResponse
 
   return res.status(200).json(functionResponse)
+}
+
+const handleMutate = async (req: NextApiRequest, res: NextApiResponse) => {
+  const slugParam = req.query.slug
+  const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
+  if (!slug)
+    return res.status(404).json({ error: { message: `Missing function 'slug' parameter` } })
+  if (!IS_MANAGEMENT_API_ENABLED) {
+    return res
+      .status(405)
+      .json({ error: { message: `Method ${req.method} requires the management API` } })
+  }
+
+  return proxyManagementApi(
+    req,
+    res,
+    `/platform/projects/default/functions/${encodeURIComponent(slug)}`
+  )
 }

@@ -34,3 +34,56 @@ export async function proxyManagementApi(req: NextApiRequest, res: NextApiRespon
   const body = await response.json().catch(() => null)
   return res.status(response.status).json(body)
 }
+
+/**
+ * Server-side GET against the management API, for routes that merge its
+ * response with locally derived fields.
+ */
+export async function fetchManagementApi(path: string): Promise<unknown> {
+  if (!MANAGEMENT_API_URL || !MANAGEMENT_API_TOKEN) return null
+
+  const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {
+    headers: { Authorization: `Bearer ${MANAGEMENT_API_TOKEN}` },
+  })
+  if (!response.ok) return null
+  return response.json().catch(() => null)
+}
+
+/**
+ * Forwards the request body verbatim (e.g. multipart uploads). The calling
+ * route must disable Next's body parser (`config.api.bodyParser = false`).
+ */
+export async function proxyManagementApiRaw(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  path: string
+) {
+  if (!MANAGEMENT_API_URL || !MANAGEMENT_API_TOKEN) {
+    return res.status(404).json({
+      error: {
+        message:
+          'Management API is not configured. Set MANAGEMENT_API_URL and MANAGEMENT_API_TOKEN on the studio container.',
+      },
+    })
+  }
+
+  const chunks: Buffer[] = []
+  for await (const chunk of req) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
+  }
+
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`,
+  }
+  const contentType = req.headers['content-type']
+  if (contentType) headers['Content-Type'] = contentType
+
+  const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {
+    method: req.method,
+    headers,
+    body: Buffer.concat(chunks),
+  })
+
+  const body = await response.json().catch(() => null)
+  return res.status(response.status).json(body)
+}

@@ -154,7 +154,23 @@ Deno.serve(async (req: Request) => {
   // SUPABASE_FUNCTION_SLUG is listed after the container env snapshot so
   // nothing in it can shadow the value, and it is per-request because only this
   // worker knows which function the request resolved to.
-  const envVarsObj = { ...Deno.env.toObject(), SUPABASE_FUNCTION_SLUG: service_name }
+  // Secrets managed via the management API are stored alongside the
+  // functions and merged in per request, so updates apply without restarts.
+  let managedSecrets: Record<string, string> = {}
+  try {
+    const parsed = JSON.parse(await Deno.readTextFile('/home/deno/functions/.secrets.json'))
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      managedSecrets = parsed
+    }
+  } catch {
+    // no managed secrets file
+  }
+
+  const envVarsObj = {
+    ...Deno.env.toObject(),
+    ...managedSecrets,
+    SUPABASE_FUNCTION_SLUG: service_name,
+  }
   const envVars = Object.keys(envVarsObj).map((k) => [k, envVarsObj[k]])
 
   try {

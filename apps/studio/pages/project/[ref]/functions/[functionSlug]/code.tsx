@@ -15,6 +15,7 @@ import { ButtonTooltip } from '@/components/ui/ButtonTooltip'
 import { FileExplorerAndEditor } from '@/components/ui/FileExplorerAndEditor'
 import { FileData } from '@/components/ui/FileExplorerAndEditor/FileExplorerAndEditor.types'
 import { InlineLink } from '@/components/ui/InlineLink'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import { useEdgeFunctionBodyQuery } from '@/data/edge-functions/edge-function-body-query'
 import { useEdgeFunctionQuery } from '@/data/edge-functions/edge-function-query'
 import { useEdgeFunctionDeployMutation } from '@/data/edge-functions/edge-functions-deploy-mutation'
@@ -31,6 +32,7 @@ const CodePage = () => {
   const { data: org } = useSelectedOrganizationQuery()
 
   const track = useTrack()
+  const isManagementApiEnabled = useIsManagementApiEnabled()
   const [showDeployWarning, setShowDeployWarning] = useState(false)
 
   const { can: canDeployFunction } = useAsyncCheckPermissions(PermissionAction.FUNCTIONS_WRITE, '*')
@@ -211,7 +213,7 @@ const CodePage = () => {
               orgSlug: org?.slug,
             }}
           />
-          {IS_PLATFORM && (
+          {(IS_PLATFORM || isManagementApiEnabled) && (
             <div className="flex items-center bg-background-muted justify-end p-4 border-t bg-surface-100 shrink-0">
               <ButtonTooltip
                 loading={isDeploying}
