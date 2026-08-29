@@ -68,10 +68,6 @@ resources:
                               value: /auth/v1/verify
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -97,10 +93,6 @@ resources:
                               value: /auth/v1/callback
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -126,10 +118,6 @@ resources:
                               value: /auth/v1/authorize
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -155,10 +143,6 @@ resources:
                               value: /auth/v1/.well-known/jwks.json
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -183,10 +167,6 @@ resources:
                               value: /.well-known/oauth-authorization-server
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -212,10 +192,6 @@ resources:
                               value: /auth/v1/sso/saml/acs
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -241,10 +217,6 @@ resources:
                               value: /auth/v1/sso/saml/metadata
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -271,10 +243,6 @@ resources:
                               value: /functions/v1/
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -300,10 +268,6 @@ resources:
                               value: /storage/v1
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -329,11 +293,6 @@ resources:
                               key: X-Forwarded-Prefix
                               value: /auth/v1/
                             append_action: ADD_IF_ABSENT
-                        typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
 
                       - name: rest-v1-openapi-protected
                         match:
@@ -348,9 +307,6 @@ resources:
                               value: /rest/v1/
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
                             rbac:
@@ -382,11 +338,6 @@ resources:
                               key: X-Forwarded-Prefix
                               value: /rest/v1/
                             append_action: ADD_IF_ABSENT
-                        typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
 
                       - name: graphql-v1-protected
                         match:
@@ -404,11 +355,6 @@ resources:
                               key: Content-Profile
                               value: graphql_public
                             append_action: ADD_IF_ABSENT
-                        typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
 
                       - name: realtime-v1-api-openapi-blocked
                         match:
@@ -422,10 +368,6 @@ resources:
                               value: /realtime/v1/api/openapi
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -451,10 +393,6 @@ resources:
                               value: /realtime/v1/api/tenants
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -481,11 +419,6 @@ resources:
                               key: X-Forwarded-Prefix
                               value: /realtime/v1/api
                             append_action: ADD_IF_ABSENT
-                        typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
 
                       - name: realtime-v1-ws-protected
                         match:
@@ -500,11 +433,6 @@ resources:
                               key: X-Forwarded-Prefix
                               value: /realtime/v1/
                             append_action: ADD_IF_ABSENT
-                        typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
 
                       - name: pg-protected
                         match:
@@ -519,10 +447,6 @@ resources:
                               value: /pg/
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.cors:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
@@ -546,10 +470,6 @@ resources:
                               value: /api/mcp
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -575,10 +495,6 @@ resources:
                               value: /mcp
                             append_action: ADD_IF_ABSENT
                         typed_per_filter_config:
-                          envoy.filters.http.basic_auth:
-                            '@type': >-
-                              type.googleapis.com/envoy.config.route.v3.FilterConfig
-                            disabled: true
                           envoy.filters.http.rbac:
                             '@type': >-
                               type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
@@ -611,7 +527,28 @@ resources:
                             #              address_prefix: ::1
                             #              prefix_len: 128
 
-                      - match:
+                      - name: dashboard-auth
+                        match:
+                          prefix: /dashboard-auth/
+                        route:
+                          cluster: management
+                          timeout: 30s
+                        typed_per_filter_config:
+                          envoy.filters.http.rbac:
+                            '@type': >-
+                              type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
+                            rbac:
+                              rules:
+                                action: ALLOW
+                                policies:
+                                  allow_all:
+                                    permissions:
+                                      - any: true
+                                    principals:
+                                      - any: true
+
+                      - name: studio-protected
+                        match:
                           prefix: /
                         route:
                           cluster: studio
@@ -643,12 +580,52 @@ resources:
                     '@type': >-
                       type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
 
-                - name: envoy.filters.http.basic_auth
+                # Dashboard authentication: validates the session cookie (set by the
+                # management-api login page) or Basic Auth credentials, redirecting
+                # browsers to the login page otherwise.
+                - name: envoy.filters.http.lua
                   typed_config:
                     '@type': >-
-                      type.googleapis.com/envoy.extensions.filters.http.basic_auth.v3.BasicAuth
-                    users:
-                      inline_string: '${DASHBOARD_BASIC_AUTH}'
+                      type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+                    inline_code: |
+                      local function urlencode(value)
+                        return (string.gsub(value, "([^%w%-%._~/])", function(c)
+                          return string.format("%%%02X", string.byte(c))
+                        end))
+                      end
+
+                      function envoy_on_request(request_handle)
+                        if request_handle:streamInfo():routeName() ~= "studio-protected" then
+                          return
+                        end
+
+                        local headers = request_handle:headers()
+                        local check_headers = {
+                          [":method"] = "GET",
+                          [":path"] = "/dashboard-auth/check",
+                          [":authority"] = "management-api",
+                        }
+                        local cookie = headers:get("cookie")
+                        if cookie ~= nil then
+                          check_headers["cookie"] = cookie
+                        end
+                        local authorization = headers:get("authorization")
+                        if authorization ~= nil then
+                          check_headers["authorization"] = authorization
+                        end
+
+                        local response_headers = request_handle:httpCall("management", check_headers, "", 2000)
+                        if response_headers[":status"] == "200" then
+                          return
+                        end
+
+                        local path = headers:get(":path") or "/"
+                        request_handle:respond({
+                          [":status"] = "302",
+                          ["location"] = "/dashboard-auth/login?redirect_to=" .. urlencode(path),
+                          ["cache-control"] = "no-store",
+                        }, "")
+                      end
 
                 # Copies ?apikey=... from the URL into the apikey header when clients omit the header.
                 - name: envoy.filters.http.lua

@@ -38,7 +38,7 @@ import {
   thirdPartyAuthIntegrationsQueryOptions,
 } from '@/data/third-party-auth/integrations-query'
 import { useAsyncCheckPermissions } from '@/hooks/misc/useCheckPermissions'
-import { DOCS_URL } from '@/lib/constants'
+import { DOCS_URL, IS_PLATFORM } from '@/lib/constants'
 import { SHORTCUT_IDS } from '@/state/shortcuts/registry'
 import { useShortcut } from '@/state/shortcuts/useShortcut'
 
@@ -82,15 +82,17 @@ export const ThirdPartyAuthForm = () => {
       <PageSectionMeta>
         <PageSectionSummary>
           <PageSectionTitle>Third-Party Auth</PageSectionTitle>
-          <PageSectionDescription>
-            Billing is based on the number of monthly active users (MAUs) requesting your API
-            throughout the billing period.{' '}
-            <InlineLink
-              href={`${DOCS_URL}/guides/platform/manage-your-usage/monthly-active-users-third-party`}
-            >
-              Learn more
-            </InlineLink>
-          </PageSectionDescription>
+          {IS_PLATFORM && (
+            <PageSectionDescription>
+              Billing is based on the number of monthly active users (MAUs) requesting your API
+              throughout the billing period.{' '}
+              <InlineLink
+                href={`${DOCS_URL}/guides/platform/manage-your-usage/monthly-active-users-third-party`}
+              >
+                Learn more
+              </InlineLink>
+            </PageSectionDescription>
+          )}
         </PageSectionSummary>
         <PageSectionAside>
           <DocsButton href={`${DOCS_URL}/guides/auth/third-party/overview`} />

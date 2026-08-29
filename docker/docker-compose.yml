@@ -91,6 +91,8 @@ services:
     depends_on:
       studio:
         condition: service_healthy
+      management-api:
+        condition: service_healthy
     ports:
       - ${API_GW_HTTP_PORT:-${KONG_HTTP_PORT:-8000}}:8000/tcp
     volumes:
@@ -286,6 +288,11 @@ services:
       SELF_URL: http://management-api:8085
       API_EXTERNAL_URL: ${API_EXTERNAL_URL}
       FUNCTIONS_DIR: /mnt/functions
+      JWT_SECRET: ${JWT_SECRET}
+
+      # Dashboard login page credentials (replaces the gateway's Basic Auth prompt).
+      DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
+      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
 
       # PostgREST env defaults, reported until overridden at runtime.
       PGRST_DB_SCHEMAS: ${PGRST_DB_SCHEMAS}
