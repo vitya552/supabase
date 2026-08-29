@@ -600,6 +600,7 @@ resources:
                         end
 
                         local headers = request_handle:headers()
+                        local path = headers:get(":path") or "/"
                         local check_headers = {
                           [":method"] = "GET",
                           [":path"] = "/dashboard-auth/check",
@@ -614,12 +615,13 @@ resources:
                           check_headers["authorization"] = authorization
                         end
 
-                        local response_headers = request_handle:httpCall("management", check_headers, "", 2000)
-                        if response_headers[":status"] == "200" then
+                        local ok, response_headers = pcall(function()
+                          return request_handle:httpCall("management", check_headers, "", 2000)
+                        end)
+                        if ok and response_headers ~= nil and response_headers[":status"] == "200" then
                           return
                         end
 
-                        local path = headers:get(":path") or "/"
                         request_handle:respond({
                           [":status"] = "302",
                           ["location"] = "/dashboard-auth/login?redirect_to=" .. urlencode(path),
