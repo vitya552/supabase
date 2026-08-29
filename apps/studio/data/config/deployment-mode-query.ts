@@ -7,6 +7,7 @@ import type { ResponseError, UseCustomQueryOptions } from '@/types'
 
 export type DeploymentModeResponse = {
   is_cli_mode: boolean
+  is_management_api_enabled: boolean
 }
 
 export async function getDeploymentMode(signal?: AbortSignal): Promise<DeploymentModeResponse> {
@@ -22,6 +23,15 @@ export async function getDeploymentMode(signal?: AbortSignal): Promise<Deploymen
 
 export type DeploymentModeData = Awaited<ReturnType<typeof getDeploymentMode>>
 export type DeploymentModeError = ResponseError
+
+/**
+ * Whether the self-hosted deployment runs the local management API, which
+ * enables runtime Auth configuration from Studio. Always false on platform.
+ */
+export const useIsManagementApiEnabled = () => {
+  const { data } = useDeploymentModeQuery()
+  return data?.is_management_api_enabled ?? false
+}
 
 export const useDeploymentModeQuery = <TData = DeploymentModeData>(
   options: UseCustomQueryOptions<DeploymentModeData, DeploymentModeError, TData> = {}
