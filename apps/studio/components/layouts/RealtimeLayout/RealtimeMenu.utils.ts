@@ -1,11 +1,20 @@
 import type { ProductMenuGroup } from '@/components/ui/ProductMenu/ProductMenu.types'
 import type { Project } from '@/data/projects/project-detail-query'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import { IS_PLATFORM } from '@/lib/constants'
 import { SHORTCUT_IDS } from '@/state/shortcuts/registry'
 
-export const generateRealtimeMenu = (project: Project | undefined): ProductMenuGroup[] => {
+/** Realtime settings are editable on the platform and on self-hosted deployments with the management API. */
+export const useShowRealtimeSettings = () => {
+  const isManagementApiEnabled = useIsManagementApiEnabled()
+  return IS_PLATFORM || isManagementApiEnabled
+}
+
+export const generateRealtimeMenu = (
+  project: Project | undefined,
+  { showRealtimeSettings = IS_PLATFORM }: { showRealtimeSettings?: boolean } = {}
+): ProductMenuGroup[] => {
   const ref = project?.ref ?? 'default'
-  const showRealtimeSettings = IS_PLATFORM
 
   return [
     {

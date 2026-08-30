@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
-import { selfHostedSupabaseAdmin as supabase } from '@/lib/api/self-hosted-admin'
+import { getProjectSupabaseAdmin } from '@/lib/api/self-hosted-admin'
 
 export default (req: NextApiRequest, res: NextApiResponse) => apiWrapper(req, res, handler)
 
@@ -20,6 +20,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const handlePatch = async (req: NextApiRequest, res: NextApiResponse) => {
+  const supabase = await getProjectSupabaseAdmin(req)
+  if (supabase === null) {
+    return res.status(404).json({ error: { message: 'Auth is not available for this project' } })
+  }
   const { id } = req.query
   const { ban_duration } = req.body
   const { data, error } = await supabase.auth.admin.updateUserById(id as string, { ban_duration })
@@ -29,6 +33,10 @@ const handlePatch = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 const handleDelete = async (req: NextApiRequest, res: NextApiResponse) => {
+  const supabase = await getProjectSupabaseAdmin(req)
+  if (supabase === null) {
+    return res.status(404).json({ error: { message: 'Auth is not available for this project' } })
+  }
   const { id } = req.query
   const { data, error } = await supabase.auth.admin.deleteUser(id as string)
 

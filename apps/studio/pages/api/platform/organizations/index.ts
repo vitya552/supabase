@@ -40,6 +40,7 @@ const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
           billing_email: 'billing@supabase.co',
           opt_in_tags: org.opt_in_tags,
           plan: { id: 'enterprise', name: 'Enterprise' },
+          usage_billing_enabled: true,
         }))
       )
     }
@@ -56,6 +57,7 @@ const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
         id: 'enterprise',
         name: 'Enterprise',
       },
+      usage_billing_enabled: true,
     },
   ]
   return res.status(200).json(response)

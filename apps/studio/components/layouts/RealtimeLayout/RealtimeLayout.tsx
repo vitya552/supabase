@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import type { PropsWithChildren } from 'react'
 
 import { ProjectLayout } from '../ProjectLayout'
-import { generateRealtimeMenu } from './RealtimeMenu.utils'
+import { generateRealtimeMenu, useShowRealtimeSettings } from './RealtimeMenu.utils'
 import { HighAvailabilityDisabledEmptyState } from '@/components/ui/HighAvailability/HighAvailabilityDisabledEmptyState'
 import { ProductMenu } from '@/components/ui/ProductMenu'
 import { ProductMenuShortcuts } from '@/components/ui/ProductMenu/ProductMenuShortcuts'
@@ -21,8 +21,14 @@ export const RealtimeProductMenu = () => {
   const router = useRouter()
   const { data: project } = useSelectedProjectQuery()
   const page = router.pathname.split('/')[4]
+  const showRealtimeSettings = useShowRealtimeSettings()
 
-  return <ProductMenu page={page} menu={generateRealtimeMenu(project ?? undefined)} />
+  return (
+    <ProductMenu
+      page={page}
+      menu={generateRealtimeMenu(project ?? undefined, { showRealtimeSettings })}
+    />
+  )
 }
 
 export interface RealtimeLayoutProps {
@@ -34,7 +40,8 @@ export const RealtimeLayout = ({ title, children }: PropsWithChildren<RealtimeLa
   const { isHighAvailability } = useHighAvailability()
   const router = useRouter()
   const page = router.pathname.split('/')[4]
-  const menu = generateRealtimeMenu(project)
+  const showRealtimeSettings = useShowRealtimeSettings()
+  const menu = generateRealtimeMenu(project, { showRealtimeSettings })
 
   if (isHighAvailability) {
     return (

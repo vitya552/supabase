@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
-import { selfHostedSupabaseAdmin as supabase } from '@/lib/api/self-hosted-admin'
+import { getProjectSupabaseAdmin } from '@/lib/api/self-hosted-admin'
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (req: NextApiRequest, res: NextApiResponse) => apiWrapper(req, res, handler)
@@ -22,6 +22,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
+  const supabase = await getProjectSupabaseAdmin(req)
+  if (supabase === null) {
+    return res.status(404).json({ error: { message: 'Storage is not available for this project' } })
+  }
   const { id } = req.query
 
   const { data, error } = await supabase.storage.vectors
@@ -40,6 +44,10 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
+  const supabase = await getProjectSupabaseAdmin(req)
+  if (supabase === null) {
+    return res.status(404).json({ error: { message: 'Storage is not available for this project' } })
+  }
   const { id } = req.query
   const { indexName, dataType, dimension, distanceMetric, metadataKeys } = req.body
   const payload = {

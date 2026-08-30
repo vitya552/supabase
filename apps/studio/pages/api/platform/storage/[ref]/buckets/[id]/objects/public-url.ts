@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
-import { selfHostedSupabaseAdmin as supabase } from '@/lib/api/self-hosted-admin'
+import { getProjectSupabaseAdmin } from '@/lib/api/self-hosted-admin'
 
 export default (req: NextApiRequest, res: NextApiResponse) => apiWrapper(req, res, handler)
 
@@ -18,6 +18,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
+  const supabase = await getProjectSupabaseAdmin(req)
+  if (supabase === null) {
+    return res.status(404).json({ error: { message: 'Storage is not available for this project' } })
+  }
   const { id } = req.query
   const { path } = req.body
 
