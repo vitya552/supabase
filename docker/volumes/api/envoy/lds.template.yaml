@@ -627,7 +627,10 @@ resources:
 
                         -- Studio's sign-in page and its static assets stay reachable
                         -- without a session so the login UI itself can render.
+                        -- /join is the invitation-acceptance page: new users have
+                        -- no session yet, so it must render without one.
                         if string.find(path, "^/sign%-in")
+                          or string.find(path, "^/join")
                           or string.find(path, "^/_next/")
                           or string.find(path, "^/img/")
                           or string.find(path, "^/favicon")

@@ -61,7 +61,7 @@ import { doPermissionsCheck, useGetPermissions } from '@/hooks/misc/useCheckPerm
 import { useIsFeatureEnabled } from '@/hooks/misc/useIsFeatureEnabled'
 import { useSelectedOrganizationQuery } from '@/hooks/misc/useSelectedOrganization'
 import { useConfirmOnClose } from '@/hooks/ui/useConfirmOnClose'
-import { DOCS_URL } from '@/lib/constants'
+import { DOCS_URL, IS_PLATFORM } from '@/lib/constants'
 import { MANAGED_BY } from '@/lib/constants/infrastructure'
 import { useProfile } from '@/lib/profile'
 import { SHORTCUT_IDS } from '@/state/shortcuts/registry'
@@ -110,18 +110,21 @@ export const InviteMemberButton = () => {
     permissions ?? []
   )
 
-  const canInviteMembers =
-    hasOrgRole &&
-    rolesAddable.length > 0 &&
-    orgScopedRoles.some(({ id: role_id }) =>
-      doPermissionsCheck(
-        permissions,
-        PermissionAction.CREATE,
-        'user_invites',
-        { resource: { role_id } },
-        organization?.slug
+  // Self-hosted has no platform permissions API; the management API enforces
+  // invite permissions server-side.
+  const canInviteMembers = !IS_PLATFORM
+    ? true
+    : hasOrgRole &&
+      rolesAddable.length > 0 &&
+      orgScopedRoles.some(({ id: role_id }) =>
+        doPermissionsCheck(
+          permissions,
+          PermissionAction.CREATE,
+          'user_invites',
+          { resource: { role_id } },
+          organization?.slug
+        )
       )
-    )
 
   const { mutateAsync: inviteMemberAsync, isPending: isInviting } =
     useOrganizationCreateInvitationMutation()
@@ -204,7 +207,17 @@ export const InviteMemberButton = () => {
 
     const { succeeded, failed } = result
 
-    if (succeeded.length > 0) {
+    const inviteUrls = result.invite_urls ?? []
+    if (inviteUrls.length > 0) {
+      // Self-hosted deployments send no invite emails: the one-time join link
+      // is shown here so the inviter can pass it on directly.
+      for (const { url } of inviteUrls) {
+        toast.success(`Invite link (share it, shown only once): ${window.location.origin}${url}`, {
+          duration: Infinity,
+          closeButton: true,
+        })
+      }
+    } else if (succeeded.length > 0) {
       toast.success(
         succeeded.length === 1
           ? 'Successfully sent invitation to new member'

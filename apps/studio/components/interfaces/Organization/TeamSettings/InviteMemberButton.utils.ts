@@ -63,6 +63,8 @@ export type BatchInvitationFailure = {
 export type BatchInvitationResult = {
   succeeded: string[]
   failed: BatchInvitationFailure[]
+  /** Self-hosted only: one-time join links, shown to the inviter since no email is sent. */
+  invite_urls?: { email: string; url: string }[]
 }
 
 export function categorizeInviteEmails(

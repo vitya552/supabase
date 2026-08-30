@@ -2,6 +2,7 @@ import { PermissionAction } from '@supabase/shared-types/out/constants'
 
 import type { OrganizationMember } from '@/data/organizations/organization-members-query'
 import { doPermissionsCheck, useGetPermissions } from '@/hooks/misc/useCheckPermissions'
+import { IS_PLATFORM } from '@/lib/constants'
 import type { Permission, Role } from '@/types'
 
 export const useGetRolesManagementPermissions = (
@@ -18,6 +19,13 @@ export const useGetRolesManagementPermissions = (
   const rolesAddable: Number[] = []
   const rolesRemovable: Number[] = []
   if (!roles || !orgSlug) return { rolesAddable, rolesRemovable }
+
+  // Self-hosted has no platform permissions API; the management API enforces
+  // role checks server-side, so the UI allows all roles.
+  if (!IS_PLATFORM) {
+    const ids = roles.map((role) => role.id)
+    return { rolesAddable: ids, rolesRemovable: ids }
+  }
 
   roles.forEach((role: Role) => {
     const canAdd = doPermissionsCheck(
