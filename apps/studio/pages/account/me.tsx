@@ -18,6 +18,7 @@ import {
 import { ShimmeringLoader } from 'ui-patterns/ShimmeringLoader'
 
 import { AccountConnections } from '@/components/interfaces/Account/Preferences/AccountConnections'
+import { AccountPassword } from '@/components/interfaces/Account/Preferences/AccountPassword'
 import { AccountDeletion } from '@/components/interfaces/Account/Preferences/AccountDeletion'
 import { AccountIdentities } from '@/components/interfaces/Account/Preferences/AccountIdentities'
 import { AnalyticsSettings } from '@/components/interfaces/Account/Preferences/AnalyticsSettings'
@@ -192,6 +193,8 @@ const SelfHostedPreferences = () => {
     <>
       <PreferencesPageHeader description="Manage how the dashboard looks and behaves on this browser and device." />
       <PageContainer size="small">
+        <AccountPassword />
+
         <ThemeSettings />
 
         <TimezoneSettings />
