@@ -11,6 +11,7 @@ import { PageSection, PageSectionContent } from 'ui-patterns/PageSection'
 import { GenericSkeletonLoader } from 'ui-patterns/ShimmeringLoader'
 
 import { PasskeysSettingsForm } from '@/components/interfaces/Auth/Passkeys/PasskeysSettingsForm'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import AuthLayout from '@/components/layouts/AuthLayout/AuthLayout'
 import { DefaultLayout } from '@/components/layouts/DefaultLayout'
 import type { NextPageWithLayout } from '@/types'
@@ -18,6 +19,8 @@ import type { NextPageWithLayout } from '@/types'
 const PasskeysPage: NextPageWithLayout = () => {
   const { hasLoaded: flagsLoaded } = useFeatureFlags()
   const isPasskeyAuthEnabled = useFlag('enablePasskeyAuth')
+  const isManagementApiEnabled = useIsManagementApiEnabled()
+  const isPasskeyAvailable = isPasskeyAuthEnabled || (!IS_PLATFORM && isManagementApiEnabled)
 
   const isResolvingPasskeyFlag = IS_PLATFORM && !flagsLoaded
 
@@ -40,7 +43,7 @@ const PasskeysPage: NextPageWithLayout = () => {
     )
   }
 
-  if (!isPasskeyAuthEnabled) {
+  if (!isPasskeyAvailable) {
     return (
       <PageContainer size="default">
         <PageSection>

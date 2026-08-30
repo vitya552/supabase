@@ -57,7 +57,7 @@ export function generateAuthMenu(options: GenerateAuthMenuOptions): ProductMenuG
           items: [],
           shortcutId: SHORTCUT_IDS.NAV_AUTH_USERS,
         },
-        ...(isPlatform
+        ...(isPlatform || showAuthConfig
           ? [
               {
                 name: 'OAuth Apps',
@@ -114,7 +114,7 @@ export function generateAuthMenu(options: GenerateAuthMenuOptions): ProductMenuG
               },
             ]
           : []),
-        ...(isPlatform
+        ...(isPlatform || showAuthConfig
           ? [
               ...(passkeysInMenu
                 ? [
@@ -195,7 +195,7 @@ export function generateAuthMenu(options: GenerateAuthMenuOptions): ProductMenuG
               },
             ]
           : []),
-        ...(isPlatform
+        ...(isPlatform || showAuthConfig
           ? [
               {
                 name: 'Audit Logs',
@@ -256,7 +256,7 @@ export const useGenerateAuthMenu = (): ProductMenuGroup[] => {
       multiFactor: authenticationMultiFactor,
       attackProtection: authenticationAttackProtection,
       performance: authenticationPerformance,
-      passkeys: enablePasskeyAuth,
+      passkeys: enablePasskeyAuth || (!IS_PLATFORM && isManagementApiEnabled),
     },
   })
 }
