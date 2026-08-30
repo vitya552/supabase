@@ -43,6 +43,8 @@ export async function proxyManagementApi(req: NextApiRequest, res: NextApiRespon
     body: hasBody ? JSON.stringify(req.body ?? {}) : undefined,
   })
 
+  const setCookie = response.headers.get('set-cookie')
+  if (setCookie) res.setHeader('Set-Cookie', setCookie)
   const body = await response.json().catch(() => null)
   return res.status(response.status).json(body)
 }
