@@ -24,6 +24,14 @@ const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
   const response = {
     id: 1,
     gotrue_id: username,
+    // Cloud-only surfaces that have no self-hosted backend.
+    disabled_features: [
+      'organization:show_legal_documents',
+      'organization:show_sso_settings',
+      'organization:show_security_settings',
+      'organizations:delete',
+      'billing:all',
+    ],
     primary_email: identity ? username : 'johndoe@supabase.io',
     username,
     first_name: identity ? username : 'John',

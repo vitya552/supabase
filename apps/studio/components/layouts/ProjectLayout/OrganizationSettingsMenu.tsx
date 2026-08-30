@@ -8,6 +8,7 @@ import {
 import { useIsPlatformWebhooksEnabled } from '@/components/interfaces/App/FeaturePreview/FeaturePreviewContext'
 import { SubMenu } from '@/components/ui/ProductMenu/SubMenu'
 import { useIsFeatureEnabled } from '@/hooks/misc/useIsFeatureEnabled'
+import { IS_PLATFORM } from '@/lib/constants'
 import { getPathnameWithoutQuery } from '@/lib/pathname.utils'
 
 export interface OrganizationSettingsMenuProps {
@@ -39,9 +40,11 @@ export function OrganizationSettingsMenu({ onCloseSheet }: OrganizationSettingsM
     currentPath,
     showSecuritySettings: showSecuritySettings,
     showSsoSettings,
-    showLegalDocuments,
+    showLegalDocuments: IS_PLATFORM && showLegalDocuments,
     showPlatformWebhooks,
     showPrivateApps,
+    showOAuthApps: IS_PLATFORM,
+    showAuditLogs: IS_PLATFORM,
   })
 
   const page = currentPath.split('/').filter(Boolean).pop()

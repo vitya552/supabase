@@ -15,9 +15,11 @@ export async function getProfile(signal?: AbortSignal) {
   if (error) handleError(error)
 
   if (!IS_PLATFORM) {
+    const apiDisabledFeatures = (data as Partial<Profile>)?.disabled_features ?? []
+    const envDisabledFeatures = process.env.NEXT_PUBLIC_DISABLED_FEATURES?.split(',') ?? []
     return {
       ...data,
-      disabled_features: process.env.NEXT_PUBLIC_DISABLED_FEATURES?.split(',') ?? [],
+      disabled_features: Array.from(new Set([...apiDisabledFeatures, ...envDisabledFeatures])),
     } as Profile
   } else {
     return data as Profile

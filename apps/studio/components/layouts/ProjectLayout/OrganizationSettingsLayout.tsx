@@ -9,6 +9,7 @@ import { ProductMenuShortcuts } from '@/components/ui/ProductMenu/ProductMenuSho
 import { convertSectionsToProductMenu } from '@/components/ui/ProductMenu/SubMenu.utils'
 import { useCurrentPath } from '@/hooks/misc/useCurrentPath'
 import { useIsFeatureEnabled } from '@/hooks/misc/useIsFeatureEnabled'
+import { IS_PLATFORM } from '@/lib/constants'
 import { SHORTCUT_IDS } from '@/state/shortcuts/registry'
 
 interface OrganizationSettingsMenuItemsProps {
@@ -19,6 +20,8 @@ interface OrganizationSettingsMenuItemsProps {
   showPlatformWebhooks?: boolean
   showPrivateApps?: boolean
   showAuditLogDrains?: boolean
+  showOAuthApps?: boolean
+  showAuditLogs?: boolean
 }
 
 interface OrganizationSettingsSectionsProps extends OrganizationSettingsMenuItemsProps {
@@ -35,6 +38,8 @@ export const generateOrganizationSettingsMenuItems = ({
   showPlatformWebhooks = true,
   showPrivateApps: _showPrivateApps = false,
   showAuditLogDrains = false,
+  showOAuthApps = true,
+  showAuditLogs = true,
 }: OrganizationSettingsMenuItemsProps) => [
   {
     key: 'general',
@@ -50,11 +55,15 @@ export const generateOrganizationSettingsMenuItems = ({
         },
       ]
     : []),
-  {
-    key: 'apps',
-    label: 'OAuth Apps',
-    href: `/org/${slug}/apps`,
-  },
+  ...(showOAuthApps
+    ? [
+        {
+          key: 'apps',
+          label: 'OAuth Apps',
+          href: `/org/${slug}/apps`,
+        },
+      ]
+    : []),
   ...(showSsoSettings
     ? [
         {
@@ -73,11 +82,15 @@ export const generateOrganizationSettingsMenuItems = ({
         },
       ]
     : []),
-  {
-    key: 'audit',
-    label: 'Audit Logs',
-    href: `/org/${slug}/audit`,
-  },
+  ...(showAuditLogs
+    ? [
+        {
+          key: 'audit',
+          label: 'Audit Logs',
+          href: `/org/${slug}/audit`,
+        },
+      ]
+    : []),
   ...(showAuditLogDrains
     ? [
         {
@@ -107,6 +120,8 @@ export const generateOrganizationSettingsSections = ({
   showPlatformWebhooks = true,
   showPrivateApps = false,
   showAuditLogDrains = false,
+  showOAuthApps = true,
+  showAuditLogs = true,
 }: OrganizationSettingsSectionsProps): SidebarSection[] => {
   const isLinkActive = (key: string, href: string) =>
     key === 'webhooks'
@@ -143,12 +158,16 @@ export const generateOrganizationSettingsSections = ({
   ]
 
   const connectionsLinks = [
-    {
-      key: 'apps',
-      label: 'OAuth Apps',
-      href: `/org/${slug}/apps`,
-      shortcutId: SHORTCUT_IDS.NAV_ORG_SETTINGS_APPS,
-    },
+    ...(showOAuthApps
+      ? [
+          {
+            key: 'apps',
+            label: 'OAuth Apps',
+            href: `/org/${slug}/apps`,
+            shortcutId: SHORTCUT_IDS.NAV_ORG_SETTINGS_APPS,
+          },
+        ]
+      : []),
     ...(showPrivateApps
       ? [
           {
@@ -172,12 +191,16 @@ export const generateOrganizationSettingsSections = ({
   ]
 
   const complianceLinks = [
-    {
-      key: 'audit',
-      label: 'Audit Logs',
-      href: `/org/${slug}/audit`,
-      shortcutId: SHORTCUT_IDS.NAV_ORG_SETTINGS_AUDIT,
-    },
+    ...(showAuditLogs
+      ? [
+          {
+            key: 'audit',
+            label: 'Audit Logs',
+            href: `/org/${slug}/audit`,
+            shortcutId: SHORTCUT_IDS.NAV_ORG_SETTINGS_AUDIT,
+          },
+        ]
+      : []),
     ...(showAuditLogDrains
       ? [
           {
@@ -209,22 +232,30 @@ export const generateOrganizationSettingsSections = ({
         isActive: isLinkActive(item.key, item.href),
       })),
     },
-    {
-      key: 'connections',
-      heading: 'Connections',
-      links: connectionsLinks.map((item) => ({
-        ...item,
-        isActive: isLinkActive(item.key, item.href),
-      })),
-    },
-    {
-      key: 'compliance',
-      heading: 'Compliance',
-      links: complianceLinks.map((item) => ({
-        ...item,
-        isActive: isLinkActive(item.key, item.href),
-      })),
-    },
+    ...(connectionsLinks.length > 0
+      ? [
+          {
+            key: 'connections',
+            heading: 'Connections',
+            links: connectionsLinks.map((item) => ({
+              ...item,
+              isActive: isLinkActive(item.key, item.href),
+            })),
+          },
+        ]
+      : []),
+    ...(complianceLinks.length > 0
+      ? [
+          {
+            key: 'compliance',
+            heading: 'Compliance',
+            links: complianceLinks.map((item) => ({
+              ...item,
+              isActive: isLinkActive(item.key, item.href),
+            })),
+          },
+        ]
+      : []),
   ]
 }
 
@@ -251,10 +282,12 @@ export function OrganizationSettingsLayout({ children }: PropsWithChildren) {
     slug,
     showSecuritySettings,
     showSsoSettings,
-    showLegalDocuments,
+    showLegalDocuments: IS_PLATFORM && showLegalDocuments,
     showPlatformWebhooks,
     showPrivateApps,
     showAuditLogDrains,
+    showOAuthApps: IS_PLATFORM,
+    showAuditLogs: IS_PLATFORM,
   })
 
   const orgSettingsMenu = useMemo(
