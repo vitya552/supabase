@@ -57,8 +57,16 @@ export const JoinSelfHostedForm = () => {
     }
 
     toast.success('Account created, signing you in...', { id: toastId })
+    const body: unknown = await response.json().catch(() => null)
+    const organizationSlug =
+      typeof body === 'object' &&
+      body !== null &&
+      'organization_slug' in body &&
+      typeof body.organization_slug === 'string'
+        ? body.organization_slug
+        : null
     // Full navigation so the gateway re-evaluates the new session cookie.
-    window.location.assign('/organizations')
+    window.location.assign(organizationSlug ? `/org/${organizationSlug}` : '/organizations')
   }
 
   if (!token) {
