@@ -38,7 +38,7 @@ describe('api/self-hosted/settings', () => {
       expect(settings).toHaveProperty('db_dns_name')
       expect(settings).toHaveProperty('db_host')
       expect(settings).toHaveProperty('db_name')
-      expect(settings).toHaveProperty('jwt_secret')
+      expect(settings).not.toHaveProperty('jwt_secret')
       expect(settings).toHaveProperty('service_api_keys')
     })
 
@@ -78,7 +78,6 @@ describe('api/self-hosted/settings', () => {
     })
 
     it('should use environment variables when set', async () => {
-      vi.stubEnv('AUTH_JWT_SECRET', 'custom-jwt-secret-with-at-least-32-chars')
       vi.stubEnv('DEFAULT_PROJECT_NAME', 'My Custom Project')
       vi.stubEnv('SUPABASE_SERVICE_KEY', 'custom-service-key')
       vi.stubEnv('SUPABASE_ANON_KEY', 'custom-anon-key')
@@ -89,20 +88,9 @@ describe('api/self-hosted/settings', () => {
       const { getProjectSettings: getSettings } = await import('./settings')
       const settings = getSettings()
 
-      expect(settings.jwt_secret).toBe('custom-jwt-secret-with-at-least-32-chars')
       expect(settings.name).toBe('My Custom Project')
       expect(settings.service_api_keys[0].api_key).toBe('custom-anon-key')
       expect(settings.service_api_keys[1].api_key).toBe('custom-service-key')
-    })
-
-    it('should use default JWT secret when not set', async () => {
-      vi.unstubAllEnvs()
-
-      vi.resetModules()
-      const { getProjectSettings: getSettings } = await import('./settings')
-      const settings = getSettings()
-
-      expect(settings.jwt_secret).toBe('super-secret-jwt-token-with-at-least-32-characters-long')
     })
 
     it('should use default project name when not set', async () => {
