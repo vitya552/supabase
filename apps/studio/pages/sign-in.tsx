@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from 'ui'
 
 import { SignInForm } from '@/components/interfaces/SignIn/SignInForm'
+import { SignInSelfHostedForm } from '@/components/interfaces/SignIn/SignInSelfHostedForm'
 import { SignInOptions } from '@/components/interfaces/SignIn/SignInOptions'
 import { SignInWithExternalProvider } from '@/components/interfaces/SignIn/SignInWithExternalProvider'
 import { AuthenticationLayout } from '@/components/layouts/AuthenticationLayout'
@@ -42,12 +43,11 @@ const SignInPage: NextPageWithLayout = () => {
   const { focusProvider } = useInboundBranding('sign-in')
   const signInProviders = useEnabledIdentityProviders().filter((provider) => provider.showOnSignIn)
 
-  useEffect(() => {
-    if (!IS_PLATFORM) {
-      // on selfhosted instance just redirect to projects page
-      router.replace('/project/default')
-    }
-  }, [router])
+  // Self-hosted deployments sign in with the dashboard credentials; the
+  // session is validated by the gateway rather than the platform API.
+  if (!IS_PLATFORM) {
+    return <SignInSelfHostedForm />
+  }
 
   // Inbound link focused us on a single provider — lead with that one (SignInLayout renders the
   // matching interstitial frame around it), but let the user reveal the rest of our options.

@@ -580,9 +580,9 @@ resources:
                     '@type': >-
                       type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
 
-                # Dashboard authentication: validates the session cookie (set by the
-                # management-api login page) or Basic Auth credentials, redirecting
-                # browsers to the login page otherwise.
+                # Dashboard authentication: validates the session cookie (set via
+                # Studio's /sign-in page through the management-api) or Basic Auth
+                # credentials, redirecting browsers to the sign-in page otherwise.
                 - name: envoy.filters.http.lua
                   typed_config:
                     '@type': >-
@@ -601,6 +601,17 @@ resources:
 
                         local headers = request_handle:headers()
                         local path = headers:get(":path") or "/"
+
+                        -- Studio's sign-in page and its static assets stay reachable
+                        -- without a session so the login UI itself can render.
+                        if string.find(path, "^/sign%-in")
+                          or string.find(path, "^/_next/")
+                          or string.find(path, "^/img/")
+                          or string.find(path, "^/favicon")
+                          or string.find(path, "^/monaco%-editor/") then
+                          return
+                        end
+
                         local check_headers = {
                           [":method"] = "GET",
                           [":path"] = "/dashboard-auth/check",
@@ -624,7 +635,7 @@ resources:
 
                         request_handle:respond({
                           [":status"] = "302",
-                          ["location"] = "/dashboard-auth/login?redirect_to=" .. urlencode(path),
+                          ["location"] = "/sign-in?returnTo=" .. urlencode(path),
                           ["cache-control"] = "no-store",
                         }, "")
                       end

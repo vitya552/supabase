@@ -289,6 +289,9 @@ services:
       API_EXTERNAL_URL: ${API_EXTERNAL_URL}
       FUNCTIONS_DIR: /mnt/functions
       JWT_SECRET: ${JWT_SECRET}
+      # Encrypts managed secrets (OAuth client secrets, SMTP passwords,
+      # function secrets) at rest in Postgres.
+      VAULT_ENC_KEY: ${VAULT_ENC_KEY}
 
       # Dashboard login page credentials (replaces the gateway's Basic Auth prompt).
       DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}

@@ -60,6 +60,16 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       delete requestHeaders['x-test-authorization']
     }
 
+    // Self-hosted functions may validate the apikey header (e.g. the default
+    // template's withSupabase helper), so supply the deployment's key when the
+    // caller didn't set one explicitly.
+    if (!IS_PLATFORM && !requestHeaders['apikey']) {
+      const apikey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY
+      if (apikey) {
+        requestHeaders['apikey'] = apikey
+      }
+    }
+
     // Prepare the request body based on method and Content-Type
     let finalBody = undefined
     if (method !== 'GET' && method !== 'HEAD') {
