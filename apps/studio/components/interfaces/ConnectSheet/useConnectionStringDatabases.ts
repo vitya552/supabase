@@ -97,6 +97,7 @@ export const useConnectionStringDatabases = (deploymentMode: DeploymentMode) => 
             connectionStringsDedicated,
             ipv4Addon: !!ipv4Addon,
             isHighAvailability,
+            hasSelfHostedPooler: projectRef === undefined || projectRef === 'default',
           }),
         ]
       })

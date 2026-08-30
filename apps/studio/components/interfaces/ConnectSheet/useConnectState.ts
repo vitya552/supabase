@@ -120,7 +120,12 @@ function getFieldOptionsFromSource({
 
     case 'connectionMethods': {
       const all = Object.values(connectionStringMethodOptions)
-      const allowed: string[] = deploymentMode.isCli
+      // Self-hosted: only the default project's stack runs Supavisor, so
+      // additional (compose/external) projects expose direct connections only.
+      const isSelfHostedWithoutPooler =
+        deploymentMode.isSelfHosted && projectRef !== undefined && projectRef !== 'default'
+      const isDirectOnly = deploymentMode.isCli || isSelfHostedWithoutPooler
+      const allowed: string[] = isDirectOnly
         ? ['direct']
         : deploymentMode.isSelfHosted
           ? ['session', 'transaction', 'direct']

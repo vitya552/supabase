@@ -123,8 +123,10 @@ function useConnectionStringPooler(deploymentMode: DeploymentMode): ConnectionSt
         connectionStringsDedicated,
         ipv4Addon: !!ipv4Addon,
         isHighAvailability,
+        hasSelfHostedPooler: projectRef === undefined || projectRef === 'default',
       }),
     [
+      projectRef,
       deploymentMode,
       connectionInfo,
       connectionStringsShared,
