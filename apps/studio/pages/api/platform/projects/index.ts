@@ -47,7 +47,7 @@ const handleCreate = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: { message: 'Invalid project payload' } })
   }
 
-  const response = await createManagedProject(parsed.data)
+  const response = await createManagedProject(parsed.data, req)
   if (response === null) {
     return res
       .status(400)

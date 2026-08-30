@@ -1,3 +1,4 @@
+import { NextApiRequest } from 'next'
 import z from 'zod'
 
 import { callManagementApi, fetchManagementApi } from './management-api'
@@ -57,20 +58,25 @@ export async function getManagedProjectConnectionString(ref: string): Promise<st
   return parsed.success ? parsed.data.connection_string : null
 }
 
-export async function createManagedProject(body: {
-  name: string
-  kind?: string
-  organization_id?: number
-  db_connection_string?: string
-}): Promise<{ status: number; body: unknown } | null> {
-  return callManagementApi('/platform/projects', { method: 'POST', body })
+export async function createManagedProject(
+  body: {
+    name: string
+    kind?: string
+    organization_id?: number
+    db_connection_string?: string
+  },
+  req?: NextApiRequest
+): Promise<{ status: number; body: unknown } | null> {
+  return callManagementApi('/platform/projects', { method: 'POST', body, req })
 }
 
 export async function deleteManagedProject(
-  ref: string
+  ref: string,
+  req?: NextApiRequest
 ): Promise<{ status: number; body: unknown } | null> {
   return callManagementApi(`/platform/projects/${encodeURIComponent(ref)}`, {
     method: 'DELETE',
+    req,
   })
 }
 

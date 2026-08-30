@@ -7,6 +7,17 @@ const MANAGEMENT_API_TOKEN = process.env.MANAGEMENT_API_TOKEN
 
 export const IS_MANAGEMENT_API_ENABLED = Boolean(MANAGEMENT_API_URL && MANAGEMENT_API_TOKEN)
 
+const SESSION_COOKIE = 'sb-dashboard-session'
+
+/**
+ * Forwards only the dashboard session cookie so the management API can apply
+ * per-user role checks. Other cookies stay on the Studio side.
+ */
+function sessionCookieHeader(req: NextApiRequest | undefined): Record<string, string> {
+  const token = req?.cookies?.[SESSION_COOKIE]
+  return token ? { Cookie: `${SESSION_COOKIE}=${token}` } : {}
+}
+
 /**
  * Forwards the request to the local management API, returning its response
  * verbatim so the platform API contract is preserved for the client.
@@ -27,6 +38,7 @@ export async function proxyManagementApi(req: NextApiRequest, res: NextApiRespon
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`,
+      ...sessionCookieHeader(req),
     },
     body: hasBody ? JSON.stringify(req.body ?? {}) : undefined,
   })
@@ -39,11 +51,14 @@ export async function proxyManagementApi(req: NextApiRequest, res: NextApiRespon
  * Server-side GET against the management API, for routes that merge its
  * response with locally derived fields.
  */
-export async function fetchManagementApi(path: string): Promise<unknown> {
+export async function fetchManagementApi(
+  path: string,
+  req?: NextApiRequest
+): Promise<unknown> {
   if (!MANAGEMENT_API_URL || !MANAGEMENT_API_TOKEN) return null
 
   const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {
-    headers: { Authorization: `Bearer ${MANAGEMENT_API_TOKEN}` },
+    headers: { Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`, ...sessionCookieHeader(req) },
   })
   if (!response.ok) return null
   return response.json().catch(() => null)
@@ -55,7 +70,7 @@ export async function fetchManagementApi(path: string): Promise<unknown> {
  */
 export async function callManagementApi(
   path: string,
-  init: { method: string; body?: unknown } = { method: 'GET' }
+  init: { method: string; body?: unknown; req?: NextApiRequest } = { method: 'GET' }
 ): Promise<{ status: number; body: unknown } | null> {
   if (!MANAGEMENT_API_URL || !MANAGEMENT_API_TOKEN) return null
 
@@ -64,6 +79,7 @@ export async function callManagementApi(
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`,
+      ...sessionCookieHeader(init.req),
     },
     body: init.body === undefined ? undefined : JSON.stringify(init.body),
   })
@@ -95,6 +111,7 @@ export async function proxyManagementApiRaw(
 
   const headers: Record<string, string> = {
     Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`,
+    ...sessionCookieHeader(req),
   }
   const contentType = req.headers['content-type']
   if (contentType) headers['Content-Type'] = contentType

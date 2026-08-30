@@ -63,7 +63,7 @@ const handleDelete = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: { message: 'The default project cannot be deleted' } })
   }
 
-  const response = await deleteManagedProject(ref)
+  const response = await deleteManagedProject(ref, req)
   if (response === null) {
     return res
       .status(400)
