@@ -16,7 +16,7 @@ import { useOrgSubscriptionQuery } from '@/data/subscriptions/org-subscription-q
 import { useLastVisitedOrganization } from '@/hooks/misc/useLastVisitedOrganization'
 import { useSelectedOrganizationQuery } from '@/hooks/misc/useSelectedOrganization'
 import { useSelectedProjectQuery } from '@/hooks/misc/useSelectedProject'
-import { DOCS_URL } from '@/lib/constants'
+import { DOCS_URL, IS_PLATFORM } from '@/lib/constants'
 import type { Organization } from '@/types'
 
 export const DeleteProjectModal = ({
@@ -43,7 +43,8 @@ export const DeleteProjectModal = ({
   const projectRef = project?.ref
   const { data: subscription } = useOrgSubscriptionQuery({ orgSlug: organization?.slug })
   const projectPlan = subscription?.plan?.id ?? 'free'
-  const isFree = projectPlan === 'free'
+  // Self-hosted deployments have no billing, so skip the exit survey flow
+  const isFree = !IS_PLATFORM || projectPlan === 'free'
 
   const [message, setMessage] = useState<string>('')
   const [selectedReason, setSelectedReason] = useState<string[]>([])

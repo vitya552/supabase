@@ -15,11 +15,13 @@ import {
   PROJECT_LIST_SORT_VALUES,
   type ProjectListSort,
 } from '@/components/interfaces/Home/ProjectList/ProjectListSort.utils'
+import { SelfHostedNewProjectDialog } from '@/components/interfaces/Home/ProjectList/SelfHostedNewProjectDialog'
 import { Shortcut } from '@/components/ui/Shortcut'
 import { useOrgProjectsInfiniteQuery } from '@/data/projects/org-projects-infinite-query'
 import { useIsFeatureEnabled } from '@/hooks/misc/useIsFeatureEnabled'
 import { useLocalStorageQuery } from '@/hooks/misc/useLocalStorage'
-import { PROJECT_STATUS } from '@/lib/constants'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
+import { IS_PLATFORM, PROJECT_STATUS } from '@/lib/constants'
 import { onSearchInputEscape } from '@/lib/keyboard'
 import { SHORTCUT_IDS } from '@/state/shortcuts/registry'
 import { useShortcut } from '@/state/shortcuts/useShortcut'
@@ -33,6 +35,8 @@ export const HomePageActions = ({ slug: _slug, hideNewProject = false }: HomePag
   const { slug: urlSlug } = useParams()
   const router = useRouter()
   const projectCreationEnabled = useIsFeatureEnabled('projects:create')
+  const isManagementApiEnabled = useIsManagementApiEnabled()
+  const isSelfHostedProjectCreation = !IS_PLATFORM && isManagementApiEnabled
 
   const slug = _slug ?? urlSlug
   const [search, setSearch] = useQueryState('search', parseAsString.withDefault(''))
@@ -164,7 +168,9 @@ export const HomePageActions = ({ slug: _slug, hideNewProject = false }: HomePag
           </ToggleGroup>
         )}
 
-        {projectCreationEnabled && !hideNewProject && (
+        {isSelfHostedProjectCreation && !hideNewProject && <SelfHostedNewProjectDialog />}
+
+        {!isSelfHostedProjectCreation && projectCreationEnabled && !hideNewProject && (
           <Shortcut
             id={SHORTCUT_IDS.ORG_PROJECTS_NEW}
             onTrigger={() => {

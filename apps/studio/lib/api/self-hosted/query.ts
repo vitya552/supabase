@@ -12,8 +12,24 @@ export type QueryOptions = {
   headers?: HeadersInit
 }
 
+function getHeaderValue(headers: HeadersInit | undefined, key: string): string | undefined {
+  if (headers === undefined) return undefined
+  if (headers instanceof Headers) return headers.get(key) ?? undefined
+  if (Array.isArray(headers)) {
+    return headers.find(([name]) => name.toLowerCase() === key)?.[1]
+  }
+  for (const name of Object.keys(headers)) {
+    if (name.toLowerCase() === key) return headers[name]
+  }
+  return undefined
+}
+
 /**
  * Executes a SQL query against the self-hosted Postgres instance via pg-meta service.
+ *
+ * Requests that carry an `x-connection-encrypted` header (issued by the
+ * project detail endpoint for non-default projects) are routed to that
+ * project's database; otherwise the local env-configured database is used.
  *
  * _Only call this from server-side self-hosted code._
  */
@@ -25,8 +41,9 @@ export async function executeQuery<T = unknown>({
 }: QueryOptions): Promise<WrappedResult<T[]>> {
   assertSelfHosted()
 
-  const connectionString = getConnectionString({ readOnly })
-  const connectionStringEncrypted = encryptString(connectionString)
+  const connectionStringEncrypted =
+    getHeaderValue(headers, 'x-connection-encrypted') ??
+    encryptString(getConnectionString({ readOnly }))
 
   const requestBody: { query: string; parameters?: unknown[] } = { query }
   if (parameters !== undefined) {

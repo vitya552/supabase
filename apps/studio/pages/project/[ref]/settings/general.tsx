@@ -19,6 +19,7 @@ import { ServiceVersionsSection } from '@/components/interfaces/Settings/General
 import { TransferProjectPanel } from '@/components/interfaces/Settings/General/TransferProjectPanel/TransferProjectPanel'
 import { DefaultLayout } from '@/components/layouts/DefaultLayout'
 import SettingsLayout from '@/components/layouts/ProjectSettingsLayout/SettingsLayout'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import { useOrgSubscriptionQuery } from '@/data/subscriptions/org-subscription-query'
 import { useIsFeatureEnabled } from '@/hooks/misc/useIsFeatureEnabled'
 import { useSelectedOrganizationQuery } from '@/hooks/misc/useSelectedOrganization'
@@ -38,6 +39,10 @@ const ProjectSettings: NextPageWithLayout = () => {
     { enabled: IS_PLATFORM }
   )
   const hasHipaaAddon = subscriptionHasHipaaAddon(subscription)
+
+  const isManagementApiEnabled = useIsManagementApiEnabled()
+  const canDeleteSelfHostedProject =
+    !IS_PLATFORM && isManagementApiEnabled && !isBranch && project?.ref !== 'default'
 
   return (
     <>
@@ -64,6 +69,7 @@ const ProjectSettings: NextPageWithLayout = () => {
             {isBranch ? <DeleteBranchPanel /> : <DeleteProjectPanel />}
           </>
         )}
+        {canDeleteSelfHostedProject && <DeleteProjectPanel />}
       </PageContainer>
     </>
   )

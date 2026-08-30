@@ -50,6 +50,27 @@ export async function fetchManagementApi(path: string): Promise<unknown> {
 }
 
 /**
+ * Server-side call against the management API with an explicit method/body,
+ * for routes that translate between the platform and management contracts.
+ */
+export async function callManagementApi(
+  path: string,
+  init: { method: string; body?: unknown } = { method: 'GET' }
+): Promise<{ status: number; body: unknown } | null> {
+  if (!MANAGEMENT_API_URL || !MANAGEMENT_API_TOKEN) return null
+
+  const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {
+    method: init.method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`,
+    },
+    body: init.body === undefined ? undefined : JSON.stringify(init.body),
+  })
+  return { status: response.status, body: await response.json().catch(() => null) }
+}
+
+/**
  * Forwards the request body verbatim (e.g. multipart uploads). The calling
  * route must disable Next's body parser (`config.api.bodyParser = false`).
  */

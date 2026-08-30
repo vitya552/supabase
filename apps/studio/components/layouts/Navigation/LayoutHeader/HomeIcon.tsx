@@ -6,6 +6,7 @@ import { useOrganizationsQuery } from '@/data/organizations/organizations-query'
 import { useIsFeatureEnabled } from '@/hooks/misc/useIsFeatureEnabled'
 import { useLastVisitedOrganization } from '@/hooks/misc/useLastVisitedOrganization'
 import { useSelectedOrganizationQuery } from '@/hooks/misc/useSelectedOrganization'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import { IS_PLATFORM } from '@/lib/constants'
 import { useTrack } from '@/lib/telemetry/track'
 
@@ -26,7 +27,10 @@ export const HomeIcon = ({ className }: { className?: string }) => {
     return '/organizations'
   }
 
-  const href = IS_PLATFORM ? getDefaultOrgRedirect() : '/project/default'
+  const isManagementApiEnabled = useIsManagementApiEnabled()
+
+  const selfHostedHome = isManagementApiEnabled ? getDefaultOrgRedirect() : '/project/default'
+  const href = IS_PLATFORM ? getDefaultOrgRedirect() : selfHostedHome
 
   return (
     <Tooltip>
