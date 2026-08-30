@@ -40,6 +40,7 @@ import { useCheckEntitlements } from '@/hooks/misc/useCheckEntitlements'
 import { useAsyncCheckPermissions } from '@/hooks/misc/useCheckPermissions'
 import { useSelectedOrganizationQuery } from '@/hooks/misc/useSelectedOrganization'
 import { useSelectedProjectQuery } from '@/hooks/misc/useSelectedProject'
+import { IS_PLATFORM } from '@/lib/constants'
 
 const formId = 'realtime-configuration-form'
 
@@ -117,7 +118,9 @@ export const RealtimeSettings = () => {
   )
 
   const isFreePlan = organization?.plan.id === 'free'
-  const isUsageBillingEnabled = organization?.usage_billing_enabled
+  // Self-hosted has no billing: usage-gated fields are always editable there.
+  const isUsageBillingEnabled = !IS_PLATFORM || organization?.usage_billing_enabled
+  const shouldShowSpendCapNotice = IS_PLATFORM && isSuccessOrganization && !isUsageBillingEnabled
   const isRealtimeDisabled = data?.suspend ?? REALTIME_DEFAULT_CONFIG.suspend
   // Check if RLS policies exist for realtime.messages table
   const realtimeMessagesPolicies = policies?.filter(
@@ -438,6 +441,7 @@ export const RealtimeSettings = () => {
                       )}
                     />
                   </CardContent>
+                  {IS_PLATFORM && (
                   <CardContent>
                     <FormField
                       control={form.control}
@@ -479,6 +483,8 @@ export const RealtimeSettings = () => {
                       )}
                     />
                   </CardContent>
+                  )}
+                  {IS_PLATFORM && (
                   <CardContent>
                     <FormField
                       control={form.control}
@@ -508,6 +514,7 @@ export const RealtimeSettings = () => {
                       )}
                     />
                   </CardContent>
+                  )}
                   <CardContent>
                     <FormField
                       control={form.control}
@@ -565,7 +572,7 @@ export const RealtimeSettings = () => {
                         </FormItemLayout>
                       )}
                     />
-                    {isSuccessOrganization && !isUsageBillingEnabled && (
+                    {shouldShowSpendCapNotice && (
                       <Admonition showIcon={false} type="default">
                         <div className="flex items-center gap-x-2">
                           <div>
@@ -621,7 +628,7 @@ export const RealtimeSettings = () => {
                         </FormItemLayout>
                       )}
                     />
-                    {isSuccessOrganization && !isUsageBillingEnabled && (
+                    {shouldShowSpendCapNotice && (
                       <Admonition showIcon={false} type="default">
                         <div className="flex items-center gap-x-2">
                           <div>
@@ -677,7 +684,7 @@ export const RealtimeSettings = () => {
                         </FormItemLayout>
                       )}
                     />
-                    {isSuccessOrganization && !isUsageBillingEnabled && (
+                    {shouldShowSpendCapNotice && (
                       <Admonition showIcon={false} type="default">
                         <div className="flex items-center gap-x-2">
                           <div>
