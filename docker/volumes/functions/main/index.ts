@@ -109,19 +109,19 @@ async function isValidHybridJWT(jwt: string): Promise<boolean> {
 }
 
 /**
- * Per-function settings published by the management API. A function is only
- * exempt from JWT verification when it is explicitly registered with
- * `verify_jwt: false`, so an unknown function never ends up unauthenticated.
+ * Per-function settings published by the management API. Functions it manages
+ * carry their own verify_jwt flag; anything else falls back to the global
+ * VERIFY_JWT env setting.
  */
 async function shouldVerifyJwt(slug: string): Promise<boolean> {
-  if (!VERIFY_JWT) return false
   try {
     const manifest = JSON.parse(await Deno.readTextFile('/home/deno/functions/.functions.json'))
     const entry = manifest?.[slug]
-    return entry?.verify_jwt !== false
+    if (entry && typeof entry.verify_jwt === 'boolean') return entry.verify_jwt
   } catch {
-    return true
+    // no manifest; global setting applies
   }
+  return VERIFY_JWT
 }
 
 Deno.serve(async (req: Request) => {
