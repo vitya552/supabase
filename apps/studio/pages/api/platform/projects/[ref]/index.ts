@@ -39,14 +39,14 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
     })
   }
 
-  const project = await getManagedProject(ref)
+  const project = await getManagedProject(ref, req)
   if (project === null) {
     return res.status(404).json({ error: { message: 'Project not found' } })
   }
 
   // The connection string is encrypted with the shared pg-meta key so the
   // browser only ever relays an opaque `x-connection-encrypted` value.
-  const rawConnectionString = await getManagedProjectConnectionString(ref)
+  const rawConnectionString = await getManagedProjectConnectionString(ref, req)
   const connectionString = rawConnectionString !== null ? encryptString(rawConnectionString) : ''
 
   return res.status(200).json({

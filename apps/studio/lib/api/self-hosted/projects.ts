@@ -31,15 +31,20 @@ const connectionStringSchema = z.object({ connection_string: z.string() })
 export type ManagementProject = z.infer<typeof managementProjectSchema>
 
 /** All projects known to the management API, or null when it is disabled. */
-export async function listManagedProjects(): Promise<ManagementProject[] | null> {
-  const response = await fetchManagementApi('/platform/projects')
+export async function listManagedProjects(
+  req?: NextApiRequest
+): Promise<ManagementProject[] | null> {
+  const response = await fetchManagementApi('/platform/projects', req)
   if (response === null) return null
   const parsed = z.array(managementProjectSchema).safeParse(response)
   return parsed.success ? parsed.data : null
 }
 
-export async function getManagedProject(ref: string): Promise<ManagementProject | null> {
-  const response = await fetchManagementApi(`/platform/projects/${encodeURIComponent(ref)}`)
+export async function getManagedProject(
+  ref: string,
+  req?: NextApiRequest
+): Promise<ManagementProject | null> {
+  const response = await fetchManagementApi(`/platform/projects/${encodeURIComponent(ref)}`, req)
   if (response === null) return null
   const parsed = managementProjectSchema.safeParse(response)
   return parsed.success ? parsed.data : null
@@ -49,9 +54,13 @@ export async function getManagedProject(ref: string): Promise<ManagementProject 
  * The project's raw database connection string. Server-side only — must never
  * be returned to the browser unencrypted.
  */
-export async function getManagedProjectConnectionString(ref: string): Promise<string | null> {
+export async function getManagedProjectConnectionString(
+  ref: string,
+  req?: NextApiRequest
+): Promise<string | null> {
   const response = await fetchManagementApi(
-    `/platform/projects/${encodeURIComponent(ref)}/connection-string`
+    `/platform/projects/${encodeURIComponent(ref)}/connection-string`,
+    req
   )
   if (response === null) return null
   const parsed = connectionStringSchema.safeParse(response)

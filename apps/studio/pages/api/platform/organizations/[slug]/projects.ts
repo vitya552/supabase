@@ -40,7 +40,7 @@ const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
   const search = typeof req.query.search === 'string' ? req.query.search.toLowerCase() : ''
   const sort = typeof req.query.sort === 'string' ? req.query.sort : 'name_asc'
 
-  const managed = await listManagedProjects()
+  const managed = await listManagedProjects(req)
   let projects =
     managed === null ? [DEFAULT_ORG_PROJECT] : managed.map((p) => toOrgProjectItem(p, slug))
 

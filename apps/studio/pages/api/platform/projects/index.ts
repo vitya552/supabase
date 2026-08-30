@@ -28,8 +28,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-const handleGetAll = async (_req: NextApiRequest, res: NextApiResponse) => {
-  const projects = await listManagedProjects()
+const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
+  const projects = await listManagedProjects(req)
   if (projects === null) return res.status(200).json([DEFAULT_PROJECT])
   return res.status(200).json(projects.map(toProjectListItem))
 }
