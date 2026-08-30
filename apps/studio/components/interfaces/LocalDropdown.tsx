@@ -20,6 +20,8 @@ import { ButtonTooltip } from '../ui/ButtonTooltip'
 import { useFeaturePreviewModal } from './App/FeaturePreview/FeaturePreviewContext'
 import { DevToolbarMenuGroup } from './DevToolbarMenuGroup'
 import { ProfileImage } from '@/components/ui/ProfileImage'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
+import { useProfile } from '@/lib/profile'
 import { useTrack } from '@/lib/telemetry/track'
 import { useAppStateSnapshot } from '@/state/app-state'
 
@@ -35,6 +37,17 @@ export const LocalDropdown = ({
   const appStateSnapshot = useAppStateSnapshot()
   const { toggleFeaturePreviewModal } = useFeaturePreviewModal()
   const track = useTrack()
+  const isManagementApiEnabled = useIsManagementApiEnabled()
+  const { profile } = useProfile()
+  const username = isManagementApiEnabled ? profile?.username : undefined
+
+  const handleSignOut = async () => {
+    await fetch('/dashboard-auth/logout', { method: 'POST', credentials: 'same-origin' }).catch(
+      () => null
+    )
+    // Full navigation so the gateway re-evaluates the cleared session cookie.
+    window.location.assign('/sign-in')
+  }
 
   return (
     <DropdownMenu
@@ -53,6 +66,16 @@ export const LocalDropdown = ({
         </ButtonTooltip>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end" className={cn('w-44', contentClassName)}>
+        {!!username && (
+          <>
+            <div className="px-2 py-1 flex flex-col gap-0 text-sm">
+              <span title={username} className="w-full text-left text-foreground truncate">
+                {username}
+              </span>
+            </div>
+            <DropdownMenuSeparator />
+          </>
+        )}
         <DropdownMenuItem className="flex gap-2 cursor-pointer" asChild>
           <Link
             href="/account/me"
@@ -95,6 +118,16 @@ export const LocalDropdown = ({
             ))}
           </DropdownMenuRadioGroup>
         </DropdownMenuGroup>
+        {isManagementApiEnabled && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="cursor-pointer" onSelect={handleSignOut}>
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

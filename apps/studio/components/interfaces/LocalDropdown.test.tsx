@@ -14,6 +14,8 @@ const {
   mockDismissDevToolbar,
   mockSetDevToolbarOpen,
   mockUseDevToolbar,
+  mockUseIsManagementApiEnabled,
+  mockUseProfile,
 } = vi.hoisted(() => ({
   mockRouter: {
     pathname: '/project/[ref]/editor',
@@ -35,6 +37,8 @@ const {
     events: [],
     setEvents: vi.fn(),
   })),
+  mockUseIsManagementApiEnabled: vi.fn(() => false),
+  mockUseProfile: vi.fn(() => ({ profile: undefined })),
 }))
 
 vi.mock('next/router', () => ({
@@ -81,6 +85,14 @@ vi.mock('./App/FeaturePreview/FeaturePreviewContext', () => ({
 }))
 
 vi.mock('@/lib/telemetry/track', () => ({ useTrack: () => vi.fn() }))
+
+vi.mock('@/data/config/deployment-mode-query', () => ({
+  useIsManagementApiEnabled: () => mockUseIsManagementApiEnabled(),
+}))
+
+vi.mock('@/lib/profile', () => ({
+  useProfile: () => mockUseProfile(),
+}))
 
 vi.mock('dev-tools', () => ({
   useDevToolbar: () => mockUseDevToolbar(),
@@ -183,6 +195,8 @@ vi.mock('ui', async () => {
 describe('LocalDropdown', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockUseIsManagementApiEnabled.mockReturnValue(false)
+    mockUseProfile.mockReturnValue({ profile: undefined })
     mockUseDevToolbar.mockReturnValue({
       isAvailable: false,
       isEnabled: false,
@@ -259,5 +273,37 @@ describe('LocalDropdown', () => {
 
     expect(mockDismissDevToolbar).toHaveBeenCalled()
     expect(mockEnableToolbar).not.toHaveBeenCalled()
+  })
+
+  it('hides the account section and Log out without the management API', () => {
+    render(<LocalDropdown />)
+
+    expect(screen.queryByText('Log out')).not.toBeInTheDocument()
+  })
+
+  it('shows the current username and logs out via the gateway', async () => {
+    mockUseIsManagementApiEnabled.mockReturnValue(true)
+    mockUseProfile.mockReturnValue({ profile: { username: 'jane.doe' } })
+
+    const mockFetch = vi.fn(() => Promise.resolve(new Response(null, { status: 200 })))
+    vi.stubGlobal('fetch', mockFetch)
+    const mockAssign = vi.fn()
+    vi.stubGlobal('location', { ...window.location, assign: mockAssign })
+
+    const user = userEvent.setup()
+
+    render(<LocalDropdown />)
+
+    expect(screen.getByText('jane.doe')).toBeInTheDocument()
+
+    await user.click(screen.getByText('Log out'))
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      '/dashboard-auth/logout',
+      expect.objectContaining({ method: 'POST' })
+    )
+    expect(mockAssign).toHaveBeenCalledWith('/sign-in')
+
+    vi.unstubAllGlobals()
   })
 })

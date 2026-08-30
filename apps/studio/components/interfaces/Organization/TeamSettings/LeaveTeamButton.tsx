@@ -6,6 +6,7 @@ import ConfirmationModal from 'ui-patterns/Dialogs/ConfirmationModal'
 
 import { hasMultipleOwners } from './TeamSettings.utils'
 import { ButtonTooltip } from '@/components/ui/ButtonTooltip'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import { useOrganizationRolesV2Query } from '@/data/organization-members/organization-roles-query'
 import { useOrganizationMemberDeleteMutation } from '@/data/organizations/organization-member-delete-mutation'
 import { useOrganizationMembersQuery } from '@/data/organizations/organization-members-query'
@@ -29,6 +30,7 @@ export const LeaveTeamButton = () => {
 
   const [isLeaving, setIsLeaving] = useState(false)
   const [isLeaveTeamModalOpen, setIsLeaveTeamModalOpen] = useState(false)
+  const isManagementApiEnabled = useIsManagementApiEnabled()
 
   const { refetch: refetchOrganizations } = useOrganizationsQuery()
   const { data: members } = useOrganizationMembersQuery({ slug })
@@ -48,10 +50,17 @@ export const LeaveTeamButton = () => {
       setIsLeaving(false)
       setIsLeaveTeamModalOpen(false)
 
+      setLastVisitedOrganization('')
+
+      if (isManagementApiEnabled) {
+        // Leaving the team deletes the dashboard account and revokes its
+        // session, so a full navigation to sign-in is required.
+        window.location.assign('/sign-in')
+        return
+      }
+
       await refetchOrganizations()
       toast.success(`Successfully left ${selectedOrganization?.name}`)
-
-      setLastVisitedOrganization('')
       router.push('/organizations')
     },
     onError: (error) => {
