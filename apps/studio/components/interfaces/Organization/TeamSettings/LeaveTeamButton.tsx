@@ -39,7 +39,7 @@ export const LeaveTeamButton = () => {
   const currentUserRoleId = currentUserMember?.role_ids?.[0]
   const currentUserRole = roles.find((role) => role.id === currentUserRoleId)
   const isAdmin = currentUserRole?.name === 'Administrator'
-  const isOwner = selectedOrganization?.is_owner
+  const isOwner = selectedOrganization?.is_owner || currentUserRole?.name === 'Owner'
 
   const canLeave = !isOwner || (isOwner && hasMultipleOwners(members, roles))
 

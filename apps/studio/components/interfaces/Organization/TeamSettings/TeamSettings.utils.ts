@@ -1,8 +1,12 @@
 import { PermissionAction } from '@supabase/shared-types/out/constants'
 
-import type { OrganizationMember } from '@/data/organizations/organization-members-query'
+import {
+  useOrganizationMembersQuery,
+  type OrganizationMember,
+} from '@/data/organizations/organization-members-query'
 import { doPermissionsCheck, useGetPermissions } from '@/hooks/misc/useCheckPermissions'
 import { IS_PLATFORM } from '@/lib/constants'
+import { useProfile } from '@/lib/profile'
 import type { Permission, Role } from '@/types'
 
 export const useGetRolesManagementPermissions = (
@@ -15,16 +19,28 @@ export const useGetRolesManagementPermissions = (
     orgSlug,
     permissions !== undefined && orgSlug !== undefined
   )
+  const { profile } = useProfile()
+  const { data: members } = useOrganizationMembersQuery({ slug: orgSlug }, { enabled: !IS_PLATFORM })
 
   const rolesAddable: Number[] = []
   const rolesRemovable: Number[] = []
   if (!roles || !orgSlug) return { rolesAddable, rolesRemovable }
 
-  // Self-hosted has no platform permissions API; the management API enforces
-  // role checks server-side, so the UI allows all roles.
+  // Self-hosted has no platform permissions API: mirror the management API's
+  // server-side rules — owners manage every role, admins manage every role
+  // except Owner, developers manage none.
   if (!IS_PLATFORM) {
-    const ids = roles.map((role) => role.id)
-    return { rolesAddable: ids, rolesRemovable: ids }
+    const currentUserMember = members?.find((member) => member.gotrue_id === profile?.gotrue_id)
+    const currentUserRole = roles.find((role) => role.id === currentUserMember?.role_ids?.[0])
+    if (currentUserRole?.name === 'Owner') {
+      const ids = roles.map((role) => role.id)
+      return { rolesAddable: ids, rolesRemovable: ids }
+    }
+    if (currentUserRole?.name === 'Administrator') {
+      const ids = roles.filter((role) => role.name !== 'Owner').map((role) => role.id)
+      return { rolesAddable: ids, rolesRemovable: ids }
+    }
+    return { rolesAddable, rolesRemovable }
   }
 
   roles.forEach((role: Role) => {
