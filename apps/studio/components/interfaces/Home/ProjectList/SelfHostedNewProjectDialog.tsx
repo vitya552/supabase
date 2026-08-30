@@ -56,6 +56,14 @@ export const SelfHostedNewProjectDialog = () => {
       setVisible(false)
       form.reset()
     },
+    onError: (error, variables) => {
+      if (variables.kind === 'external') {
+        form.setError('dbConnectionString', { message: error.message })
+      } else {
+        form.setError('name', { message: error.message })
+      }
+      toast.error(`Failed to create project: ${error.message}`)
+    },
   })
 
   const kind = useWatch({ control: form.control, name: 'kind' })
