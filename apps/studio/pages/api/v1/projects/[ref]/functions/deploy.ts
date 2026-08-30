@@ -20,10 +20,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     case 'POST': {
       const slugParam = req.query.slug
       const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
+      const refParam = req.query.ref
+      const ref = (Array.isArray(refParam) ? refParam[0] : refParam) ?? 'default'
       return proxyManagementApiRaw(
         req,
         res,
-        `/platform/projects/default/functions/deploy?slug=${encodeURIComponent(slug ?? '')}`
+        `/platform/projects/${encodeURIComponent(ref)}/functions/deploy?slug=${encodeURIComponent(slug ?? '')}`
       )
     }
     default:

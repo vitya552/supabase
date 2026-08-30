@@ -10,6 +10,10 @@ export default function handlerWithErrorCatching(req: NextApiRequest, res: NextA
   return apiWrapper(req, res, handler, { withAuth: true })
 }
 
+function queryParam(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value
+}
+
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
 
@@ -29,10 +33,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 type EdgeFunctionsResponse = components['schemas']['FunctionResponse']
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
-  const slugParam = req.query.slug
-  const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
+  const slug = queryParam(req.query.slug)
   if (!slug)
     return res.status(404).json({ error: { message: `Missing function 'slug' parameter` } })
+
+  if (IS_MANAGEMENT_API_ENABLED) {
+    const ref = queryParam(req.query.ref) ?? 'default'
+    return proxyManagementApi(
+      req,
+      res,
+      `/platform/projects/${encodeURIComponent(ref)}/functions/${encodeURIComponent(slug)}`
+    )
+  }
 
   const store = getFunctionsArtifactStore()
 
@@ -54,8 +66,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
 }
 
 const handleMutate = async (req: NextApiRequest, res: NextApiResponse) => {
-  const slugParam = req.query.slug
-  const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
+  const slug = queryParam(req.query.slug)
   if (!slug)
     return res.status(404).json({ error: { message: `Missing function 'slug' parameter` } })
   if (!IS_MANAGEMENT_API_ENABLED) {
@@ -64,9 +75,10 @@ const handleMutate = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ error: { message: `Method ${req.method} requires the management API` } })
   }
 
+  const ref = queryParam(req.query.ref) ?? 'default'
   return proxyManagementApi(
     req,
     res,
-    `/platform/projects/default/functions/${encodeURIComponent(slug)}`
+    `/platform/projects/${encodeURIComponent(ref)}/functions/${encodeURIComponent(slug)}`
   )
 }

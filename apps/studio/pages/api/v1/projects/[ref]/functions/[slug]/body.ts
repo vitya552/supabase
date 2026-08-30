@@ -2,8 +2,11 @@ import { createReadStream } from 'node:fs'
 import { pipeline } from 'node:stream/promises'
 import { type NextApiRequest, type NextApiResponse } from 'next'
 
+import { z } from 'zod'
+
 import { apiWrapper } from '@/lib/api/apiWrapper'
 import { getFunctionsArtifactStore } from '@/lib/api/self-hosted/functions'
+import { fetchManagementApi, IS_MANAGEMENT_API_ENABLED } from '@/lib/api/self-hosted/management-api'
 import { uuidv4 } from '@/lib/helpers'
 
 export default function handlerWithErrorCatching(req: NextApiRequest, res: NextApiResponse) {
@@ -22,6 +25,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+const functionFilesSchema = z.object({
+  files: z.array(z.object({ name: z.string(), content: z.string() })),
+})
+
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   const slugParam = req.query.slug
   const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam
@@ -30,8 +37,51 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
     return
   }
 
+  if (IS_MANAGEMENT_API_ENABLED) {
+    const refParam = req.query.ref
+    const ref = (Array.isArray(refParam) ? refParam[0] : refParam) ?? 'default'
+    const raw = await fetchManagementApi(
+      `/platform/projects/${encodeURIComponent(ref)}/functions/${encodeURIComponent(slug)}/files`,
+      req
+    )
+    const parsed = functionFilesSchema.safeParse(raw)
+    if (!parsed.success) {
+      res.status(404).json({ error: { message: `Function not found` } })
+      return
+    }
+    return writeMultipart(
+      res,
+      parsed.data.files.map((file) => ({
+        relativePath: file.name,
+        size: Buffer.byteLength(file.content, 'utf8'),
+        write: async (target: NextApiResponse) => {
+          target.write(file.content)
+        },
+      }))
+    )
+  }
+
   const store = getFunctionsArtifactStore()
-  const fileEntries = await store.getFileEntriesBySlug(slug)
+  const storeEntries = await store.getFileEntriesBySlug(slug)
+  return writeMultipart(
+    res,
+    storeEntries.map((entry) => ({
+      relativePath: entry.relativePath,
+      size: entry.size,
+      write: async (target: NextApiResponse) => {
+        await pipeline(createReadStream(entry.absolutePath), target, { end: false })
+      },
+    }))
+  )
+}
+
+type MultipartFileEntry = {
+  relativePath: string
+  size: number
+  write: (res: NextApiResponse) => Promise<void>
+}
+
+async function writeMultipart(res: NextApiResponse, fileEntries: MultipartFileEntry[]) {
 
   const boundary = `----FormBoundary${uuidv4().replace(/-/g, '')}`
   const totalSize = fileEntries.reduce((sum, entry) => sum + entry.size, 0)
@@ -71,7 +121,7 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
         `Content-Type: text/plain\r\n` +
         `\r\n`
     )
-    await pipeline(createReadStream(entry.absolutePath), res, { end: false })
+    await entry.write(res)
     res.write(`\r\n`)
   }
 

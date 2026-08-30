@@ -3,6 +3,7 @@ import { type NextApiRequest, type NextApiResponse } from 'next'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
 import { getFunctionsArtifactStore } from '@/lib/api/self-hosted/functions'
+import { IS_MANAGEMENT_API_ENABLED, proxyManagementApi } from '@/lib/api/self-hosted/management-api'
 import { uuidv4 } from '@/lib/helpers'
 
 export default function handlerWithErrorCatching(req: NextApiRequest, res: NextApiResponse) {
@@ -23,7 +24,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 type EdgeFunctionsResponse = components['schemas']['FunctionResponse']
 
-const handleGetAll = async (_req: NextApiRequest, res: NextApiResponse) => {
+const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (IS_MANAGEMENT_API_ENABLED) {
+    const refParam = req.query.ref
+    const ref = Array.isArray(refParam) ? refParam[0] : refParam
+    return proxyManagementApi(
+      req,
+      res,
+      `/platform/projects/${encodeURIComponent(ref ?? 'default')}/functions`
+    )
+  }
+
   const store = getFunctionsArtifactStore()
 
   const functionsArtifacts = await store.getFunctions()

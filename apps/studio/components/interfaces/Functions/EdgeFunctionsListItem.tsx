@@ -30,7 +30,7 @@ export const EdgeFunctionsListItem = ({ function: item }: EdgeFunctionsListItemP
   const showLastHourStats = useFlag('edgeFunctionsRequestMetrics')
 
   const { data: endpoint } = useProjectApiUrl({ projectRef: ref })
-  const functionUrl = `${endpoint}/functions/v1/${item.slug}`
+  const functionUrl = endpoint ? `${endpoint}/functions/v1/${item.slug}` : ''
 
   const handleNavigation = createNavigationHandler(
     `/project/${ref}/functions/${item.slug}${IS_PLATFORM ? '' : `/code`}`,

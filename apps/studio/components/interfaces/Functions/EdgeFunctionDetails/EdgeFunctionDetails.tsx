@@ -85,7 +85,7 @@ export const EdgeFunctionDetails = () => {
   const { data: selectedFunction } = useEdgeFunctionQuery({ projectRef, slug: functionSlug })
 
   const { data: endpoint } = useProjectApiUrl({ projectRef })
-  const functionUrl = `${endpoint}/functions/v1/${selectedFunction?.slug}`
+  const functionUrl = endpoint ? `${endpoint}/functions/v1/${selectedFunction?.slug}` : ''
 
   const { mutate: updateEdgeFunction, isPending: isUpdating } = useEdgeFunctionUpdateMutation()
   const { mutate: deleteEdgeFunction, isPending: isDeleting } = useEdgeFunctionDeleteMutation({
