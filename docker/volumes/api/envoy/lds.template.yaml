@@ -527,6 +527,29 @@ resources:
                             #              address_prefix: ::1
                             #              prefix_len: 128
 
+                      # Per-project API traffic (multi-project stacks). The
+                      # management-api proxies to the project's own services,
+                      # which authenticate requests with the project's keys.
+                      - name: project-services
+                        match:
+                          prefix: /proj/
+                        route:
+                          cluster: management
+                          timeout: 150s
+                        typed_per_filter_config:
+                          envoy.filters.http.rbac:
+                            '@type': >-
+                              type.googleapis.com/envoy.extensions.filters.http.rbac.v3.RBACPerRoute
+                            rbac:
+                              rules:
+                                action: ALLOW
+                                policies:
+                                  allow_all:
+                                    permissions:
+                                      - any: true
+                                    principals:
+                                      - any: true
+
                       - name: dashboard-auth
                         match:
                           prefix: /dashboard-auth/

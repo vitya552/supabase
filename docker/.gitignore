@@ -1,4 +1,5 @@
 volumes/db/data
+volumes/projects
 volumes/storage
 volumes/snippets
 volumes/functions/**
