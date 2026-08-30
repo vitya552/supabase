@@ -1,3 +1,4 @@
+import { IS_PLATFORM, useParams } from 'common'
 import {
   PageHeader,
   PageHeaderDescription,
@@ -10,9 +11,16 @@ import { OAuthApps } from '@/components/interfaces/Organization/OAuthApps/OAuthA
 import { DefaultLayout } from '@/components/layouts/DefaultLayout'
 import OrganizationLayout from '@/components/layouts/OrganizationLayout'
 import { OrganizationSettingsLayout } from '@/components/layouts/ProjectLayout/OrganizationSettingsLayout'
+import { UnknownInterface } from '@/components/ui/UnknownInterface'
 import type { NextPageWithLayout } from '@/types'
 
 const OrgOAuthApps: NextPageWithLayout = () => {
+  const { slug } = useParams()
+
+  if (!IS_PLATFORM) {
+    return <UnknownInterface urlBack={`/org/${slug}/general`} />
+  }
+
   return (
     <>
       <PageHeader size="default">

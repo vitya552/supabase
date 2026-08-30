@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEYS, useFlag, useIsMFAEnabled, useParams } from 'common'
+import { IS_PLATFORM, LOCAL_STORAGE_KEYS, useFlag, useIsMFAEnabled, useParams } from 'common'
 import { AnimatePresence, motion, MotionProps } from 'framer-motion'
 import { Home } from 'icons'
 import { isUndefined } from 'lodash'
@@ -421,20 +421,24 @@ const OrganizationLinks = () => {
       icon: <Users size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
       shortcutId: SHORTCUT_IDS.NAV_ORG_TEAM,
     },
-    {
-      label: 'Integrations',
-      href: `/org/${organizationSlug}/integrations`,
-      key: 'integrations',
-      icon: <Blocks size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      shortcutId: SHORTCUT_IDS.NAV_ORG_INTEGRATIONS,
-    },
-    {
-      label: 'Usage',
-      href: `/org/${organizationSlug}/usage`,
-      key: 'usage',
-      icon: <ChartArea size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      shortcutId: SHORTCUT_IDS.NAV_ORG_USAGE,
-    },
+    ...(IS_PLATFORM
+      ? [
+          {
+            label: 'Integrations',
+            href: `/org/${organizationSlug}/integrations`,
+            key: 'integrations',
+            icon: <Blocks size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            shortcutId: SHORTCUT_IDS.NAV_ORG_INTEGRATIONS,
+          },
+          {
+            label: 'Usage',
+            href: `/org/${organizationSlug}/usage`,
+            key: 'usage',
+            icon: <ChartArea size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            shortcutId: SHORTCUT_IDS.NAV_ORG_USAGE,
+          },
+        ]
+      : []),
     ...(showBilling
       ? [
           {

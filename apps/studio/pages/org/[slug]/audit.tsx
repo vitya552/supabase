@@ -1,3 +1,4 @@
+import { IS_PLATFORM, useParams } from 'common'
 import { LogoLoader } from 'ui'
 import {
   PageHeader,
@@ -11,13 +12,19 @@ import { AuditLogs } from '@/components/interfaces/Organization/AuditLogs/AuditL
 import { DefaultLayout } from '@/components/layouts/DefaultLayout'
 import OrganizationLayout from '@/components/layouts/OrganizationLayout'
 import { OrganizationSettingsLayout } from '@/components/layouts/ProjectLayout/OrganizationSettingsLayout'
+import { UnknownInterface } from '@/components/ui/UnknownInterface'
 import { usePermissionsQuery } from '@/data/permissions/permissions-query'
 import { useSelectedOrganizationQuery } from '@/hooks/misc/useSelectedOrganization'
 import type { NextPageWithLayout } from '@/types'
 
 const OrgAuditLogs: NextPageWithLayout = () => {
+  const { slug } = useParams()
   const { isPending: isLoadingPermissions } = usePermissionsQuery()
   const { data: selectedOrganization } = useSelectedOrganizationQuery()
+
+  if (!IS_PLATFORM) {
+    return <UnknownInterface urlBack={`/org/${slug}/general`} />
+  }
 
   return (
     <>

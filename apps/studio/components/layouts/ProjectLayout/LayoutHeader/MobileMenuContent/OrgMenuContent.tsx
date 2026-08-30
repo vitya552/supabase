@@ -1,6 +1,6 @@
 'use client'
 
-import { useIsMFAEnabled, useParams } from 'common'
+import { IS_PLATFORM, useIsMFAEnabled, useParams } from 'common'
 import { Blocks, Boxes, ChartArea, ChevronLeft, Receipt, Settings, Users } from 'lucide-react'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
@@ -72,18 +72,22 @@ export function OrgMenuContent({ onCloseSheet }: OrgMenuContentProps) {
         key: 'team',
         icon: <Users size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
       },
-      {
-        label: 'Integrations',
-        href: `/org/${organizationSlug}/integrations`,
-        key: 'integrations',
-        icon: <Blocks size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      },
-      {
-        label: 'Usage',
-        href: `/org/${organizationSlug}/usage`,
-        key: 'usage',
-        icon: <ChartArea size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
-      },
+      ...(IS_PLATFORM
+        ? [
+            {
+              label: 'Integrations',
+              href: `/org/${organizationSlug}/integrations`,
+              key: 'integrations',
+              icon: <Blocks size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            },
+            {
+              label: 'Usage',
+              href: `/org/${organizationSlug}/usage`,
+              key: 'usage',
+              icon: <ChartArea size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+            },
+          ]
+        : []),
       ...(showBilling
         ? [
             {
