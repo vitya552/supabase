@@ -9,11 +9,16 @@ export default function handleEndpoint(req: NextApiRequest, res: NextApiResponse
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
+  const ref = typeof req.query.ref === 'string' ? req.query.ref : 'default'
 
   switch (method) {
     case 'GET':
     case 'PUT':
-      return proxyManagementApi(req, res, '/platform/projects/default/config/database/postgres')
+      return proxyManagementApi(
+        req,
+        res,
+        `/platform/projects/${encodeURIComponent(ref)}/config/database/postgres`
+      )
     default:
       res.setHeader('Allow', ['GET', 'PUT'])
       res.status(405).json({ data: null, error: { message: `Method ${method} Not Allowed` } })

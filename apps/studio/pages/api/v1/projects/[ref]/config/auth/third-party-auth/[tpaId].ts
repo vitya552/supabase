@@ -11,6 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
   const tpaIdParam = req.query.tpaId
   const tpaId = Array.isArray(tpaIdParam) ? tpaIdParam[0] : tpaIdParam
+  const ref = typeof req.query.ref === 'string' ? req.query.ref : 'default'
 
   switch (method) {
     case 'GET':
@@ -18,7 +19,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return proxyManagementApi(
         req,
         res,
-        `/platform/projects/default/config/auth/third-party-auth/${encodeURIComponent(tpaId ?? '')}`
+        `/platform/projects/${encodeURIComponent(ref)}/config/auth/third-party-auth/${encodeURIComponent(tpaId ?? '')}`
       )
     default:
       res.setHeader('Allow', ['GET', 'DELETE'])

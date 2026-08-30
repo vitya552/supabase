@@ -9,6 +9,7 @@ export default function handleEndpoint(req: NextApiRequest, res: NextApiResponse
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
+  const ref = typeof req.query.ref === 'string' ? req.query.ref : 'default'
 
   switch (method) {
     case 'GET':
@@ -16,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return proxyManagementApi(
         req,
         res,
-        '/platform/projects/default/config/auth/third-party-auth'
+        `/platform/projects/${encodeURIComponent(ref)}/config/auth/third-party-auth`
       )
     default:
       res.setHeader('Allow', ['GET', 'POST'])

@@ -25,7 +25,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-const handleGet = async (_req: NextApiRequest, res: NextApiResponse) => {
+const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
+  const ref = typeof req.query.ref === 'string' ? req.query.ref : 'default'
   const fallback: components['schemas']['GetPostgrestConfigResponse'] = {
     db_anon_role: 'anon',
     db_extra_search_path: process.env.PGRST_DB_EXTRA_SEARCH_PATH ?? 'public',
@@ -40,11 +41,16 @@ const handleGet = async (_req: NextApiRequest, res: NextApiResponse) => {
 
   // The management API returns the live (runtime-updatable) subset; fill in
   // the static fields from the environment.
-  const managed = await fetchManagementApi('/platform/projects/default/config/postgrest').catch(
-    () => null
-  )
+  const managed = await fetchManagementApi(
+    `/platform/projects/${encodeURIComponent(ref)}/config/postgrest`
+  ).catch(() => null)
   if (managed && typeof managed === 'object' && !Array.isArray(managed)) {
     return res.status(200).json({ ...fallback, ...managed })
+  }
+  if (ref !== 'default') {
+    return res
+      .status(404)
+      .json({ error: { message: 'PostgREST config is not available for this project' } })
   }
   return res.status(200).json(fallback)
 }
@@ -55,5 +61,6 @@ const handlePatch = async (req: NextApiRequest, res: NextApiResponse) => {
       .status(405)
       .json({ error: { message: 'Updating PostgREST config requires the management API' } })
   }
-  return proxyManagementApi(req, res, '/platform/projects/default/config/postgrest')
+  const ref = typeof req.query.ref === 'string' ? req.query.ref : 'default'
+  return proxyManagementApi(req, res, `/platform/projects/${encodeURIComponent(ref)}/config/postgrest`)
 }
