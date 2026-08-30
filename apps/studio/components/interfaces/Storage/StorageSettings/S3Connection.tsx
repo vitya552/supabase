@@ -37,6 +37,7 @@ import {
   PageSectionSummary,
   PageSectionTitle,
 } from 'ui-patterns/PageSection'
+import { Admonition } from 'ui-patterns/Admonition'
 import { GenericSkeletonLoader } from 'ui-patterns/ShimmeringLoader'
 import * as z from 'zod'
 
@@ -51,9 +52,10 @@ import { useProjectSettingsV2Query } from '@/data/config/project-settings-v2-que
 import { useProjectStorageConfigQuery } from '@/data/config/project-storage-config-query'
 import { useProjectStorageConfigUpdateUpdateMutation } from '@/data/config/project-storage-config-update-mutation'
 import { useStorageCredentialsQuery } from '@/data/storage/s3-access-key-query'
+import { useS3ProtocolQuery } from '@/data/storage/s3-protocol-query'
 import { useAsyncCheckPermissions } from '@/hooks/misc/useCheckPermissions'
 import { useIsProjectActive, useSelectedProjectQuery } from '@/hooks/misc/useSelectedProject'
-import { DOCS_URL } from '@/lib/constants'
+import { DOCS_URL, IS_PLATFORM } from '@/lib/constants'
 
 export const S3Connection = () => {
   const { ref: projectRef } = useParams()
@@ -81,6 +83,10 @@ export const S3Connection = () => {
     isError: isErrorStorageConfig,
   } = useProjectStorageConfigQuery({ projectRef })
   const { data: storageCreds, isPending: isLoadingStorageCreds } = useStorageCredentialsQuery(
+    { projectRef },
+    { enabled: canReadS3Credentials }
+  )
+  const { data: s3Protocol, isPending: isLoadingS3Protocol } = useS3ProtocolQuery(
     { projectRef },
     { enabled: canReadS3Credentials }
   )
@@ -171,7 +177,7 @@ export const S3Connection = () => {
                                 size="large"
                                 checked={field.value}
                                 onCheckedChange={field.onChange}
-                                disabled={!isSuccessStorageConfig || field.disabled}
+                                disabled={!IS_PLATFORM || !isSuccessStorageConfig || field.disabled}
                               />
                             </FormControl>
                           </FormItemLayout>
@@ -209,7 +215,17 @@ export const S3Connection = () => {
                       </FormItemLayout>
                     </CardContent>
 
-                    {!isLoadingPermissions && !canUpdateStorageSettings && (
+                    {!IS_PLATFORM && (
+                      <CardContent>
+                        <p className="text-sm text-foreground-light">
+                          The S3 protocol is configured through the storage service environment
+                          (S3_PROTOCOL_ACCESS_KEY_ID / S3_PROTOCOL_ACCESS_KEY_SECRET) in
+                          self-hosted deployments
+                        </p>
+                      </CardContent>
+                    )}
+
+                    {IS_PLATFORM && !isLoadingPermissions && !canUpdateStorageSettings && (
                       <CardContent>
                         <p className="text-sm text-foreground-light">
                           You need additional permissions to update storage settings
@@ -217,6 +233,7 @@ export const S3Connection = () => {
                       </CardContent>
                     )}
 
+                    {IS_PLATFORM && (
                     <CardFooter className="justify-end space-x-2">
                       {form.formState.isDirty && (
                         <Button
@@ -241,6 +258,7 @@ export const S3Connection = () => {
                         Save
                       </Button>
                     </CardFooter>
+                    )}
                   </Card>
                 ) : (
                   <Alert variant="warning">
@@ -270,7 +288,9 @@ export const S3Connection = () => {
               </PageSectionDescription>
             </PageSectionSummary>
             <PageSectionAside>
-              <CreateCredentialModal visible={openCreateCred} onOpenChange={setOpenCreateCred} />
+              {IS_PLATFORM && (
+                <CreateCredentialModal visible={openCreateCred} onOpenChange={setOpenCreateCred} />
+              )}
             </PageSectionAside>
           </PageSectionMeta>
 
@@ -292,6 +312,41 @@ export const S3Connection = () => {
                   </Button>
                 </AlertDescription>
               </Alert>
+            ) : !IS_PLATFORM ? (
+              <>
+                {isLoadingS3Protocol && <GenericSkeletonLoader />}
+                {!isLoadingS3Protocol && !s3Protocol?.enabled && (
+                  <Admonition
+                    type="default"
+                    title="S3 protocol credentials are not configured"
+                    description="Set S3_PROTOCOL_ACCESS_KEY_ID and S3_PROTOCOL_ACCESS_KEY_SECRET on the storage service to enable S3 protocol access"
+                  />
+                )}
+                {!isLoadingS3Protocol && s3Protocol?.enabled && (
+                  <Card>
+                    <CardContent>
+                      <FormItemLayout
+                        layout="flex-row-reverse"
+                        className="[&>div]:md:w-1/2 [&>div>div]:w-full [&>div]:min-w-100"
+                        label="Access key ID"
+                        isReactForm={false}
+                      >
+                        <Input readOnly copy value={s3Protocol.access_key_id ?? ''} />
+                      </FormItemLayout>
+                    </CardContent>
+                    <CardContent>
+                      <FormItemLayout
+                        layout="flex-row-reverse"
+                        className="[&>div]:md:w-1/2 [&>div>div]:w-full [&>div]:min-w-100"
+                        label="Secret access key"
+                        isReactForm={false}
+                      >
+                        <Input readOnly copy reveal value={s3Protocol.secret_access_key ?? ''} />
+                      </FormItemLayout>
+                    </CardContent>
+                  </Card>
+                )}
+              </>
             ) : (
               <>
                 {isLoadingStorageCreds ? (

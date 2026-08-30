@@ -235,11 +235,40 @@ export const StorageSettings = () => {
         <PageSectionContent className="flex flex-col gap-y-8">
           <Form {...form}>
             {!IS_PLATFORM ? (
-              <Admonition
-                type="default"
-                title="Storage settings are not available for self-hosted projects"
-                description="Storage settings are only available for Supabase Platform projects."
-              />
+              <div className="flex flex-col gap-y-4">
+                <Admonition
+                  type="default"
+                  title="Storage settings are read-only for self-hosted projects"
+                  description="These values are configured through the storage service environment (e.g. FILE_SIZE_LIMIT and IMGPROXY settings in docker-compose)."
+                />
+                {isSuccess && config && (
+                  <Card>
+                    <CardContent>
+                      <FormItemLayout
+                        layout="flex-row-reverse"
+                        label="Global file size limit"
+                        isReactForm={false}
+                      >
+                        <Input readOnly value={formatBytes(config.fileSizeLimit ?? 0)} />
+                      </FormItemLayout>
+                    </CardContent>
+                    <CardContent>
+                      <FormItemLayout
+                        layout="flex-row-reverse"
+                        label="Image transformation"
+                        isReactForm={false}
+                      >
+                        <Input
+                          readOnly
+                          value={
+                            config.features?.imageTransformation?.enabled ? 'Enabled' : 'Disabled'
+                          }
+                        />
+                      </FormItemLayout>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
             ) : isLoading ? (
               <GenericSkeletonLoader />
             ) : (

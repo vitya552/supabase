@@ -37,7 +37,8 @@ export const StorageMenuV2 = () => {
   const isVectorBucketsEnabled = useIsVectorBucketsEnabled({ projectRef: ref })
 
   const showAnalytics = isPlatform && storageAnalytics
-  const showVectors = (isPlatform && storageVectors) || isCli
+  const showVectors = (isPlatform && storageVectors) || isCli || isVectorBucketsEnabled
+  const showS3 = isPlatform || !isCli
 
   useShortcut(SHORTCUT_IDS.NAV_STORAGE_FILES, () => router.push(`/project/${ref}/storage/files`))
   useShortcut(
@@ -51,7 +52,7 @@ export const StorageMenuV2 = () => {
     { enabled: showVectors }
   )
   useShortcut(SHORTCUT_IDS.NAV_STORAGE_S3, () => router.push(`/project/${ref}/storage/s3`), {
-    enabled: isPlatform,
+    enabled: showS3,
   })
 
   const bucketTypes = Object.entries(BUCKET_TYPES).filter(([key]) => {
@@ -98,7 +99,7 @@ export const StorageMenuV2 = () => {
           })}
         </div>
 
-        {isPlatform && (
+        {showS3 && (
           <>
             <div className="h-px w-[calc(100%-1.5rem)] mx-auto md:w-full bg-border" />
             <div className="md:mx-3">

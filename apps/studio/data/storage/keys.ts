@@ -23,6 +23,8 @@ export const storageKeys = {
         sortOrder: params.sortOrder,
       },
     ] as const,
+  s3Protocol: (projectRef: string | undefined) =>
+    ['projects', projectRef, 's3-protocol'] as const,
   analyticsBuckets: (projectRef: string | undefined) =>
     ['projects', projectRef, 'analytics-buckets'] as const,
   vectorBuckets: (projectRef: string | undefined) =>

@@ -343,6 +343,12 @@ services:
       AUTH_DEFAULT_SMTP_PASS: ${SMTP_PASS}
       AUTH_DEFAULT_SMTP_SENDER_NAME: ${SMTP_SENDER_NAME}
 
+      # Storage configuration mirrors, reported through the config API.
+      STORAGE_VECTOR_ENABLED: ${STORAGE_VECTOR_ENABLED:-true}
+      STORAGE_FILE_SIZE_LIMIT: ${STORAGE_FILE_SIZE_LIMIT:-52428800}
+      S3_PROTOCOL_ACCESS_KEY_ID: ${S3_PROTOCOL_ACCESS_KEY_ID}
+      S3_PROTOCOL_ACCESS_KEY_SECRET: ${S3_PROTOCOL_ACCESS_KEY_SECRET}
+
   rest:
     container_name: supabase-rest
     image: postgrest/postgrest:v14.12
@@ -472,7 +478,7 @@ services:
       DATABASE_URL: postgres://supabase_storage_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       STORAGE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
       REQUEST_ALLOW_X_FORWARDED_PATH: "true"
-      FILE_SIZE_LIMIT: 52428800
+      FILE_SIZE_LIMIT: ${STORAGE_FILE_SIZE_LIMIT:-52428800}
       STORAGE_BACKEND: file
       # S3 bucket when using S3 backend, directory name when using 'file'
       GLOBAL_S3_BUCKET: ${GLOBAL_S3_BUCKET}
@@ -491,6 +497,11 @@ services:
       # S3 protocol endpoint configuration
       S3_PROTOCOL_ACCESS_KEY_ID: ${S3_PROTOCOL_ACCESS_KEY_ID}
       S3_PROTOCOL_ACCESS_KEY_SECRET: ${S3_PROTOCOL_ACCESS_KEY_SECRET}
+      # Vector buckets backed by pgvector in the stack's Postgres
+      VECTOR_ENABLED: ${STORAGE_VECTOR_ENABLED:-true}
+      VECTOR_BUCKET_PROVIDER: pgvector
+      VECTOR_DATABASE_URL: postgres://supabase_storage_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      VECTOR_STORE_MIGRATIONS_ENABLED: "true"
     volumes:
       - ./volumes/storage:/var/lib/storage:z
 
