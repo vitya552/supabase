@@ -108,8 +108,37 @@ async function isValidHybridJWT(jwt: string): Promise<boolean> {
   return false;
 }
 
+/**
+ * Per-function settings published by the management API. A function is only
+ * exempt from JWT verification when it is explicitly registered with
+ * `verify_jwt: false`, so an unknown function never ends up unauthenticated.
+ */
+async function shouldVerifyJwt(slug: string): Promise<boolean> {
+  if (!VERIFY_JWT) return false
+  try {
+    const manifest = JSON.parse(await Deno.readTextFile('/home/deno/functions/.functions.json'))
+    const entry = manifest?.[slug]
+    return entry?.verify_jwt !== false
+  } catch {
+    return true
+  }
+}
+
 Deno.serve(async (req: Request) => {
-  if (req.method !== 'OPTIONS' && VERIFY_JWT) {
+  const url = new URL(req.url)
+  const { pathname } = url
+  const path_parts = pathname.split('/')
+  const service_name = path_parts[1]
+
+  if (!service_name || service_name === '') {
+    const error = { msg: 'missing function name in request' }
+    return new Response(JSON.stringify(error), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  if (req.method !== 'OPTIONS' && (await shouldVerifyJwt(service_name))) {
     try {
       const token = getAuthToken(req)
       const isValidJWT = await isValidHybridJWT(token);
@@ -127,19 +156,6 @@ Deno.serve(async (req: Request) => {
         headers: { 'Content-Type': 'application/json' },
       })
     }
-  }
-
-  const url = new URL(req.url)
-  const { pathname } = url
-  const path_parts = pathname.split('/')
-  const service_name = path_parts[1]
-
-  if (!service_name || service_name === '') {
-    const error = { msg: 'missing function name in request' }
-    return new Response(JSON.stringify(error), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    })
   }
 
   const servicePath = `/home/deno/functions/${service_name}`
@@ -166,8 +182,14 @@ Deno.serve(async (req: Request) => {
     // no managed secrets file
   }
 
+  // Stack-internal values the dispatcher needs but functions must not see.
+  const withheldEnv = new Set(['JWT_SECRET', 'SUPABASE_JWKS', 'VERIFY_JWT'])
+  const containerEnv = Object.fromEntries(
+    Object.entries(Deno.env.toObject()).filter(([key]) => !withheldEnv.has(key))
+  )
+
   const envVarsObj = {
-    ...Deno.env.toObject(),
+    ...containerEnv,
     ...managedSecrets,
     SUPABASE_FUNCTION_SLUG: service_name,
   }

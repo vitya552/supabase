@@ -1,7 +1,7 @@
 import { IS_PLATFORM } from 'common'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { isValidEdgeFunctionURL } from '@/lib/api/edgeFunctions'
+import { isInternalGatewayUrl, isValidEdgeFunctionURL } from '@/lib/api/edgeFunctions'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -62,8 +62,13 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
 
     // Self-hosted functions may validate the apikey header (e.g. the default
     // template's withSupabase helper), so supply the deployment's key when the
-    // caller didn't set one explicitly.
-    if (!IS_PLATFORM && !requestHeaders['apikey']) {
+    // caller didn't set one explicitly. Restricted to the deployment's own
+    // gateway origin so the key can never be sent to another host.
+    const isInternalTarget = isInternalGatewayUrl(url, [
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_PUBLIC_URL,
+    ])
+    if (!IS_PLATFORM && !requestHeaders['apikey'] && isInternalTarget) {
       const apikey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY
       if (apikey) {
         requestHeaders['apikey'] = apikey

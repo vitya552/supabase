@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import {
   buildDatabaseEdgeFunctionUrl,
   isEdgeFunctionUrl,
+  isInternalGatewayUrl,
   isValidEdgeFunctionURL,
 } from './edgeFunctions'
 
@@ -151,5 +152,34 @@ describe('isValidEdgeFunctionURL', () => {
     for (const url of invalidEdgeFunctionUrls) {
       expect(isValidEdgeFunctionURL(url, false), `Expected ${url} to be invalid`).toBe(false)
     }
+  })
+})
+
+describe('isInternalGatewayUrl', () => {
+  const gatewayUrls = ['http://api-gw:8000', 'http://185.129.85.214:8000']
+
+  it('accepts URLs on a configured gateway origin', () => {
+    expect(isInternalGatewayUrl('http://api-gw:8000/functions/v1/hello', gatewayUrls)).toBe(true)
+    expect(
+      isInternalGatewayUrl('http://185.129.85.214:8000/functions/v1/hello?a=1', gatewayUrls)
+    ).toBe(true)
+  })
+
+  it('rejects other hosts, ports and schemes', () => {
+    expect(isInternalGatewayUrl('http://evil.example.com/functions/v1/hello', gatewayUrls)).toBe(
+      false
+    )
+    expect(isInternalGatewayUrl('http://api-gw:9000/functions/v1/hello', gatewayUrls)).toBe(false)
+    expect(isInternalGatewayUrl('https://api-gw:8000/functions/v1/hello', gatewayUrls)).toBe(false)
+    expect(
+      isInternalGatewayUrl('http://api-gw:8000@evil.example.com/functions/v1/hello', gatewayUrls)
+    ).toBe(false)
+  })
+
+  it('rejects malformed URLs and empty configuration', () => {
+    expect(isInternalGatewayUrl('not-a-url', gatewayUrls)).toBe(false)
+    expect(isInternalGatewayUrl('http://api-gw:8000/functions/v1/hello', [undefined, ''])).toBe(
+      false
+    )
   })
 })

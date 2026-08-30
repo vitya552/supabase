@@ -35,6 +35,29 @@ export const isEdgeFunctionUrl = (
   )
 }
 
+/**
+ * Whether a URL points at this deployment's own gateway, i.e. an origin the
+ * server may safely attach its own API key to.
+ */
+export const isInternalGatewayUrl = (url: string, gatewayUrls: Array<string | undefined>) => {
+  const origins = gatewayUrls
+    .filter((value): value is string => typeof value === 'string' && value.length > 0)
+    .map((value) => {
+      try {
+        return new URL(value).origin
+      } catch {
+        return undefined
+      }
+    })
+    .filter((origin): origin is string => origin !== undefined)
+
+  try {
+    return origins.includes(new URL(url).origin)
+  } catch {
+    return false
+  }
+}
+
 export const isValidEdgeFunctionURL = (url: string, isPlatform: boolean) => {
   if (NIMBUS_PROD_PROJECTS_URL !== undefined) {
     const apexDomain = NIMBUS_PROD_PROJECTS_URL.replace('https://*.', '').replace(/\./g, '\\.')
