@@ -2,7 +2,11 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
 import { callManagementApi } from '@/lib/api/self-hosted/management-api'
-import { listDashboardInvitations, roleFromRoleId, roleIdFromRole } from '@/lib/api/self-hosted/team'
+import {
+  listDashboardInvitations,
+  roleFromRoleId,
+  roleIdFromRole,
+} from '@/lib/api/self-hosted/team'
 
 const wrappedHandler = (req: NextApiRequest, res: NextApiResponse) => apiWrapper(req, res, handler)
 
@@ -54,7 +58,12 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const targets = emails.length > 0 ? emails : ['']
   const succeeded: string[] = []
-  const invite_urls: { email: string; url: string }[] = []
+  const invite_urls: {
+    email: string
+    url: string
+    email_sent: boolean
+    email_error: string | null
+  }[] = []
   const failed: { email: string; error: string }[] = []
 
   for (const email of targets) {
@@ -75,15 +84,18 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse) => {
       failed.push({ email, error: message })
       continue
     }
-    const token =
-      typeof response.body === 'object' &&
-      response.body !== null &&
-      'token' in response.body &&
-      typeof response.body.token === 'string'
-        ? response.body.token
-        : ''
+    const body: Record<string, unknown> =
+      typeof response.body === 'object' && response.body !== null
+        ? (response.body as Record<string, unknown>)
+        : {}
+    const token = typeof body.token === 'string' ? body.token : ''
     succeeded.push(email)
-    invite_urls.push({ email, url: `/join?token=${token}` })
+    invite_urls.push({
+      email,
+      url: `/join?token=${token}`,
+      email_sent: body.email_sent === true,
+      email_error: typeof body.email_error === 'string' ? body.email_error : null,
+    })
   }
 
   if (succeeded.length === 0 && failed.length > 0) {

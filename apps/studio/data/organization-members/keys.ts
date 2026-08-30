@@ -5,4 +5,5 @@ export const organizationKeys = {
     ['organization-members', slug, 'invitations', token] as const,
   token: (slug: string | undefined, token: string | undefined) =>
     ['organization-members', slug, 'token', token] as const,
+  smtpStatus: (slug: string | undefined) => ['organization-members', slug, 'smtp-status'] as const,
 }

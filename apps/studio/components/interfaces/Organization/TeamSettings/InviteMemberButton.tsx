@@ -53,6 +53,7 @@ import { Shortcut } from '@/components/ui/Shortcut'
 import { UpgradePlanButton } from '@/components/ui/UpgradePlanButton'
 import { useOrganizationCreateInvitationMutation } from '@/data/organization-members/organization-invitation-create-mutation'
 import { useOrganizationRolesV2Query } from '@/data/organization-members/organization-roles-query'
+import { useOrganizationSmtpStatusQuery } from '@/data/organization-members/organization-smtp-status-query'
 import { useOrganizationMembersQuery } from '@/data/organizations/organization-members-query'
 import { useOrgSSOConfigQuery } from '@/data/sso/sso-config-query'
 import { useHasAccessToProjectLevelPermissions } from '@/data/subscriptions/org-subscription-query'
@@ -82,6 +83,9 @@ export const InviteMemberButton = () => {
   const { data: members } = useOrganizationMembersQuery({ slug })
   const { data: allRoles, isSuccess } = useOrganizationRolesV2Query({ slug })
   const orgScopedRoles = allRoles?.org_scoped_roles ?? []
+
+  const { data: smtpStatus } = useOrganizationSmtpStatusQuery({ slug })
+  const isSmtpMissing = !IS_PLATFORM && smtpStatus?.configured === false
 
   const { data: ssoConfig } = useOrgSSOConfigQuery({ orgSlug: slug })
   const hasSsoProvider = !!ssoConfig && ssoConfig !== null
@@ -209,13 +213,21 @@ export const InviteMemberButton = () => {
 
     const inviteUrls = result.invite_urls ?? []
     if (inviteUrls.length > 0) {
-      // Self-hosted deployments send no invite emails: the one-time join link
-      // is shown here so the inviter can pass it on directly.
-      for (const { url } of inviteUrls) {
-        toast.success(`Invite link (share it, shown only once): ${window.location.origin}${url}`, {
-          duration: Infinity,
-          closeButton: true,
-        })
+      // Self-hosted deployments email the one-time join link when SMTP is
+      // configured; otherwise it is shown here so the inviter can pass it on.
+      for (const { email, url, email_sent, email_error } of inviteUrls) {
+        if (email_sent) {
+          toast.success(`Invitation email sent to ${email}`)
+          continue
+        }
+        const reason = email_error ? ` (email not sent: ${email_error})` : ''
+        toast.success(
+          `Invite link (share it, shown only once)${reason}: ${window.location.origin}${url}`,
+          {
+            duration: Infinity,
+            closeButton: true,
+          }
+        )
       }
     } else if (succeeded.length > 0) {
       toast.success(
@@ -303,26 +315,37 @@ export const InviteMemberButton = () => {
             Send invitations and choose the access each new team member receives.
           </SheetDescription>
         </SheetHeader>
-        <Admonition
-          type="note"
-          showIcon={false}
-          title="Single Sign-On (SSO) available"
-          layout={!hasAccessToSso ? 'vertical' : 'horizontal'}
-          className="rounded-none border-t-0 border-x-0 px-5"
-          description="Enforce login via your company identity provider for added security and access control. Available on Team plan and above."
-          actions={
-            <>
-              <DocsButton href={`${DOCS_URL}/guides/platform/sso`} />
-              {!hasAccessToSso && (
-                <UpgradePlanButton
-                  plan="Team"
-                  source="inviteMemberSSO"
-                  featureProposition="enable Single Sign-on (SSO)"
-                />
-              )}
-            </>
-          }
-        />
+        {isSmtpMissing && (
+          <Admonition
+            type="warning"
+            showIcon={false}
+            title="SMTP is not configured"
+            className="rounded-none border-t-0 border-x-0 px-5"
+            description="Invitation emails cannot be sent. You will get a one-time invite link to share manually. Configure SMTP in Authentication settings to send invitations by email."
+          />
+        )}
+        {IS_PLATFORM && (
+          <Admonition
+            type="note"
+            showIcon={false}
+            title="Single Sign-On (SSO) available"
+            layout={!hasAccessToSso ? 'vertical' : 'horizontal'}
+            className="rounded-none border-t-0 border-x-0 px-5"
+            description="Enforce login via your company identity provider for added security and access control. Available on Team plan and above."
+            actions={
+              <>
+                <DocsButton href={`${DOCS_URL}/guides/platform/sso`} />
+                {!hasAccessToSso && (
+                  <UpgradePlanButton
+                    plan="Team"
+                    source="inviteMemberSSO"
+                    featureProposition="enable Single Sign-on (SSO)"
+                  />
+                )}
+              </>
+            }
+          />
+        )}
         <SheetSection className="grow overflow-auto">
           <Form {...form}>
             <form
