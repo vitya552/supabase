@@ -344,7 +344,11 @@ export const RealtimeSettings = () => {
                         id="suspend"
                         layout="flex-row-reverse"
                         label="Enable Realtime service"
-                        description="If disabled, no clients will be able to connect and new connections will be rejected"
+                        description={
+                          IS_PLATFORM
+                            ? 'If disabled, no clients will be able to connect and new connections will be rejected'
+                            : 'Suspending the Realtime service is not supported on self-hosted deployments; stop the realtime container instead'
+                        }
                       >
                         <FormControl>
                           <Switch
@@ -352,7 +356,7 @@ export const RealtimeSettings = () => {
                             aria-label="Toggle enabling of realtime service"
                             checked={!field.value}
                             onCheckedChange={(checked) => field.onChange(!checked)}
-                            disabled={!canUpdateConfig}
+                            disabled={!canUpdateConfig || !IS_PLATFORM}
                           />
                         </FormControl>
                       </FormItemLayout>
