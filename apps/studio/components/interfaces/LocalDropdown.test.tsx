@@ -211,17 +211,17 @@ describe('LocalDropdown', () => {
     })
   })
 
-  it('shows Preferences, removes Command menu, and keeps theme controls wired', async () => {
+  it('shows Account, removes Command menu, and keeps theme controls wired', async () => {
     const user = userEvent.setup()
 
     render(<LocalDropdown />)
 
-    expect(screen.getByText('Preferences')).toBeInTheDocument()
+    expect(screen.getByText('Account')).toBeInTheDocument()
     expect(screen.queryByText('Command menu')).not.toBeInTheDocument()
     expect(screen.getByText('Theme')).toBeInTheDocument()
     expect(screen.queryByText('Dev toolbar')).not.toBeInTheDocument()
 
-    await user.click(screen.getByText('Preferences'))
+    await user.click(screen.getByText('Account'))
     expect(mockSetLastRoute).toHaveBeenCalledWith('/project/default/editor')
 
     await user.click(screen.getByText('Feature previews'))

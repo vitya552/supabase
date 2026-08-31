@@ -1,4 +1,4 @@
-import { FlaskConical, Settings } from 'lucide-react'
+import { FlaskConical, User2 } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -59,10 +59,10 @@ export const LocalDropdown = ({
         <ButtonTooltip
           variant="default"
           className="[&>span]:flex px-0 py-0 rounded-full overflow-hidden h-8 w-8"
-          tooltip={{ content: { text: 'Settings' } }}
+          tooltip={{ content: { text: 'Account settings' } }}
         >
           <ProfileImage className="w-8 h-8 rounded-md" />
-          <span className="sr-only">Settings</span>
+          <span className="sr-only">Account settings</span>
         </ButtonTooltip>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end" className={cn('w-44', contentClassName)}>
@@ -85,8 +85,8 @@ export const LocalDropdown = ({
               }
             }}
           >
-            <Settings size={14} strokeWidth={1.5} className="text-foreground-lighter" />
-            Preferences
+            <User2 size={14} strokeWidth={1.5} className="text-foreground-lighter" />
+            Account
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem

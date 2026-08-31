@@ -22,6 +22,7 @@ import { AccountPassword } from '@/components/interfaces/Account/Preferences/Acc
 import { AccountDeletion } from '@/components/interfaces/Account/Preferences/AccountDeletion'
 import { AccountIdentities } from '@/components/interfaces/Account/Preferences/AccountIdentities'
 import { AnalyticsSettings } from '@/components/interfaces/Account/Preferences/AnalyticsSettings'
+import { DashboardProfileInformation } from '@/components/interfaces/Account/Preferences/DashboardProfileInformation'
 import { DashboardSettings } from '@/components/interfaces/Account/Preferences/DashboardSettings'
 import { HotkeySettings } from '@/components/interfaces/Account/Preferences/HotkeySettings'
 import { ProfileInformation } from '@/components/interfaces/Account/Preferences/ProfileInformation'
@@ -42,7 +43,7 @@ const User: NextPageWithLayout = () => {
 
 User.getLayout = (page) => (
   <AppLayout>
-    <DefaultLayout headerTitle={IS_PLATFORM ? 'Account' : 'Preferences'}>
+    <DefaultLayout headerTitle="Account">
       <AccountLayout title="Preferences">{page}</AccountLayout>
     </DefaultLayout>
   </AppLayout>
@@ -193,6 +194,8 @@ const SelfHostedPreferences = () => {
     <>
       <PreferencesPageHeader description="Manage how the dashboard looks and behaves on this browser and device." />
       <PageContainer size="small">
+        <DashboardProfileInformation />
+
         <AccountPassword />
 
         <ThemeSettings />

@@ -30,7 +30,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
       avatar_url: null,
       is_sso_user: false,
       metadata: {},
-      mfa_enabled: false,
+      mfa_enabled: user.mfa_enabled,
       role_ids: [roleIdFromRole(user.role) ?? 3],
     }))
   )

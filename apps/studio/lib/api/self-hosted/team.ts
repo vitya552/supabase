@@ -39,6 +39,9 @@ const dashboardUserSchema = z.object({
   id: z.number(),
   username: z.string(),
   role: dashboardRoleSchema,
+  first_name: z.string().catch(''),
+  last_name: z.string().catch(''),
+  mfa_enabled: z.boolean().catch(false),
   inserted_at: z.string(),
 })
 
@@ -76,6 +79,8 @@ export async function listDashboardInvitations(
 const dashboardIdentitySchema = z.object({
   username: z.string(),
   role: dashboardRoleSchema,
+  first_name: z.string().catch(''),
+  last_name: z.string().catch(''),
 })
 
 export type SelfHostedDashboardIdentity = z.infer<typeof dashboardIdentitySchema>
