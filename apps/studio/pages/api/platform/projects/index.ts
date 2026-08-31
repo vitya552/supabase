@@ -29,9 +29,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
-  const projects = await listManagedProjects(req)
-  if (projects === null) return res.status(200).json([DEFAULT_PROJECT])
-  return res.status(200).json(projects.map(toProjectListItem))
+  const managedProjects = await listManagedProjects(req)
+  const projects =
+    managedProjects === null ? [DEFAULT_PROJECT] : managedProjects.map(toProjectListItem)
+  if (req.headers.version === '2') {
+    return res.status(200).json({ projects, pagination: { count: projects.length } })
+  }
+  return res.status(200).json(projects)
 }
 
 const createBodySchema = z.object({

@@ -14,3 +14,4 @@ ALTER ROLE supabase_storage_admin CREATEDB;
 -- Vector tables use pgvector types (vector/halfvec), resolved through the
 -- `extensions` schema on the default search_path.
 CREATE EXTENSION IF NOT EXISTS vector SCHEMA extensions;
+ALTER ROLE supabase_storage_admin SET search_path = storage, extensions;
