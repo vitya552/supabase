@@ -11,7 +11,9 @@ ALTER USER supabase_storage_admin WITH PASSWORD :'pgpass';
 -- (`storage_vectors`) on first boot.
 ALTER ROLE supabase_storage_admin CREATEDB;
 
--- Vector tables use pgvector types (vector/halfvec), resolved through the
--- `extensions` schema on the default search_path.
-CREATE EXTENSION IF NOT EXISTS vector SCHEMA extensions;
-ALTER ROLE supabase_storage_admin SET search_path = storage, extensions;
+-- Vector tables live in the `storage_vectors` database (created by the
+-- storage service on first boot) and use pgvector types (vector/halfvec).
+-- Installing the extension into template1 makes it available there.
+\c template1
+CREATE EXTENSION IF NOT EXISTS vector;
+\c postgres

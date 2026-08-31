@@ -19,7 +19,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 const auditLogRecordSchema = z.object({
-  id: z.number(),
+  // bigserial ids serialize as strings through node-postgres
+  id: z.union([z.number(), z.string()]),
   username: z.string(),
   method: z.string(),
   route: z.string(),
