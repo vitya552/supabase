@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { literal, safeSql } from '@supabase/pg-meta'
+import { ident, literal, safeSql } from '@supabase/pg-meta'
 import { PermissionAction } from '@supabase/shared-types/out/constants'
 import { Plus, Trash2 } from 'lucide-react'
 import { parseAsBoolean, useQueryState } from 'nuqs'
@@ -33,6 +33,7 @@ import { useS3VectorsWrapperInstance } from './useS3VectorsWrapperInstance'
 import { ButtonTooltip } from '@/components/ui/ButtonTooltip'
 import { DocsButton } from '@/components/ui/DocsButton'
 import { useFDWImportForeignSchemaMutation } from '@/data/fdw/fdw-import-foreign-schema-mutation'
+import { useExecuteSqlMutation } from '@/data/sql/execute-sql-mutation'
 import { useVectorBucketIndexCreateMutation } from '@/data/storage/vector-bucket-index-create-mutation'
 import { useAsyncCheckPermissions } from '@/hooks/misc/useCheckPermissions'
 import { useDeploymentMode } from '@/hooks/misc/useDeploymentMode'
@@ -152,6 +153,7 @@ export const CreateVectorTableSheet = ({ bucketName }: CreateVectorTableSheetPro
     useFDWImportForeignSchemaMutation({
       onError: () => {},
     })
+  const { mutateAsync: executeSql } = useExecuteSqlMutation({ onError: () => {} })
   const isCreating = isCreatingVectorBucketTable || isImportingForeignSchema
 
   const onSubmit: SubmitHandler<CreateVectorTableForm> = async (values) => {
@@ -175,6 +177,11 @@ export const CreateVectorTableSheet = ({ bucketName }: CreateVectorTableSheetPro
 
     try {
       if (wrapperInstance && !!schema) {
+        await executeSql({
+          projectRef: project.ref,
+          connectionString: project?.connectionString,
+          sql: safeSql`create schema if not exists ${ident(schema)};`,
+        })
         await importForeignSchema({
           projectRef: project.ref,
           connectionString: project?.connectionString,
