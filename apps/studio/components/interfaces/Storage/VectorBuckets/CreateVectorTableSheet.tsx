@@ -28,6 +28,7 @@ import { FormItemLayout } from 'ui-patterns/form/FormItemLayout/FormItemLayout'
 import z from 'zod'
 
 import { inverseValidBucketNameRegex } from '../CreateBucketModal.utils'
+import { useS3VectorsWrapperExtension } from './useS3VectorsWrapper'
 import { useS3VectorsWrapperInstance } from './useS3VectorsWrapperInstance'
 import { ButtonTooltip } from '@/components/ui/ButtonTooltip'
 import { DocsButton } from '@/components/ui/DocsButton'
@@ -37,6 +38,7 @@ import { useAsyncCheckPermissions } from '@/hooks/misc/useCheckPermissions'
 import { useDeploymentMode } from '@/hooks/misc/useDeploymentMode'
 import { useSelectedProjectQuery } from '@/hooks/misc/useSelectedProject'
 import { DOCS_URL } from '@/lib/constants'
+import { isGreaterThanOrEqual } from '@/lib/semver'
 
 const isStagingLocal = process.env.NEXT_PUBLIC_ENVIRONMENT !== 'prod'
 
@@ -114,6 +116,10 @@ export const CreateVectorTableSheet = ({ bucketName }: CreateVectorTableSheetPro
   const { can: canCreateBuckets } = useAsyncCheckPermissions(PermissionAction.STORAGE_WRITE, '*')
 
   const { data: wrapperInstance } = useS3VectorsWrapperInstance({ bucketId: bucketName })
+  const { extension: wrappersExtension } = useS3VectorsWrapperExtension()
+  const updatedImportForeignSchemaSyntax = !!wrappersExtension?.installed_version
+    ? isGreaterThanOrEqual(wrappersExtension.installed_version, '0.5.7')
+    : false
   const schema = (wrapperInstance?.server_options ?? [])
     .find((x) => x.startsWith('supabase_target_schema'))
     ?.split('supabase_target_schema=')[1]
@@ -173,9 +179,11 @@ export const CreateVectorTableSheet = ({ bucketName }: CreateVectorTableSheetPro
           projectRef: project.ref,
           connectionString: project?.connectionString,
           serverName: wrapperInstance.server_name,
-          sourceSchema: schema,
+          sourceSchema: updatedImportForeignSchemaSyntax ? bucketName : schema,
           targetSchema: schema,
-          schemaOptions: [safeSql`bucket_name ${literal(bucketName)}`],
+          schemaOptions: updatedImportForeignSchemaSyntax
+            ? undefined
+            : [safeSql`bucket_name ${literal(bucketName)}`],
         })
       }
     } catch (error: any) {
