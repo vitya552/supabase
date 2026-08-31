@@ -1,4 +1,4 @@
-import { useParams } from 'common'
+import { IS_PLATFORM, useParams } from 'common'
 
 import { AnalyticsBuckets } from '@/components/interfaces/Storage/AnalyticsBuckets'
 import { BucketsUpgradePlan } from '@/components/interfaces/Storage/BucketsUpgradePlan'
@@ -12,11 +12,10 @@ const StorageAnalyticsPage: NextPageWithLayout = () => {
   const { ref: projectRef } = useParams()
   const isAnalyticsBucketsEnabled = useIsAnalyticsBucketsEnabled({ projectRef })
 
-  if (!isAnalyticsBucketsEnabled) {
+  if (IS_PLATFORM && !isAnalyticsBucketsEnabled) {
     return <BucketsUpgradePlan type="analytics" />
-  } else {
-    return <AnalyticsBuckets />
   }
+  return <AnalyticsBuckets />
 }
 
 StorageAnalyticsPage.getLayout = (page) => (
