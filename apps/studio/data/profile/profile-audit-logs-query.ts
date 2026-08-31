@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import { profileKeys } from './keys'
 import { get, handleError } from '@/data/fetchers'
 import { AuditLog } from '@/data/organizations/organization-audit-logs-query'
-import { IS_PLATFORM } from '@/lib/constants'
 import type { ResponseError, UseCustomQueryOptions } from '@/types'
 
 export type ProfileAuditLogsVariables = {
@@ -46,7 +45,7 @@ export const useProfileAuditLogsQuery = <TData = ProfileAuditLogsData>(
       date_end: iso_timestamp_end,
     }),
     queryFn: ({ signal }) => getProfileAuditLogs(vars, signal),
-    enabled: IS_PLATFORM && options.enabled,
+    enabled: options.enabled,
     ...options,
   })
 }

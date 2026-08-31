@@ -71,6 +71,18 @@ const AccountLayout = ({ children, title }: PropsWithChildren<AccountLayoutProps
                 },
               ],
             },
+            {
+              key: 'logs',
+              heading: 'Logs',
+              links: [
+                {
+                  key: 'audit-logs',
+                  label: 'Audit Logs',
+                  href: '/account/audit',
+                  isActive: currentPath === '/account/audit',
+                },
+              ],
+            },
           ]
         : [
             {
