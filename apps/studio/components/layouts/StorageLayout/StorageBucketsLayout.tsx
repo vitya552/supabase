@@ -16,6 +16,7 @@ import {
 import { BUCKET_TYPES } from '@/components/interfaces/Storage/Storage.constants'
 import { useStorageV2Page } from '@/components/interfaces/Storage/Storage.utils'
 import { DocsButton } from '@/components/ui/DocsButton'
+import { IS_PLATFORM } from '@/lib/constants'
 
 export const StorageBucketsLayout = ({
   title,
@@ -34,10 +35,16 @@ export const StorageBucketsLayout = ({
             label: 'Buckets',
             href: `/project/${ref}/storage/files`,
           },
-          {
-            label: 'Settings',
-            href: `/project/${ref}/storage/files/settings`,
-          },
+          // Self-hosted storage reads its settings from the container environment,
+          // so there is nothing to edit here.
+          ...(IS_PLATFORM
+            ? [
+                {
+                  label: 'Settings',
+                  href: `/project/${ref}/storage/files/settings`,
+                },
+              ]
+            : []),
           {
             label: 'Policies',
             href: `/project/${ref}/storage/files/policies`,
