@@ -26,7 +26,7 @@ export const StorageMenuV2 = () => {
   const { ref } = useParams()
   const page = useStorageV2Page()
 
-  const { isCli, isPlatform } = useDeploymentMode()
+  const { isCli, isPlatform, isSelfHosted } = useDeploymentMode()
 
   const { storageAnalytics, storageVectors } = useIsFeatureEnabled([
     'storage:analytics',
@@ -36,7 +36,7 @@ export const StorageMenuV2 = () => {
   const isAnalyticsBucketsEnabled = useIsAnalyticsBucketsEnabled({ projectRef: ref })
   const isVectorBucketsEnabled = useIsVectorBucketsEnabled({ projectRef: ref })
 
-  const showAnalytics = isPlatform && storageAnalytics
+  const showAnalytics = (isPlatform && storageAnalytics) || isSelfHosted
   const showVectors = (isPlatform && storageVectors) || isCli || isVectorBucketsEnabled
   const showS3 = isPlatform || !isCli
 

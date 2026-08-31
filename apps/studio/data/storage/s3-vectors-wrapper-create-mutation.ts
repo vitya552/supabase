@@ -3,6 +3,7 @@ import { IS_PLATFORM } from 'common'
 
 import { useLocalS3KeysQuery } from '../misc/local-s3-keys-query'
 import { useS3AccessKeyCreateMutation } from './s3-access-key-create-mutation'
+import { useS3ProtocolQuery } from './s3-protocol-query'
 import { WRAPPERS } from '@/components/interfaces/Integrations/Wrappers/Wrappers.constants'
 import { getVectorURI } from '@/components/interfaces/Storage/StorageSettings/StorageSettings.utils'
 import {
@@ -18,8 +19,12 @@ import { useSelectedProjectQuery } from '@/hooks/misc/useSelectedProject'
 
 export const useS3VectorsWrapperCreateMutation = () => {
   const { data: project } = useSelectedProjectQuery()
-  const { data: localKeys } = useLocalS3KeysQuery()
-  const { isPlatform } = useDeploymentMode()
+  const { isPlatform, isCli, isSelfHosted } = useDeploymentMode()
+  const { data: localKeys } = useLocalS3KeysQuery({ enabled: isCli })
+  const { data: s3Protocol } = useS3ProtocolQuery(
+    { projectRef: project?.ref },
+    { enabled: isSelfHosted }
+  )
 
   const { data: settings } = useProjectSettingsV2Query({ projectRef: project?.ref })
   const protocol = settings?.app_config?.protocol ?? 'https'
@@ -33,7 +38,7 @@ export const useS3VectorsWrapperCreateMutation = () => {
     !isPlatform && !!settings
       ? new URL(`${protocol}://${settings.app_config?.endpoint}`).port
       : null
-  const endpoint = !isPlatform
+  const endpoint = isCli
     ? `host.docker.internal:${port}`
     : settings?.app_config?.storage_endpoint || settings?.app_config?.endpoint
 
@@ -63,15 +68,20 @@ export const useS3VectorsWrapperCreateMutation = () => {
       })
       accessKey = createS3KeyData.access_key
       secretKey = createS3KeyData.secret_key
+    } else if (isSelfHosted) {
+      accessKey = s3Protocol?.access_key_id ?? undefined
+      secretKey = s3Protocol?.secret_access_key ?? undefined
     } else {
       accessKey = localKeys?.accessKey
       secretKey = localKeys?.secretKey
     }
 
     if (!accessKey || !secretKey) {
-      throw new Error(
-        IS_PLATFORM ? 'Failed to obtain S3 keys from the API' : 'Local S3 keys are not configured'
-      )
+      if (IS_PLATFORM) throw new Error('Failed to obtain S3 keys from the API')
+      if (isSelfHosted) {
+        throw new Error('S3 protocol credentials are not configured for this project')
+      }
+      throw new Error('Local S3 keys are not configured')
     }
 
     const wrapperName = getVectorBucketFDWName(bucketName)

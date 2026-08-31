@@ -16,6 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from 'ui'
+import { Admonition } from 'ui-patterns/Admonition'
 import { Input } from 'ui-patterns/DataInputs/Input'
 import { PageContainer } from 'ui-patterns/PageContainer'
 import { PageSection, PageSectionContent, PageSectionTitle } from 'ui-patterns/PageSection'
@@ -27,8 +28,12 @@ import { CreateBucketButton } from '../NewBucketButton'
 import { CreateAnalyticsBucketModal } from './CreateAnalyticsBucketModal'
 import { AlertError } from '@/components/ui/AlertError'
 import { AlphaNotice } from '@/components/ui/AlphaNotice'
-import { useProjectStorageConfigQuery } from '@/data/config/project-storage-config-query'
+import {
+  useIsAnalyticsBucketsEnabled,
+  useProjectStorageConfigQuery,
+} from '@/data/config/project-storage-config-query'
 import { useAnalyticsBucketsQuery } from '@/data/storage/analytics-buckets-query'
+import { useDeploymentMode } from '@/hooks/misc/useDeploymentMode'
 import { createNavigationHandler } from '@/lib/navigation'
 
 export const AnalyticsBuckets = () => {
@@ -44,6 +49,9 @@ export const AnalyticsBuckets = () => {
 
   const { data: config } = useProjectStorageConfigQuery({ projectRef: ref })
   const maxAnalyticsBuckets = config?.features.icebergCatalog.maxCatalogs ?? 2
+
+  const { isSelfHosted } = useDeploymentMode()
+  const isAnalyticsBucketsEnabled = useIsAnalyticsBucketsEnabled({ projectRef: ref })
 
   const {
     data: buckets = [],
@@ -61,6 +69,22 @@ export const AnalyticsBuckets = () => {
       : bucket.name.toLowerCase().includes(filterString.toLowerCase())
   )
   const hasNoBuckets = buckets.length === 0
+
+  if (isSelfHosted && !isAnalyticsBucketsEnabled) {
+    return (
+      <PageContainer>
+        <PageSection>
+          <PageSectionContent>
+            <Admonition
+              type="default"
+              title="Analytics buckets are not available on this deployment"
+              description="Analytics (Iceberg) buckets require an S3 storage backend with an Iceberg catalog, which is not configured for this project's storage service."
+            />
+          </PageSectionContent>
+        </PageSection>
+      </PageContainer>
+    )
+  }
 
   return (
     <>

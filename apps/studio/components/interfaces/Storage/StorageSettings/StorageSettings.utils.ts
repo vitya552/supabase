@@ -37,22 +37,25 @@ function getStorageURL(projectRef: string, protocol: string, endpoint?: string) 
   return url
 }
 
+/** Appends a storage path to the URL, preserving any base path in the endpoint. */
+function withStoragePath(url: URL, path: string) {
+  url.pathname = `${url.pathname.replace(/\/$/, '')}${path}`
+  return url.toString()
+}
+
 export function getConnectionURL(projectRef: string, protocol: string, endpoint?: string) {
   const url = getStorageURL(projectRef, protocol, endpoint)
-  url.pathname = '/storage/v1/s3'
-  return url.toString()
+  return withStoragePath(url, '/storage/v1/s3')
 }
 
 export function getCatalogURI(projectRef: string, protocol: string, endpoint?: string) {
   const url = getStorageURL(projectRef, protocol, endpoint)
-  url.pathname = '/storage/v1/iceberg'
-  return url.toString()
+  return withStoragePath(url, '/storage/v1/iceberg')
 }
 
 export function getVectorURI(projectRef: string, protocol: string, endpoint?: string) {
   const url = getStorageURL(projectRef, protocol, endpoint)
-  url.pathname = '/storage/v1/vector'
-  return url.toString()
+  return withStoragePath(url, '/storage/v1/vector')
 }
 
 export const formatBytesForDisplay = (bytes: number) => {
