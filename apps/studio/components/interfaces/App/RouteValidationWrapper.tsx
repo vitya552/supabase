@@ -80,6 +80,11 @@ export const RouteValidationWrapper = ({ children }: PropsWithChildren<{}>) => {
 
     // A successful request to project details will validate access to both project and branches
     if (!!ref && isErrorProject) {
+      // Self-hosted runs a single project, so an unknown ref is a dead URL
+      if (!IS_PLATFORM) {
+        router.push('/404')
+        return
+      }
       // 404 means the project no longer exists (e.g. was deleted), not an access error
       if (projectError?.code !== 404) {
         toast.error('You do not have access to this project')
