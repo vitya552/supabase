@@ -19,7 +19,7 @@ export interface AccountLayoutProps {
   title: string
 }
 
-const SELF_HOSTED_ACCOUNT_PATHS = ['/account/me', '/account/security']
+const SELF_HOSTED_ACCOUNT_PATHS = ['/account/me', '/account/security', '/account/audit']
 
 const AccountLayout = ({ children, title }: PropsWithChildren<AccountLayoutProps>) => {
   const router = useRouter()
