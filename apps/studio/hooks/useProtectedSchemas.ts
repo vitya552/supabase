@@ -1,4 +1,5 @@
 import { QUEUES_SCHEMA } from '@supabase/pg-meta'
+import { IS_PLATFORM } from 'common'
 import { uniq, uniqBy } from 'lodash'
 import { useMemo } from 'react'
 
@@ -39,6 +40,9 @@ export const INTERNAL_SCHEMAS = [
   'graphql',
   'graphql_public',
   QUEUES_SCHEMA,
+  // Self-hosted only: internal state of the local management API
+  // (docker/management-api). The schema never exists on the platform.
+  ...(IS_PLATFORM ? [] : ['management']),
 ]
 
 /**
