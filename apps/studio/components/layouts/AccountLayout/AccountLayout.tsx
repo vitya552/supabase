@@ -19,6 +19,8 @@ export interface AccountLayoutProps {
   title: string
 }
 
+const SELF_HOSTED_ACCOUNT_PATHS = ['/account/me', '/account/security']
+
 const AccountLayout = ({ children, title }: PropsWithChildren<AccountLayoutProps>) => {
   const router = useRouter()
   const appSnap = useAppStateSnapshot()
@@ -52,13 +54,20 @@ const AccountLayout = ({ children, title }: PropsWithChildren<AccountLayoutProps
       !IS_PLATFORM
         ? [
             {
-              key: 'preferences',
+              key: 'account-settings',
+              heading: 'Account Settings',
               links: [
                 {
                   key: 'preferences',
                   label: 'Preferences',
                   href: '/account/me',
                   isActive: currentPath === '/account/me',
+                },
+                {
+                  key: 'security',
+                  label: 'Security',
+                  href: '/account/security',
+                  isActive: currentPath === '/account/security',
                 },
               ],
             },
@@ -119,7 +128,7 @@ const AccountLayout = ({ children, title }: PropsWithChildren<AccountLayoutProps
   }, [registerOpenMenu, setMobileSheetContent, sections])
 
   useEffect(() => {
-    if (!IS_PLATFORM && currentPath !== '/account/me') {
+    if (!IS_PLATFORM && !SELF_HOSTED_ACCOUNT_PATHS.includes(currentPath)) {
       router.push('/project/default')
     }
   }, [currentPath, router])
