@@ -91,7 +91,9 @@ export function getProjectSettings() {
     inserted_at: '2021-08-02T06:40:40.646Z',
     name: process.env.DEFAULT_PROJECT_NAME || 'Default Project',
     ref: 'default',
-    region: 'local',
+    // Must match the storage service's REGION so SigV4-signed requests
+    // (e.g. the S3 Vectors foreign data wrapper) validate against it.
+    region: process.env.STORAGE_REGION || 'local',
     service_api_keys: [
       {
         api_key: process.env.SUPABASE_ANON_KEY ?? '',
