@@ -38,23 +38,20 @@ export async function getManagedProjectSettings(
     .array(z.object({ api_key: z.string(), name: z.string(), tags: z.string() }))
     .safeParse(apiKeysResponse)
 
-  const endpoint = project.endpoint !== null ? project.endpoint.replace(/^https?:\/\//, '') : ''
-  const protocol = project.endpoint?.startsWith('https') ? 'https' : 'http'
-
   return {
     app_config: {
       db_schema: 'public',
-      endpoint,
-      storage_endpoint: endpoint,
-      protocol,
+      endpoint: '',
+      storage_endpoint: '',
+      protocol: 'http',
     },
     cloud_provider: 'localhost',
     db_dns_name: '-',
-    db_host: project.database?.host ?? '',
+    db_host: '',
     db_ip_addr_config: 'legacy' as const,
-    db_name: project.database?.name ?? 'postgres',
-    db_port: project.database?.port ?? POSTGRES_PORT,
-    db_user: project.database?.user ?? 'postgres',
+    db_name: 'postgres',
+    db_port: POSTGRES_PORT,
+    db_user: 'postgres',
     inserted_at: project.inserted_at,
     name: project.name,
     ref: project.ref,

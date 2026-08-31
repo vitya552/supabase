@@ -284,12 +284,6 @@ services:
       # Holds the JWK set PostgREST trusts (first-party keys plus third-party
       # auth integrations), written by this service and read by postgrest.
       - postgrest-runtime-config:/etc/postgrest-runtime:z
-      # Multi-project provisioning: talks to the host docker daemon to bring
-      # up per-project stacks materialized under ./volumes/projects.
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./volumes/projects:/var/lib/projects:z
-      # Database init scripts copied into each provisioned project.
-      - ./volumes/db:/mnt/db-init:ro,z
     environment:
       PORT: 8085
       DATABASE_URL: postgres://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
@@ -307,13 +301,6 @@ services:
       # Encrypts managed secrets (OAuth client secrets, SMTP passwords,
       # function secrets) at rest in Postgres.
       VAULT_ENC_KEY: ${VAULT_ENC_KEY}
-
-      # Multi-project provisioning. PROJECTS_HOST_DIR must be the absolute
-      # host path of ./volumes/projects (generated stacks bind-mount it).
-      PROJECTS_DIR: /var/lib/projects
-      PROJECTS_HOST_DIR: ${PROJECTS_HOST_DIR:-${PWD}/volumes/projects}
-      DB_INIT_DIR: /mnt/db-init
-      MAIN_NETWORK_NAME: ${MAIN_NETWORK_NAME:-supabase_default}
 
       # Dashboard login page credentials (replaces the gateway's Basic Auth prompt).
       DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}

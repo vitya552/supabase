@@ -53,24 +53,6 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
     if (project === null) {
       return res.status(404).json({ error: { message: `Project ${ref} not found` } })
     }
-    const databases: ResponseData = [
-      {
-        cloud_provider: 'AWS',
-        connectionString: '',
-        connection_string_read_only: '',
-        db_host: project.database?.host ?? '',
-        db_name: project.database?.name ?? 'postgres',
-        db_port: project.database?.port ?? POSTGRES_PORT,
-        db_user: project.database?.user ?? 'postgres',
-        identifier: ref,
-        inserted_at: project.inserted_at,
-        region: 'local',
-        restUrl: project.endpoint !== null ? `${project.endpoint}/rest/v1/` : '',
-        size: '',
-        status: toDatabaseStatus(project.status),
-      },
-    ]
-    return res.status(200).json(databases)
   }
 
   const databases: ResponseData = [

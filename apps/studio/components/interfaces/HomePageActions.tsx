@@ -15,12 +15,11 @@ import {
   PROJECT_LIST_SORT_VALUES,
   type ProjectListSort,
 } from '@/components/interfaces/Home/ProjectList/ProjectListSort.utils'
-import { SelfHostedNewProjectDialog } from '@/components/interfaces/Home/ProjectList/SelfHostedNewProjectDialog'
 import { Shortcut } from '@/components/ui/Shortcut'
+import { ButtonTooltip } from '@/components/ui/ButtonTooltip'
 import { useOrgProjectsInfiniteQuery } from '@/data/projects/org-projects-infinite-query'
 import { useIsFeatureEnabled } from '@/hooks/misc/useIsFeatureEnabled'
 import { useLocalStorageQuery } from '@/hooks/misc/useLocalStorage'
-import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import { IS_PLATFORM, PROJECT_STATUS } from '@/lib/constants'
 import { onSearchInputEscape } from '@/lib/keyboard'
 import { SHORTCUT_IDS } from '@/state/shortcuts/registry'
@@ -35,8 +34,6 @@ export const HomePageActions = ({ slug: _slug, hideNewProject = false }: HomePag
   const { slug: urlSlug } = useParams()
   const router = useRouter()
   const projectCreationEnabled = useIsFeatureEnabled('projects:create')
-  const isManagementApiEnabled = useIsManagementApiEnabled()
-  const isSelfHostedProjectCreation = !IS_PLATFORM && isManagementApiEnabled
 
   const slug = _slug ?? urlSlug
   const [search, setSearch] = useQueryState('search', parseAsString.withDefault(''))
@@ -168,9 +165,24 @@ export const HomePageActions = ({ slug: _slug, hideNewProject = false }: HomePag
           </ToggleGroup>
         )}
 
-        {isSelfHostedProjectCreation && !hideNewProject && <SelfHostedNewProjectDialog />}
+        {!IS_PLATFORM && !hideNewProject && (
+          <ButtonTooltip
+            disabled
+            icon={<Plus />}
+            variant="primary"
+            size="tiny"
+            tooltip={{
+              content: {
+                side: 'bottom',
+                text: 'Self-hosted Supabase runs a single project',
+              },
+            }}
+          >
+            New project
+          </ButtonTooltip>
+        )}
 
-        {!isSelfHostedProjectCreation && projectCreationEnabled && !hideNewProject && (
+        {IS_PLATFORM && projectCreationEnabled && !hideNewProject && (
           <Shortcut
             id={SHORTCUT_IDS.ORG_PROJECTS_NEW}
             onTrigger={() => {
