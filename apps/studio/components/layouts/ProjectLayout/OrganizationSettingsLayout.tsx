@@ -287,7 +287,7 @@ export function OrganizationSettingsLayout({ children }: PropsWithChildren) {
     showPrivateApps,
     showAuditLogDrains,
     showOAuthApps: IS_PLATFORM,
-    showAuditLogs: IS_PLATFORM,
+    showAuditLogs: true,
   })
 
   const orgSettingsMenu = useMemo(

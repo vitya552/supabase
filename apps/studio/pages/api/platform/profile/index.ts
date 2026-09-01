@@ -30,7 +30,6 @@ function toProfileResponse(identity: SelfHostedDashboardIdentity | null) {
     disabled_features: [
       'organization:show_legal_documents',
       'organization:show_sso_settings',
-      'organization:show_security_settings',
       'organizations:delete',
       'billing:all',
     ],

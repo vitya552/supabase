@@ -44,7 +44,7 @@ export function OrganizationSettingsMenu({ onCloseSheet }: OrganizationSettingsM
     showPlatformWebhooks,
     showPrivateApps,
     showOAuthApps: IS_PLATFORM,
-    showAuditLogs: IS_PLATFORM,
+    showAuditLogs: true,
   })
 
   const page = currentPath.split('/').filter(Boolean).pop()
