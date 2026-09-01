@@ -27,7 +27,7 @@ export const useGetRolesManagementPermissions = (
   if (!roles || !orgSlug) return { rolesAddable, rolesRemovable }
 
   // Self-hosted has no platform permissions API: mirror the management API's
-  // server-side rules — owners manage every role, admins manage every role
+  // server-side rules - owners manage every role, admins manage every role
   // except Owner, developers manage none.
   if (!IS_PLATFORM) {
     const currentUserMember = members?.find((member) => member.gotrue_id === profile?.gotrue_id)
