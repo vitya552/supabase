@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
+import { profileKeys } from './keys'
 import { handleError } from '@/data/fetchers'
 import { API_URL } from '@/lib/constants'
 import type { ResponseError, UseCustomMutationOptions } from '@/types'
-import { profileKeys } from './keys'
 
 export type DashboardFactorDeleteVariables = {
   factorId: number

@@ -16,7 +16,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       return handleGetAll(req, res)
     case 'POST':
       return res.status(400).json({
-        error: { message: 'Self-hosted Supabase runs a single project; creating projects is not supported' },
+        error: {
+          message: 'Self-hosted Supabase runs a single project; creating projects is not supported',
+        },
       })
     default:
       res.setHeader('Allow', ['GET', 'POST'])

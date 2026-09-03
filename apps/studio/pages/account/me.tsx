@@ -18,9 +18,9 @@ import {
 import { ShimmeringLoader } from 'ui-patterns/ShimmeringLoader'
 
 import { AccountConnections } from '@/components/interfaces/Account/Preferences/AccountConnections'
-import { AccountPassword } from '@/components/interfaces/Account/Preferences/AccountPassword'
 import { AccountDeletion } from '@/components/interfaces/Account/Preferences/AccountDeletion'
 import { AccountIdentities } from '@/components/interfaces/Account/Preferences/AccountIdentities'
+import { AccountPassword } from '@/components/interfaces/Account/Preferences/AccountPassword'
 import { AnalyticsSettings } from '@/components/interfaces/Account/Preferences/AnalyticsSettings'
 import { DashboardProfileInformation } from '@/components/interfaces/Account/Preferences/DashboardProfileInformation'
 import { DashboardSettings } from '@/components/interfaces/Account/Preferences/DashboardSettings'

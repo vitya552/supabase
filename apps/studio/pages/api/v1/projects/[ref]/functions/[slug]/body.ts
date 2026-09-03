@@ -1,7 +1,6 @@
 import { createReadStream } from 'node:fs'
 import { pipeline } from 'node:stream/promises'
 import { type NextApiRequest, type NextApiResponse } from 'next'
-
 import { z } from 'zod'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
@@ -82,7 +81,6 @@ type MultipartFileEntry = {
 }
 
 async function writeMultipart(res: NextApiResponse, fileEntries: MultipartFileEntry[]) {
-
   const boundary = `----FormBoundary${uuidv4().replace(/-/g, '')}`
   const totalSize = fileEntries.reduce((sum, entry) => sum + entry.size, 0)
 

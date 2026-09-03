@@ -2,10 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import z from 'zod'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
-import {
-  fetchManagementApi,
-  IS_MANAGEMENT_API_ENABLED,
-} from '@/lib/api/self-hosted/management-api'
+import { fetchManagementApi, IS_MANAGEMENT_API_ENABLED } from '@/lib/api/self-hosted/management-api'
 
 const wrapper = (req: NextApiRequest, res: NextApiResponse) => apiWrapper(req, res, handler)
 

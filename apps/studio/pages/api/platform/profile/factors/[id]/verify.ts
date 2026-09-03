@@ -12,9 +12,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const id = Number(req.query.id)
 
   if (!IS_MANAGEMENT_API_ENABLED) {
-    return res
-      .status(405)
-      .json({ error: { message: 'MFA factors require the management API' } })
+    return res.status(405).json({ error: { message: 'MFA factors require the management API' } })
   }
   if (!Number.isInteger(id)) {
     return res.status(400).json({ error: { message: 'invalid factor id' } })

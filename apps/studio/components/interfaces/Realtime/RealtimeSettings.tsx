@@ -446,23 +446,65 @@ export const RealtimeSettings = () => {
                     />
                   </CardContent>
                   {IS_PLATFORM && (
-                  <CardContent>
-                    <FormField
-                      control={form.control}
-                      name="connection_pool"
-                      render={({ field }) => (
-                        <>
+                    <CardContent>
+                      <FormField
+                        control={form.control}
+                        name="connection_pool"
+                        render={({ field }) => (
+                          <>
+                            <FormItemLayout
+                              id="connection_pool"
+                              layout="flex-row-reverse"
+                              label="Database connection pool size"
+                              description="Realtime Authorization uses this database pool to check client access"
+                            >
+                              <FormControl>
+                                <InputGroup>
+                                  <FormInputGroupInput
+                                    {...field}
+                                    id="connection_pool"
+                                    type="number"
+                                    disabled={!canUpdateConfig}
+                                    value={field.value || ''}
+                                  />
+                                  <InputGroupAddon align="inline-end">
+                                    <InputGroupText>connections</InputGroupText>
+                                  </InputGroupAddon>
+                                </InputGroup>
+                              </FormControl>
+                            </FormItemLayout>
+                            {!!maxConn &&
+                              field.value &&
+                              field.value > maxConn.maxConnections * 0.5 && (
+                                <Admonition
+                                  showIcon={false}
+                                  type="warning"
+                                  title={`Pool size is greater than 50% of the max connections (${maxConn.maxConnections}) on your database`}
+                                  description="This may result in instability and unreliability with your database connections."
+                                />
+                              )}
+                          </>
+                        )}
+                      />
+                    </CardContent>
+                  )}
+                  {IS_PLATFORM && (
+                    <CardContent>
+                      <FormField
+                        control={form.control}
+                        name="postgres_changes_pool"
+                        render={({ field }) => (
                           <FormItemLayout
-                            id="connection_pool"
+                            id="postgres_changes_pool"
                             layout="flex-row-reverse"
-                            label="Database connection pool size"
-                            description="Realtime Authorization uses this database pool to check client access"
+                            label="Postgres Changes connection pool size"
+                            description="Postgres Changes uses this database pool to create subscriptions when clients subscribe"
                           >
                             <FormControl>
                               <InputGroup>
                                 <FormInputGroupInput
                                   {...field}
-                                  id="connection_pool"
+                                  id="postgres_changes_pool"
                                   type="number"
                                   disabled={!canUpdateConfig}
                                   value={field.value || ''}
@@ -473,51 +515,9 @@ export const RealtimeSettings = () => {
                               </InputGroup>
                             </FormControl>
                           </FormItemLayout>
-                          {!!maxConn &&
-                            field.value &&
-                            field.value > maxConn.maxConnections * 0.5 && (
-                              <Admonition
-                                showIcon={false}
-                                type="warning"
-                                title={`Pool size is greater than 50% of the max connections (${maxConn.maxConnections}) on your database`}
-                                description="This may result in instability and unreliability with your database connections."
-                              />
-                            )}
-                        </>
-                      )}
-                    />
-                  </CardContent>
-                  )}
-                  {IS_PLATFORM && (
-                  <CardContent>
-                    <FormField
-                      control={form.control}
-                      name="postgres_changes_pool"
-                      render={({ field }) => (
-                        <FormItemLayout
-                          id="postgres_changes_pool"
-                          layout="flex-row-reverse"
-                          label="Postgres Changes connection pool size"
-                          description="Postgres Changes uses this database pool to create subscriptions when clients subscribe"
-                        >
-                          <FormControl>
-                            <InputGroup>
-                              <FormInputGroupInput
-                                {...field}
-                                id="postgres_changes_pool"
-                                type="number"
-                                disabled={!canUpdateConfig}
-                                value={field.value || ''}
-                              />
-                              <InputGroupAddon align="inline-end">
-                                <InputGroupText>connections</InputGroupText>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </FormControl>
-                        </FormItemLayout>
-                      )}
-                    />
-                  </CardContent>
+                        )}
+                      />
+                    </CardContent>
                   )}
                   <CardContent>
                     <FormField

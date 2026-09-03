@@ -53,10 +53,7 @@ export async function proxyManagementApi(req: NextApiRequest, res: NextApiRespon
  * Server-side GET against the management API, for routes that merge its
  * response with locally derived fields.
  */
-export async function fetchManagementApi(
-  path: string,
-  req?: NextApiRequest
-): Promise<unknown> {
+export async function fetchManagementApi(path: string, req?: NextApiRequest): Promise<unknown> {
   if (!MANAGEMENT_API_URL || !MANAGEMENT_API_TOKEN) return null
 
   const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {

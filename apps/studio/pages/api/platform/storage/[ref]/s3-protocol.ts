@@ -18,7 +18,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           error: { message: 'S3 protocol information requires the management API' },
         })
       }
-      return proxyManagementApi(req, res, `/platform/storage/${encodeURIComponent(ref)}/s3-protocol`)
+      return proxyManagementApi(
+        req,
+        res,
+        `/platform/storage/${encodeURIComponent(ref)}/s3-protocol`
+      )
     default:
       res.setHeader('Allow', ['GET'])
       res.status(405).json({ data: null, error: { message: `Method ${method} Not Allowed` } })

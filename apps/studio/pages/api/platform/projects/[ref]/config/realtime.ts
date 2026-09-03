@@ -51,7 +51,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           error: { message: 'Updating realtime settings requires the management API' },
         })
       }
-      return proxyManagementApi(req, res, `/platform/projects/${encodeURIComponent(ref)}/config/realtime`)
+      return proxyManagementApi(
+        req,
+        res,
+        `/platform/projects/${encodeURIComponent(ref)}/config/realtime`
+      )
     default:
       res.setHeader('Allow', ['GET', 'PATCH'])
       res.status(405).json({ data: null, error: { message: `Method ${method} Not Allowed` } })

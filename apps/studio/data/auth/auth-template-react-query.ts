@@ -55,7 +55,10 @@ export const useAuthTemplateReactQuery = <TData = AuthTemplateReactData>(
     queryKey: authKeys.reactTemplate(projectRef, template),
     queryFn: ({ signal }) => getAuthTemplateReact({ projectRef, template }, signal),
     enabled:
-      enabled && !IS_PLATFORM && typeof projectRef !== 'undefined' && typeof template !== 'undefined',
+      enabled &&
+      !IS_PLATFORM &&
+      typeof projectRef !== 'undefined' &&
+      typeof template !== 'undefined',
     ...rest,
   })
 }

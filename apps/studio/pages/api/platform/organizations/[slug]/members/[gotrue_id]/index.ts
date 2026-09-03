@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { apiWrapper } from '@/lib/api/apiWrapper'
-import { proxyManagementApi, callManagementApi } from '@/lib/api/self-hosted/management-api'
+import { callManagementApi, proxyManagementApi } from '@/lib/api/self-hosted/management-api'
 import { roleFromRoleId } from '@/lib/api/self-hosted/team'
 
 const wrappedHandler = (req: NextApiRequest, res: NextApiResponse) => apiWrapper(req, res, handler)

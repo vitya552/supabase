@@ -124,7 +124,9 @@ export const TemplateEditor = ({ template, isReadOnly = false }: TemplateEditorP
   const isReactFormat = editorFormat === 'react'
 
   const previewHtml =
-    isReactFormat && !hasSavedReactTemplate ? (reactTemplate?.rendered_html ?? bodyValue) : bodyValue
+    isReactFormat && !hasSavedReactTemplate
+      ? (reactTemplate?.rendered_html ?? bodyValue)
+      : bodyValue
   const previewSrcDoc = useMemo(() => getPreviewSrcDoc(previewHtml), [previewHtml])
 
   const { mutate: validateSpam } = useValidateSpamMutation()
@@ -394,22 +396,22 @@ export const TemplateEditor = ({ template, isReadOnly = false }: TemplateEditorP
                       borderOverride="border-muted"
                     />
                   )}
-                <TwoOptionToggle
-                  width={60}
-                  options={['preview', 'source']}
-                  activeOption={activeView}
-                  onClickOption={(option) => {
-                    if (!canEdit && option === 'source') return
-                    setActiveView(option as 'source' | 'preview')
-                  }}
-                  borderOverride="border-muted"
-                  disabledOptions={!canEdit ? ['source'] : []}
-                  disabledOptionTooltip={
-                    !canUpdateConfig
-                      ? 'You need additional permissions to edit templates'
-                      : 'Set up custom SMTP to edit the source'
-                  }
-                />
+                  <TwoOptionToggle
+                    width={60}
+                    options={['preview', 'source']}
+                    activeOption={activeView}
+                    onClickOption={(option) => {
+                      if (!canEdit && option === 'source') return
+                      setActiveView(option as 'source' | 'preview')
+                    }}
+                    borderOverride="border-muted"
+                    disabledOptions={!canEdit ? ['source'] : []}
+                    disabledOptionTooltip={
+                      !canUpdateConfig
+                        ? 'You need additional permissions to edit templates'
+                        : 'Set up custom SMTP to edit the source'
+                    }
+                  />
                 </div>
               </div>
               {activeView === 'source' && isReactFormat && (

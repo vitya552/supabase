@@ -11,9 +11,9 @@ import { PageSection, PageSectionContent } from 'ui-patterns/PageSection'
 import { GenericSkeletonLoader } from 'ui-patterns/ShimmeringLoader'
 
 import { PasskeysSettingsForm } from '@/components/interfaces/Auth/Passkeys/PasskeysSettingsForm'
-import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import AuthLayout from '@/components/layouts/AuthLayout/AuthLayout'
 import { DefaultLayout } from '@/components/layouts/DefaultLayout'
+import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
 import type { NextPageWithLayout } from '@/types'
 
 const PasskeysPage: NextPageWithLayout = () => {

@@ -62,5 +62,9 @@ const handlePatch = async (req: NextApiRequest, res: NextApiResponse) => {
       .json({ error: { message: 'Updating PostgREST config requires the management API' } })
   }
   const ref = typeof req.query.ref === 'string' ? req.query.ref : 'default'
-  return proxyManagementApi(req, res, `/platform/projects/${encodeURIComponent(ref)}/config/postgrest`)
+  return proxyManagementApi(
+    req,
+    res,
+    `/platform/projects/${encodeURIComponent(ref)}/config/postgrest`
+  )
 }

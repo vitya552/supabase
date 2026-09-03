@@ -15,8 +15,8 @@ import {
   PROJECT_LIST_SORT_VALUES,
   type ProjectListSort,
 } from '@/components/interfaces/Home/ProjectList/ProjectListSort.utils'
-import { Shortcut } from '@/components/ui/Shortcut'
 import { ButtonTooltip } from '@/components/ui/ButtonTooltip'
+import { Shortcut } from '@/components/ui/Shortcut'
 import { useOrgProjectsInfiniteQuery } from '@/data/projects/org-projects-infinite-query'
 import { useIsFeatureEnabled } from '@/hooks/misc/useIsFeatureEnabled'
 import { useLocalStorageQuery } from '@/hooks/misc/useLocalStorage'

@@ -125,9 +125,7 @@ export function useCreateCommandsConfig() {
     }))
 
     const nonAvailableHooks: string[] = allHooks
-      .filter(
-        (h) => !isValidHook(h) && IS_PLATFORM && !entitledHookSet.includes(h.entitlementKey)
-      )
+      .filter((h) => !isValidHook(h) && IS_PLATFORM && !entitledHookSet.includes(h.entitlementKey))
       .map((h) => h.entitlementKey)
 
     return { nonAvailableHooks }

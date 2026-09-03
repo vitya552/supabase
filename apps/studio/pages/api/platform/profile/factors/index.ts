@@ -11,9 +11,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
 
   if (!IS_MANAGEMENT_API_ENABLED) {
-    return res
-      .status(405)
-      .json({ error: { message: 'MFA factors require the management API' } })
+    return res.status(405).json({ error: { message: 'MFA factors require the management API' } })
   }
 
   switch (method) {

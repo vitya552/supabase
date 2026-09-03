@@ -1,6 +1,6 @@
 import type { ProductMenuGroup } from '@/components/ui/ProductMenu/ProductMenu.types'
-import type { Project } from '@/data/projects/project-detail-query'
 import { useIsManagementApiEnabled } from '@/data/config/deployment-mode-query'
+import type { Project } from '@/data/projects/project-detail-query'
 import { IS_PLATFORM } from '@/lib/constants'
 import { SHORTCUT_IDS } from '@/state/shortcuts/registry'
 

@@ -9,8 +9,8 @@ import { FormItemLayout } from 'ui-patterns/form/FormItemLayout/FormItemLayout'
 import * as z from 'zod'
 
 import {
-  type DashboardFactorCreateResponse,
   useDashboardFactorCreateMutation,
+  type DashboardFactorCreateResponse,
 } from '@/data/profile/dashboard-factor-create-mutation'
 import { useDashboardFactorDeleteMutation } from '@/data/profile/dashboard-factor-delete-mutation'
 import { useDashboardFactorVerifyMutation } from '@/data/profile/dashboard-factor-verify-mutation'
@@ -121,7 +121,13 @@ export const AddDashboardFactorModal = ({ visible, onClose }: AddDashboardFactor
             provide the 6-digit code it shows to complete the enrollment.
           </p>
           <FormItemLayout isReactForm={false} label="Secret key for your authenticator app">
-            <PasswordInput copy disabled id="totp-secret" size="small" value={pendingFactor?.totp.secret ?? ''} />
+            <PasswordInput
+              copy
+              disabled
+              id="totp-secret"
+              size="small"
+              value={pendingFactor?.totp.secret ?? ''}
+            />
           </FormItemLayout>
           <Form {...codeForm}>
             <form className="flex flex-col gap-4" onSubmit={codeForm.handleSubmit(onSubmitCode)}>

@@ -2,6 +2,7 @@ import dayjs from 'dayjs'
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { Button, Card, CardContent } from 'ui'
+import ConfirmationModal from 'ui-patterns/Dialogs/ConfirmationModal'
 import {
   PageSection,
   PageSectionAside,
@@ -11,7 +12,6 @@ import {
   PageSectionSummary,
   PageSectionTitle,
 } from 'ui-patterns/PageSection'
-import ConfirmationModal from 'ui-patterns/Dialogs/ConfirmationModal'
 import { GenericSkeletonLoader } from 'ui-patterns/ShimmeringLoader'
 
 import { AddDashboardFactorModal } from './AddDashboardFactorModal'
@@ -101,7 +101,10 @@ export const DashboardTOTPFactors = () => {
           )}
         </PageSectionContent>
       </PageSection>
-      <AddDashboardFactorModal visible={isAddFactorOpen} onClose={() => setIsAddFactorOpen(false)} />
+      <AddDashboardFactorModal
+        visible={isAddFactorOpen}
+        onClose={() => setIsAddFactorOpen(false)}
+      />
       <ConfirmationModal
         visible={factorToBeDeleted !== null}
         title="Remove authenticator app"

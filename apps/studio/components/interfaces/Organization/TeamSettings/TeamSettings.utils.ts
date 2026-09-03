@@ -20,7 +20,10 @@ export const useGetRolesManagementPermissions = (
     permissions !== undefined && orgSlug !== undefined
   )
   const { profile } = useProfile()
-  const { data: members } = useOrganizationMembersQuery({ slug: orgSlug }, { enabled: !IS_PLATFORM })
+  const { data: members } = useOrganizationMembersQuery(
+    { slug: orgSlug },
+    { enabled: !IS_PLATFORM }
+  )
 
   const rolesAddable: Number[] = []
   const rolesRemovable: Number[] = []

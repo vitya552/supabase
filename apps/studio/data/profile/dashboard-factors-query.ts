@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 
+import { profileKeys } from './keys'
 import { handleError } from '@/data/fetchers'
 import { API_URL, IS_PLATFORM } from '@/lib/constants'
 import type { ResponseError, UseCustomQueryOptions } from '@/types'
-import { profileKeys } from './keys'
 
 export type DashboardFactor = {
   id: number

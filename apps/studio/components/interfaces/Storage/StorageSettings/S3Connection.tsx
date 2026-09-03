@@ -25,6 +25,7 @@ import {
   TableRow,
   WarningIcon,
 } from 'ui'
+import { Admonition } from 'ui-patterns/Admonition'
 import { Input } from 'ui-patterns/DataInputs/Input'
 import { FormItemLayout } from 'ui-patterns/form/FormItemLayout/FormItemLayout'
 import { PageContainer } from 'ui-patterns/PageContainer'
@@ -37,7 +38,6 @@ import {
   PageSectionSummary,
   PageSectionTitle,
 } from 'ui-patterns/PageSection'
-import { Admonition } from 'ui-patterns/Admonition'
 import { GenericSkeletonLoader } from 'ui-patterns/ShimmeringLoader'
 import * as z from 'zod'
 
@@ -219,8 +219,8 @@ export const S3Connection = () => {
                       <CardContent>
                         <p className="text-sm text-foreground-light">
                           The S3 protocol is configured through the storage service environment
-                          (S3_PROTOCOL_ACCESS_KEY_ID / S3_PROTOCOL_ACCESS_KEY_SECRET) in
-                          self-hosted deployments
+                          (S3_PROTOCOL_ACCESS_KEY_ID / S3_PROTOCOL_ACCESS_KEY_SECRET) in self-hosted
+                          deployments
                         </p>
                       </CardContent>
                     )}
@@ -234,30 +234,30 @@ export const S3Connection = () => {
                     )}
 
                     {IS_PLATFORM && (
-                    <CardFooter className="justify-end space-x-2">
-                      {form.formState.isDirty && (
+                      <CardFooter className="justify-end space-x-2">
+                        {form.formState.isDirty && (
+                          <Button
+                            variant="default"
+                            type="reset"
+                            onClick={() => form.reset()}
+                            disabled={
+                              !form.formState.isDirty || !canUpdateStorageSettings || isUpdating
+                            }
+                          >
+                            Cancel
+                          </Button>
+                        )}
                         <Button
-                          variant="default"
-                          type="reset"
-                          onClick={() => form.reset()}
+                          variant="primary"
+                          type="submit"
+                          loading={isUpdating}
                           disabled={
                             !form.formState.isDirty || !canUpdateStorageSettings || isUpdating
                           }
                         >
-                          Cancel
+                          Save
                         </Button>
-                      )}
-                      <Button
-                        variant="primary"
-                        type="submit"
-                        loading={isUpdating}
-                        disabled={
-                          !form.formState.isDirty || !canUpdateStorageSettings || isUpdating
-                        }
-                      >
-                        Save
-                      </Button>
-                    </CardFooter>
+                      </CardFooter>
                     )}
                   </Card>
                 ) : (

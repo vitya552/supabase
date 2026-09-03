@@ -48,7 +48,9 @@ export const JoinSelfHostedForm = () => {
     if (!response || !response.ok) {
       const body: unknown = response ? await response.json().catch(() => null) : null
       const message =
-        typeof body === 'object' && body !== null && 'message' in body &&
+        typeof body === 'object' &&
+        body !== null &&
+        'message' in body &&
         typeof body.message === 'string'
           ? body.message
           : 'Failed to create the account: could not reach the server'

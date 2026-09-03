@@ -38,9 +38,9 @@ const {
     setEvents: vi.fn(),
   })),
   mockUseIsManagementApiEnabled: vi.fn(() => false),
-  mockUseProfile: vi.fn(
-    (): { profile: { username: string } | undefined } => ({ profile: undefined })
-  ),
+  mockUseProfile: vi.fn((): { profile: { username: string } | undefined } => ({
+    profile: undefined,
+  })),
 }))
 
 vi.mock('next/router', () => ({
