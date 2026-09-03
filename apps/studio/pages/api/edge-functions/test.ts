@@ -1,7 +1,7 @@
 import { IS_PLATFORM } from 'common'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { isInternalGatewayUrl, isValidEdgeFunctionURL } from '@/lib/api/edgeFunctions'
+import { isValidEdgeFunctionURL } from '@/lib/api/edgeFunctions'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
@@ -36,49 +36,27 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       })
     }
 
-    // Remove any undefined or null values from custom headers
-    const sanitizedCustomHeaders = Object.entries(customHeaders || {}).reduce(
-      (acc, [key, value]) => {
-        if (value !== undefined && value !== null && value !== '') {
-          acc[key] = value as string
-        }
-        return acc
-      },
-      {} as Record<string, string>
-    )
-
-    // Only use custom headers and ensure Content-Type is set
-    const requestHeaders: Record<string, string> = {
-      'Content-Type': 'application/json',
-      ...sanitizedCustomHeaders,
-    }
-
-    // Use the test authorization header if provided
-    if (sanitizedCustomHeaders['x-test-authorization']) {
-      requestHeaders['Authorization'] = sanitizedCustomHeaders['x-test-authorization']
-      // Remove the x-test-authorization header as we've moved it to Authorization
-      delete requestHeaders['x-test-authorization']
-    }
-
-    // Self-hosted functions may validate the apikey header (e.g. the default
-    // template's withSupabase helper), so supply the deployment's key when the
-    // caller didn't set one explicitly. Restricted to the deployment's own
-    // gateway origin so the key can never be sent to another host.
-    const isInternalTarget = isInternalGatewayUrl(url, [
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_PUBLIC_URL,
+    // Forward the supplied headers as given, dropping empty values. Header names are case
+    // insensitive, so they are merged on their lowercased name: a supplied `content-type` replaces
+    // the default rather than sitting beside it and being comma joined by `fetch`.
+    const suppliedHeaders = new Map<string, { name: string; value: string }>([
+      ['content-type', { name: 'Content-Type', value: 'application/json' }],
     ])
-    if (!IS_PLATFORM && !requestHeaders['apikey'] && isInternalTarget) {
-      const apikey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_KEY
-      if (apikey) {
-        requestHeaders['apikey'] = apikey
-      }
-    }
+
+    Object.entries(customHeaders || {}).forEach(([key, value]) => {
+      const name = key.trim()
+      if (name.length === 0 || value === undefined || value === null || value === '') return
+      suppliedHeaders.set(name.toLowerCase(), { name, value: value as string })
+    })
+
+    const requestHeaders: Record<string, string> = Object.fromEntries(
+      [...suppliedHeaders.values()].map(({ name, value }) => [name, value])
+    )
 
     // Prepare the request body based on method and Content-Type
     let finalBody = undefined
     if (method !== 'GET' && method !== 'HEAD') {
-      if (requestHeaders['Content-Type'] === 'application/json') {
+      if (suppliedHeaders.get('content-type')?.value === 'application/json') {
         finalBody = typeof requestBody === 'string' ? requestBody : JSON.stringify(requestBody)
       } else {
         finalBody = requestBody
