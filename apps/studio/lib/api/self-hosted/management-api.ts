@@ -35,6 +35,7 @@ export async function proxyManagementApi(req: NextApiRequest, res: NextApiRespon
   const hasBody = req.method !== 'GET' && req.method !== 'HEAD'
   const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {
     method: req.method,
+    redirect: 'error',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`,
@@ -57,6 +58,7 @@ export async function fetchManagementApi(path: string, req?: NextApiRequest): Pr
   if (!MANAGEMENT_API_URL || !MANAGEMENT_API_TOKEN) return null
 
   const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {
+    redirect: 'error',
     headers: { Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`, ...sessionCookieHeader(req) },
   })
   if (!response.ok) return null
@@ -75,6 +77,7 @@ export async function callManagementApi(
 
   const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {
     method: init.method,
+    redirect: 'error',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${MANAGEMENT_API_TOKEN}`,
@@ -117,6 +120,7 @@ export async function proxyManagementApiRaw(
 
   const response = await fetch(`${MANAGEMENT_API_URL}${path}`, {
     method: req.method,
+    redirect: 'error',
     headers,
     body: Buffer.concat(chunks),
   })

@@ -180,6 +180,8 @@ import { Route as ProjectRefAdvisorsRulesRouteImport } from './routes/project/$r
 import { Route as ProjectRefAdvisorsPerformanceRouteImport } from './routes/project/$ref/advisors/performance'
 import { Route as ProjectRefAdvisorsHealthRouteImport } from './routes/project/$ref/advisors/health'
 import { Route as ApiPlatformTelemetryEventRouteImport } from './routes/api/platform/telemetry/event'
+import { Route as ApiPlatformProfilePasswordRouteImport } from './routes/api/platform/profile/password'
+import { Route as ApiPlatformProfileAuditRouteImport } from './routes/api/platform/profile/audit'
 import { Route as ApiPlatformIntegrationsSlugRouteImport } from './routes/api/platform/integrations/$slug'
 import { Route as ApiAiSqlTitleV2RouteImport } from './routes/api/ai/sql/title-v2'
 import { Route as ApiAiSqlPolicyRouteImport } from './routes/api/ai/sql/policy'
@@ -220,6 +222,8 @@ import { Route as ProjectRefDatabaseReplicationIndexRouteImport } from './routes
 import { Route as ProjectRefDatabasePublicationsIndexRouteImport } from './routes/project/$ref/database/publications/index'
 import { Route as ProjectRefAuthTemplatesIndexRouteImport } from './routes/project/$ref/auth/templates/index'
 import { Route as ApiPlatformProjectsRefIndexRouteImport } from './routes/api/platform/projects/$ref/index'
+import { Route as ApiPlatformProfileFactorsIndexRouteImport } from './routes/api/platform/profile/factors/index'
+import { Route as ApiPlatformOrganizationsSlugIndexRouteImport } from './routes/api/platform/organizations/$slug/index'
 import { Route as AppOrgSlugWebhooksIndexRouteImport } from './routes/_app/org/$slug/webhooks/index'
 import { Route as AppOrgSlugPrivateAppsIndexRouteImport } from './routes/_app/org/$slug/private-apps/index'
 import { Route as ProjectRefStorageFilesSettingsRouteImport } from './routes/project/$ref/storage/files/settings'
@@ -251,7 +255,9 @@ import { Route as ProjectRefAdvisorsRulesSecurityRouteImport } from './routes/pr
 import { Route as ProjectRefAdvisorsRulesPerformanceRouteImport } from './routes/project/$ref/advisors/rules/performance'
 import { Route as IntegrationsVercelSlugMarketplaceChooseProjectRouteImport } from './routes/integrations/vercel/$slug/marketplace/choose-project'
 import { Route as IntegrationsVercelSlugDeployButtonNewProjectRouteImport } from './routes/integrations/vercel/$slug/deploy-button/new-project'
+import { Route as ApiV1ProjectsRefSecretsRouteImport } from './routes/api/v1/projects/$ref/secrets'
 import { Route as ApiV1ProjectsRefApiKeysRouteImport } from './routes/api/v1/projects/$ref/api-keys'
+import { Route as ApiPlatformStorageRefS3ProtocolRouteImport } from './routes/api/platform/storage/$ref/s3-protocol'
 import { Route as ApiPlatformPropsOrgSlugRouteImport } from './routes/api/platform/props/org/$slug'
 import { Route as ApiPlatformProjectsRefSettingsRouteImport } from './routes/api/platform/projects/$ref/settings'
 import { Route as ApiPlatformProjectsRefRunLintsRouteImport } from './routes/api/platform/projects/$ref/run-lints'
@@ -267,6 +273,9 @@ import { Route as ApiPlatformPgMetaRefMaterializedViewsRouteImport } from './rou
 import { Route as ApiPlatformPgMetaRefForeignTablesRouteImport } from './routes/api/platform/pg-meta/$ref/foreign-tables'
 import { Route as ApiPlatformPgMetaRefExtensionsRouteImport } from './routes/api/platform/pg-meta/$ref/extensions'
 import { Route as ApiPlatformPgMetaRefColumnPrivilegesRouteImport } from './routes/api/platform/pg-meta/$ref/column-privileges'
+import { Route as ApiPlatformOrganizationsSlugRolesRouteImport } from './routes/api/platform/organizations/$slug/roles'
+import { Route as ApiPlatformOrganizationsSlugProjectsRouteImport } from './routes/api/platform/organizations/$slug/projects'
+import { Route as ApiPlatformOrganizationsSlugAuditRouteImport } from './routes/api/platform/organizations/$slug/audit'
 import { Route as ApiPlatformIntegrationsGithubRepositoriesRouteImport } from './routes/api/platform/integrations/github/repositories'
 import { Route as ApiPlatformIntegrationsGithubConnectionsRouteImport } from './routes/api/platform/integrations/github/connections'
 import { Route as ApiPlatformIntegrationsGithubAuthorizationRouteImport } from './routes/api/platform/integrations/github/authorization'
@@ -284,8 +293,11 @@ import { Route as ApiPlatformStorageRefBucketsIndexRouteImport } from './routes/
 import { Route as ApiPlatformPropsProjectRefIndexRouteImport } from './routes/api/platform/props/project/$ref/index'
 import { Route as ApiPlatformProjectsRefContentIndexRouteImport } from './routes/api/platform/projects/$ref/content/index'
 import { Route as ApiPlatformProjectsRefConfigIndexRouteImport } from './routes/api/platform/projects/$ref/config/index'
+import { Route as ApiPlatformProfileFactorsIdIndexRouteImport } from './routes/api/platform/profile/factors/$id/index'
 import { Route as ApiPlatformPgMetaRefQueryIndexRouteImport } from './routes/api/platform/pg-meta/$ref/query/index'
+import { Route as ApiPlatformOrganizationsSlugMembersIndexRouteImport } from './routes/api/platform/organizations/$slug/members/index'
 import { Route as ApiPlatformAuthRefUsersIndexRouteImport } from './routes/api/platform/auth/$ref/users/index'
+import { Route as ApiPlatformAuthRefConfigIndexRouteImport } from './routes/api/platform/auth/$ref/config/index'
 import { Route as ProjectRefStorageVectorsBucketsBucketIdRouteImport } from './routes/project/$ref/storage/vectors/buckets/$bucketId'
 import { Route as ProjectRefStorageFilesBucketsBucketIdRouteImport } from './routes/project/$ref/storage/files/buckets/$bucketId'
 import { Route as ProjectRefStorageAnalyticsBucketsBucketIdRouteImport } from './routes/project/$ref/storage/analytics/buckets/$bucketId'
@@ -296,30 +308,45 @@ import { Route as ApiV1ProjectsRefDatabaseMigrationsRouteImport } from './routes
 import { Route as ApiV1ProjectsRefApiKeysIdRouteImport } from './routes/api/v1/projects/$ref/api-keys/$id'
 import { Route as ApiPlatformPropsProjectRefApiRouteImport } from './routes/api/platform/props/project/$ref/api'
 import { Route as ApiPlatformProjectsRefContentCountRouteImport } from './routes/api/platform/projects/$ref/content/count'
+import { Route as ApiPlatformProjectsRefConfigStorageRouteImport } from './routes/api/platform/projects/$ref/config/storage'
+import { Route as ApiPlatformProjectsRefConfigRealtimeRouteImport } from './routes/api/platform/projects/$ref/config/realtime'
 import { Route as ApiPlatformProjectsRefConfigPostgrestRouteImport } from './routes/api/platform/projects/$ref/config/postgrest'
 import { Route as ApiPlatformProjectsRefBillingAddonsRouteImport } from './routes/api/platform/projects/$ref/billing/addons'
 import { Route as ApiPlatformProjectsRefApiRestRouteImport } from './routes/api/platform/projects/$ref/api/rest'
 import { Route as ApiPlatformProjectsRefApiGraphqlRouteImport } from './routes/api/platform/projects/$ref/api/graphql'
 import { Route as ApiPlatformProjectsRefApiKeysTemporaryRouteImport } from './routes/api/platform/projects/$ref/api-keys/temporary'
 import { Route as ApiPlatformProjectsRefAnalyticsLogDrainsRouteImport } from './routes/api/platform/projects/$ref/analytics/log-drains'
+import { Route as ApiPlatformProfileFactorsIdVerifyRouteImport } from './routes/api/platform/profile/factors/$id/verify'
 import { Route as ApiPlatformOrganizationsSlugBillingSubscriptionRouteImport } from './routes/api/platform/organizations/$slug/billing/subscription'
+import { Route as ApiPlatformAuthRefValidateSpamRouteImport } from './routes/api/platform/auth/$ref/validate/spam'
+import { Route as ApiPlatformAuthRefConfigHooksRouteImport } from './routes/api/platform/auth/$ref/config/hooks'
 import { Route as ProjectRefIntegrationsIdPageIdChildIdIndexRouteImport } from './routes/project/$ref/integrations/$id/$pageId/$childId/index'
 import { Route as ApiV1ProjectsRefFunctionsSlugIndexRouteImport } from './routes/api/v1/projects/$ref/functions/$slug/index'
 import { Route as ApiPlatformStorageRefVectorBucketsIdIndexRouteImport } from './routes/api/platform/storage/$ref/vector-buckets/$id/index'
 import { Route as ApiPlatformStorageRefBucketsIdIndexRouteImport } from './routes/api/platform/storage/$ref/buckets/$id/index'
 import { Route as ApiPlatformProjectsRefContentFoldersIndexRouteImport } from './routes/api/platform/projects/$ref/content/folders/index'
+import { Route as ApiPlatformOrganizationsSlugMembersInvitationsIndexRouteImport } from './routes/api/platform/organizations/$slug/members/invitations/index'
+import { Route as ApiPlatformOrganizationsSlugMembersGotrue_idIndexRouteImport } from './routes/api/platform/organizations/$slug/members/$gotrue_id/index'
 import { Route as ApiPlatformAuthRefUsersIdIndexRouteImport } from './routes/api/platform/auth/$ref/users/$id/index'
 import { Route as ApiV1ProjectsRefFunctionsSlugBodyRouteImport } from './routes/api/v1/projects/$ref/functions/$slug/body'
+import { Route as ApiV1ProjectsRefConfigDatabasePostgresRouteImport } from './routes/api/v1/projects/$ref/config/database/postgres'
 import { Route as ApiPlatformStorageRefBucketsIdEmptyRouteImport } from './routes/api/platform/storage/$ref/buckets/$id/empty'
 import { Route as ApiPlatformProjectsRefContentItemIdRouteImport } from './routes/api/platform/projects/$ref/content/item/$id'
 import { Route as ApiPlatformProjectsRefContentFoldersIdRouteImport } from './routes/api/platform/projects/$ref/content/folders/$id'
 import { Route as ApiPlatformProjectsRefConfigSecretsUpdateStatusRouteImport } from './routes/api/platform/projects/$ref/config/secrets/update-status'
 import { Route as ApiPlatformProjectsRefAnalyticsLogDrainsUuidRouteImport } from './routes/api/platform/projects/$ref/analytics/log-drains/$uuid'
 import { Route as ApiPlatformProjectsRefAnalyticsEndpointsNameRouteImport } from './routes/api/platform/projects/$ref/analytics/endpoints/$name'
+import { Route as ApiPlatformOrganizationsSlugMembersMfaEnforcementRouteImport } from './routes/api/platform/organizations/$slug/members/mfa/enforcement'
+import { Route as ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRouteImport } from './routes/api/platform/organizations/$slug/members/invitations/smtp-status'
+import { Route as ApiPlatformOrganizationsSlugMembersInvitationsIdRouteImport } from './routes/api/platform/organizations/$slug/members/invitations/$id'
 import { Route as ApiPlatformAuthRefUsersIdFactorsRouteImport } from './routes/api/platform/auth/$ref/users/$id/factors'
+import { Route as ApiPlatformAuthRefTemplatesTemplateResetRouteImport } from './routes/api/platform/auth/$ref/templates/$template/reset'
+import { Route as ApiPlatformAuthRefTemplatesTemplateReactRouteImport } from './routes/api/platform/auth/$ref/templates/$template/react'
+import { Route as ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRouteImport } from './routes/api/v1/projects/$ref/config/auth/third-party-auth/index'
 import { Route as ApiV1ProjectsRefConfigAuthSigningKeysIndexRouteImport } from './routes/api/v1/projects/$ref/config/auth/signing-keys/index'
 import { Route as ApiPlatformStorageRefVectorBucketsIdIndexesIndexRouteImport } from './routes/api/platform/storage/$ref/vector-buckets/$id/indexes/index'
 import { Route as ApiPlatformStorageRefBucketsIdObjectsIndexRouteImport } from './routes/api/platform/storage/$ref/buckets/$id/objects/index'
+import { Route as ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRouteImport } from './routes/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId'
 import { Route as ApiV1ProjectsRefConfigAuthSigningKeysLegacyRouteImport } from './routes/api/v1/projects/$ref/config/auth/signing-keys/legacy'
 import { Route as ApiPlatformStorageRefVectorBucketsIdIndexesIndexNameRouteImport } from './routes/api/platform/storage/$ref/vector-buckets/$id/indexes/$indexName'
 import { Route as ApiPlatformStorageRefBucketsIdObjectsSignMultiRouteImport } from './routes/api/platform/storage/$ref/buckets/$id/objects/sign-multi'
@@ -328,6 +355,7 @@ import { Route as ApiPlatformStorageRefBucketsIdObjectsPublicUrlRouteImport } fr
 import { Route as ApiPlatformStorageRefBucketsIdObjectsMoveRouteImport } from './routes/api/platform/storage/$ref/buckets/$id/objects/move'
 import { Route as ApiPlatformStorageRefBucketsIdObjectsListRouteImport } from './routes/api/platform/storage/$ref/buckets/$id/objects/list'
 import { Route as ApiPlatformStorageRefBucketsIdObjectsDownloadRouteImport } from './routes/api/platform/storage/$ref/buckets/$id/objects/download'
+import { Route as ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRouteImport } from './routes/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id'
 
 const VerifyEmailRoute = VerifyEmailRouteImport.update({
   id: '/verify-email',
@@ -1251,6 +1279,17 @@ const ApiPlatformTelemetryEventRoute =
     path: '/api/platform/telemetry/event',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPlatformProfilePasswordRoute =
+  ApiPlatformProfilePasswordRouteImport.update({
+    id: '/api/platform/profile/password',
+    path: '/api/platform/profile/password',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformProfileAuditRoute = ApiPlatformProfileAuditRouteImport.update({
+  id: '/api/platform/profile/audit',
+  path: '/api/platform/profile/audit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPlatformIntegrationsSlugRoute =
   ApiPlatformIntegrationsSlugRouteImport.update({
     id: '/api/platform/integrations/$slug',
@@ -1469,6 +1508,18 @@ const ApiPlatformProjectsRefIndexRoute =
     path: '/api/platform/projects/$ref/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPlatformProfileFactorsIndexRoute =
+  ApiPlatformProfileFactorsIndexRouteImport.update({
+    id: '/api/platform/profile/factors/',
+    path: '/api/platform/profile/factors/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformOrganizationsSlugIndexRoute =
+  ApiPlatformOrganizationsSlugIndexRouteImport.update({
+    id: '/api/platform/organizations/$slug/',
+    path: '/api/platform/organizations/$slug/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AppOrgSlugWebhooksIndexRoute = AppOrgSlugWebhooksIndexRouteImport.update({
   id: '/$slug/webhooks/',
   path: '/$slug/webhooks/',
@@ -1654,11 +1705,22 @@ const IntegrationsVercelSlugDeployButtonNewProjectRoute =
     path: '/$slug/deploy-button/new-project',
     getParentRoute: () => IntegrationsVercelRoute,
   } as any)
+const ApiV1ProjectsRefSecretsRoute = ApiV1ProjectsRefSecretsRouteImport.update({
+  id: '/api/v1/projects/$ref/secrets',
+  path: '/api/v1/projects/$ref/secrets',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiV1ProjectsRefApiKeysRoute = ApiV1ProjectsRefApiKeysRouteImport.update({
   id: '/api/v1/projects/$ref/api-keys',
   path: '/api/v1/projects/$ref/api-keys',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPlatformStorageRefS3ProtocolRoute =
+  ApiPlatformStorageRefS3ProtocolRouteImport.update({
+    id: '/api/platform/storage/$ref/s3-protocol',
+    path: '/api/platform/storage/$ref/s3-protocol',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPlatformPropsOrgSlugRoute = ApiPlatformPropsOrgSlugRouteImport.update({
   id: '/api/platform/props/org/$slug',
   path: '/api/platform/props/org/$slug',
@@ -1746,6 +1808,24 @@ const ApiPlatformPgMetaRefColumnPrivilegesRoute =
   ApiPlatformPgMetaRefColumnPrivilegesRouteImport.update({
     id: '/api/platform/pg-meta/$ref/column-privileges',
     path: '/api/platform/pg-meta/$ref/column-privileges',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformOrganizationsSlugRolesRoute =
+  ApiPlatformOrganizationsSlugRolesRouteImport.update({
+    id: '/api/platform/organizations/$slug/roles',
+    path: '/api/platform/organizations/$slug/roles',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformOrganizationsSlugProjectsRoute =
+  ApiPlatformOrganizationsSlugProjectsRouteImport.update({
+    id: '/api/platform/organizations/$slug/projects',
+    path: '/api/platform/organizations/$slug/projects',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformOrganizationsSlugAuditRoute =
+  ApiPlatformOrganizationsSlugAuditRouteImport.update({
+    id: '/api/platform/organizations/$slug/audit',
+    path: '/api/platform/organizations/$slug/audit',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPlatformIntegrationsGithubRepositoriesRoute =
@@ -1849,16 +1929,34 @@ const ApiPlatformProjectsRefConfigIndexRoute =
     path: '/api/platform/projects/$ref/config/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPlatformProfileFactorsIdIndexRoute =
+  ApiPlatformProfileFactorsIdIndexRouteImport.update({
+    id: '/api/platform/profile/factors/$id/',
+    path: '/api/platform/profile/factors/$id/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPlatformPgMetaRefQueryIndexRoute =
   ApiPlatformPgMetaRefQueryIndexRouteImport.update({
     id: '/api/platform/pg-meta/$ref/query/',
     path: '/api/platform/pg-meta/$ref/query/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPlatformOrganizationsSlugMembersIndexRoute =
+  ApiPlatformOrganizationsSlugMembersIndexRouteImport.update({
+    id: '/api/platform/organizations/$slug/members/',
+    path: '/api/platform/organizations/$slug/members/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPlatformAuthRefUsersIndexRoute =
   ApiPlatformAuthRefUsersIndexRouteImport.update({
     id: '/api/platform/auth/$ref/users/',
     path: '/api/platform/auth/$ref/users/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformAuthRefConfigIndexRoute =
+  ApiPlatformAuthRefConfigIndexRouteImport.update({
+    id: '/api/platform/auth/$ref/config/',
+    path: '/api/platform/auth/$ref/config/',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ProjectRefStorageVectorsBucketsBucketIdRoute =
@@ -1921,6 +2019,18 @@ const ApiPlatformProjectsRefContentCountRoute =
     path: '/api/platform/projects/$ref/content/count',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPlatformProjectsRefConfigStorageRoute =
+  ApiPlatformProjectsRefConfigStorageRouteImport.update({
+    id: '/api/platform/projects/$ref/config/storage',
+    path: '/api/platform/projects/$ref/config/storage',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformProjectsRefConfigRealtimeRoute =
+  ApiPlatformProjectsRefConfigRealtimeRouteImport.update({
+    id: '/api/platform/projects/$ref/config/realtime',
+    path: '/api/platform/projects/$ref/config/realtime',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPlatformProjectsRefConfigPostgrestRoute =
   ApiPlatformProjectsRefConfigPostgrestRouteImport.update({
     id: '/api/platform/projects/$ref/config/postgrest',
@@ -1957,10 +2067,28 @@ const ApiPlatformProjectsRefAnalyticsLogDrainsRoute =
     path: '/api/platform/projects/$ref/analytics/log-drains',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPlatformProfileFactorsIdVerifyRoute =
+  ApiPlatformProfileFactorsIdVerifyRouteImport.update({
+    id: '/api/platform/profile/factors/$id/verify',
+    path: '/api/platform/profile/factors/$id/verify',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPlatformOrganizationsSlugBillingSubscriptionRoute =
   ApiPlatformOrganizationsSlugBillingSubscriptionRouteImport.update({
     id: '/api/platform/organizations/$slug/billing/subscription',
     path: '/api/platform/organizations/$slug/billing/subscription',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformAuthRefValidateSpamRoute =
+  ApiPlatformAuthRefValidateSpamRouteImport.update({
+    id: '/api/platform/auth/$ref/validate/spam',
+    path: '/api/platform/auth/$ref/validate/spam',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformAuthRefConfigHooksRoute =
+  ApiPlatformAuthRefConfigHooksRouteImport.update({
+    id: '/api/platform/auth/$ref/config/hooks',
+    path: '/api/platform/auth/$ref/config/hooks',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ProjectRefIntegrationsIdPageIdChildIdIndexRoute =
@@ -1993,6 +2121,18 @@ const ApiPlatformProjectsRefContentFoldersIndexRoute =
     path: '/api/platform/projects/$ref/content/folders/',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPlatformOrganizationsSlugMembersInvitationsIndexRoute =
+  ApiPlatformOrganizationsSlugMembersInvitationsIndexRouteImport.update({
+    id: '/api/platform/organizations/$slug/members/invitations/',
+    path: '/api/platform/organizations/$slug/members/invitations/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformOrganizationsSlugMembersGotrue_idIndexRoute =
+  ApiPlatformOrganizationsSlugMembersGotrue_idIndexRouteImport.update({
+    id: '/api/platform/organizations/$slug/members/$gotrue_id/',
+    path: '/api/platform/organizations/$slug/members/$gotrue_id/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPlatformAuthRefUsersIdIndexRoute =
   ApiPlatformAuthRefUsersIdIndexRouteImport.update({
     id: '/api/platform/auth/$ref/users/$id/',
@@ -2003,6 +2143,12 @@ const ApiV1ProjectsRefFunctionsSlugBodyRoute =
   ApiV1ProjectsRefFunctionsSlugBodyRouteImport.update({
     id: '/api/v1/projects/$ref/functions/$slug/body',
     path: '/api/v1/projects/$ref/functions/$slug/body',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiV1ProjectsRefConfigDatabasePostgresRoute =
+  ApiV1ProjectsRefConfigDatabasePostgresRouteImport.update({
+    id: '/api/v1/projects/$ref/config/database/postgres',
+    path: '/api/v1/projects/$ref/config/database/postgres',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPlatformStorageRefBucketsIdEmptyRoute =
@@ -2041,10 +2187,46 @@ const ApiPlatformProjectsRefAnalyticsEndpointsNameRoute =
     path: '/api/platform/projects/$ref/analytics/endpoints/$name',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPlatformOrganizationsSlugMembersMfaEnforcementRoute =
+  ApiPlatformOrganizationsSlugMembersMfaEnforcementRouteImport.update({
+    id: '/api/platform/organizations/$slug/members/mfa/enforcement',
+    path: '/api/platform/organizations/$slug/members/mfa/enforcement',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRoute =
+  ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRouteImport.update({
+    id: '/api/platform/organizations/$slug/members/invitations/smtp-status',
+    path: '/api/platform/organizations/$slug/members/invitations/smtp-status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformOrganizationsSlugMembersInvitationsIdRoute =
+  ApiPlatformOrganizationsSlugMembersInvitationsIdRouteImport.update({
+    id: '/api/platform/organizations/$slug/members/invitations/$id',
+    path: '/api/platform/organizations/$slug/members/invitations/$id',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPlatformAuthRefUsersIdFactorsRoute =
   ApiPlatformAuthRefUsersIdFactorsRouteImport.update({
     id: '/api/platform/auth/$ref/users/$id/factors',
     path: '/api/platform/auth/$ref/users/$id/factors',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformAuthRefTemplatesTemplateResetRoute =
+  ApiPlatformAuthRefTemplatesTemplateResetRouteImport.update({
+    id: '/api/platform/auth/$ref/templates/$template/reset',
+    path: '/api/platform/auth/$ref/templates/$template/reset',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformAuthRefTemplatesTemplateReactRoute =
+  ApiPlatformAuthRefTemplatesTemplateReactRouteImport.update({
+    id: '/api/platform/auth/$ref/templates/$template/react',
+    path: '/api/platform/auth/$ref/templates/$template/react',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRoute =
+  ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRouteImport.update({
+    id: '/api/v1/projects/$ref/config/auth/third-party-auth/',
+    path: '/api/v1/projects/$ref/config/auth/third-party-auth/',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiV1ProjectsRefConfigAuthSigningKeysIndexRoute =
@@ -2063,6 +2245,12 @@ const ApiPlatformStorageRefBucketsIdObjectsIndexRoute =
   ApiPlatformStorageRefBucketsIdObjectsIndexRouteImport.update({
     id: '/api/platform/storage/$ref/buckets/$id/objects/',
     path: '/api/platform/storage/$ref/buckets/$id/objects/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRoute =
+  ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRouteImport.update({
+    id: '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId',
+    path: '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiV1ProjectsRefConfigAuthSigningKeysLegacyRoute =
@@ -2111,6 +2299,12 @@ const ApiPlatformStorageRefBucketsIdObjectsDownloadRoute =
   ApiPlatformStorageRefBucketsIdObjectsDownloadRouteImport.update({
     id: '/api/platform/storage/$ref/buckets/$id/objects/download',
     path: '/api/platform/storage/$ref/buckets/$id/objects/download',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRoute =
+  ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRouteImport.update({
+    id: '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id',
+    path: '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id',
     getParentRoute: () => rootRouteImport,
   } as any)
 
@@ -2213,6 +2407,8 @@ export interface FileRoutesByFullPath {
   '/api/ai/sql/policy': typeof ApiAiSqlPolicyRoute
   '/api/ai/sql/title-v2': typeof ApiAiSqlTitleV2Route
   '/api/platform/integrations/$slug': typeof ApiPlatformIntegrationsSlugRoute
+  '/api/platform/profile/audit': typeof ApiPlatformProfileAuditRoute
+  '/api/platform/profile/password': typeof ApiPlatformProfilePasswordRoute
   '/api/platform/telemetry/event': typeof ApiPlatformTelemetryEventRoute
   '/project/$ref/advisors/health': typeof ProjectRefAdvisorsHealthRoute
   '/project/$ref/advisors/performance': typeof ProjectRefAdvisorsPerformanceRoute
@@ -2318,6 +2514,9 @@ export interface FileRoutesByFullPath {
   '/api/platform/integrations/github/authorization': typeof ApiPlatformIntegrationsGithubAuthorizationRoute
   '/api/platform/integrations/github/connections': typeof ApiPlatformIntegrationsGithubConnectionsRoute
   '/api/platform/integrations/github/repositories': typeof ApiPlatformIntegrationsGithubRepositoriesRoute
+  '/api/platform/organizations/$slug/audit': typeof ApiPlatformOrganizationsSlugAuditRoute
+  '/api/platform/organizations/$slug/projects': typeof ApiPlatformOrganizationsSlugProjectsRoute
+  '/api/platform/organizations/$slug/roles': typeof ApiPlatformOrganizationsSlugRolesRoute
   '/api/platform/pg-meta/$ref/column-privileges': typeof ApiPlatformPgMetaRefColumnPrivilegesRoute
   '/api/platform/pg-meta/$ref/extensions': typeof ApiPlatformPgMetaRefExtensionsRoute
   '/api/platform/pg-meta/$ref/foreign-tables': typeof ApiPlatformPgMetaRefForeignTablesRoute
@@ -2333,7 +2532,9 @@ export interface FileRoutesByFullPath {
   '/api/platform/projects/$ref/run-lints': typeof ApiPlatformProjectsRefRunLintsRoute
   '/api/platform/projects/$ref/settings': typeof ApiPlatformProjectsRefSettingsRoute
   '/api/platform/props/org/$slug': typeof ApiPlatformPropsOrgSlugRoute
+  '/api/platform/storage/$ref/s3-protocol': typeof ApiPlatformStorageRefS3ProtocolRoute
   '/api/v1/projects/$ref/api-keys': typeof ApiV1ProjectsRefApiKeysRouteWithChildren
+  '/api/v1/projects/$ref/secrets': typeof ApiV1ProjectsRefSecretsRoute
   '/integrations/vercel/$slug/deploy-button/new-project': typeof IntegrationsVercelSlugDeployButtonNewProjectRoute
   '/integrations/vercel/$slug/marketplace/choose-project': typeof IntegrationsVercelSlugMarketplaceChooseProjectRoute
   '/project/$ref/advisors/rules/performance': typeof ProjectRefAdvisorsRulesPerformanceRoute
@@ -2365,6 +2566,8 @@ export interface FileRoutesByFullPath {
   '/project/$ref/storage/files/settings': typeof ProjectRefStorageFilesSettingsRoute
   '/org/$slug/private-apps/': typeof AppOrgSlugPrivateAppsIndexRoute
   '/org/$slug/webhooks/': typeof AppOrgSlugWebhooksIndexRoute
+  '/api/platform/organizations/$slug/': typeof ApiPlatformOrganizationsSlugIndexRoute
+  '/api/platform/profile/factors/': typeof ApiPlatformProfileFactorsIndexRoute
   '/api/platform/projects/$ref/': typeof ApiPlatformProjectsRefIndexRoute
   '/project/$ref/auth/templates/': typeof ProjectRefAuthTemplatesIndexRoute
   '/project/$ref/database/publications/': typeof ProjectRefDatabasePublicationsIndexRoute
@@ -2381,13 +2584,18 @@ export interface FileRoutesByFullPath {
   '/project/$ref/storage/analytics/': typeof ProjectRefStorageAnalyticsIndexRoute
   '/project/$ref/storage/files/': typeof ProjectRefStorageFilesIndexRoute
   '/project/$ref/storage/vectors/': typeof ProjectRefStorageVectorsIndexRoute
+  '/api/platform/auth/$ref/config/hooks': typeof ApiPlatformAuthRefConfigHooksRoute
+  '/api/platform/auth/$ref/validate/spam': typeof ApiPlatformAuthRefValidateSpamRoute
   '/api/platform/organizations/$slug/billing/subscription': typeof ApiPlatformOrganizationsSlugBillingSubscriptionRoute
+  '/api/platform/profile/factors/$id/verify': typeof ApiPlatformProfileFactorsIdVerifyRoute
   '/api/platform/projects/$ref/analytics/log-drains': typeof ApiPlatformProjectsRefAnalyticsLogDrainsRouteWithChildren
   '/api/platform/projects/$ref/api-keys/temporary': typeof ApiPlatformProjectsRefApiKeysTemporaryRoute
   '/api/platform/projects/$ref/api/graphql': typeof ApiPlatformProjectsRefApiGraphqlRoute
   '/api/platform/projects/$ref/api/rest': typeof ApiPlatformProjectsRefApiRestRoute
   '/api/platform/projects/$ref/billing/addons': typeof ApiPlatformProjectsRefBillingAddonsRoute
   '/api/platform/projects/$ref/config/postgrest': typeof ApiPlatformProjectsRefConfigPostgrestRoute
+  '/api/platform/projects/$ref/config/realtime': typeof ApiPlatformProjectsRefConfigRealtimeRoute
+  '/api/platform/projects/$ref/config/storage': typeof ApiPlatformProjectsRefConfigStorageRoute
   '/api/platform/projects/$ref/content/count': typeof ApiPlatformProjectsRefContentCountRoute
   '/api/platform/props/project/$ref/api': typeof ApiPlatformPropsProjectRefApiRoute
   '/api/v1/projects/$ref/api-keys/$id': typeof ApiV1ProjectsRefApiKeysIdRoute
@@ -2398,8 +2606,11 @@ export interface FileRoutesByFullPath {
   '/project/$ref/storage/analytics/buckets/$bucketId': typeof ProjectRefStorageAnalyticsBucketsBucketIdRoute
   '/project/$ref/storage/files/buckets/$bucketId': typeof ProjectRefStorageFilesBucketsBucketIdRoute
   '/project/$ref/storage/vectors/buckets/$bucketId': typeof ProjectRefStorageVectorsBucketsBucketIdRoute
+  '/api/platform/auth/$ref/config/': typeof ApiPlatformAuthRefConfigIndexRoute
   '/api/platform/auth/$ref/users/': typeof ApiPlatformAuthRefUsersIndexRoute
+  '/api/platform/organizations/$slug/members/': typeof ApiPlatformOrganizationsSlugMembersIndexRoute
   '/api/platform/pg-meta/$ref/query/': typeof ApiPlatformPgMetaRefQueryIndexRoute
+  '/api/platform/profile/factors/$id/': typeof ApiPlatformProfileFactorsIdIndexRoute
   '/api/platform/projects/$ref/config/': typeof ApiPlatformProjectsRefConfigIndexRoute
   '/api/platform/projects/$ref/content/': typeof ApiPlatformProjectsRefContentIndexRoute
   '/api/platform/props/project/$ref/': typeof ApiPlatformPropsProjectRefIndexRoute
@@ -2407,20 +2618,29 @@ export interface FileRoutesByFullPath {
   '/api/platform/storage/$ref/vector-buckets/': typeof ApiPlatformStorageRefVectorBucketsIndexRoute
   '/api/v1/projects/$ref/functions/': typeof ApiV1ProjectsRefFunctionsIndexRoute
   '/project/$ref/integrations/$id/$pageId/': typeof ProjectRefIntegrationsIdPageIdIndexRoute
+  '/api/platform/auth/$ref/templates/$template/react': typeof ApiPlatformAuthRefTemplatesTemplateReactRoute
+  '/api/platform/auth/$ref/templates/$template/reset': typeof ApiPlatformAuthRefTemplatesTemplateResetRoute
   '/api/platform/auth/$ref/users/$id/factors': typeof ApiPlatformAuthRefUsersIdFactorsRoute
+  '/api/platform/organizations/$slug/members/invitations/$id': typeof ApiPlatformOrganizationsSlugMembersInvitationsIdRoute
+  '/api/platform/organizations/$slug/members/invitations/smtp-status': typeof ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRoute
+  '/api/platform/organizations/$slug/members/mfa/enforcement': typeof ApiPlatformOrganizationsSlugMembersMfaEnforcementRoute
   '/api/platform/projects/$ref/analytics/endpoints/$name': typeof ApiPlatformProjectsRefAnalyticsEndpointsNameRoute
   '/api/platform/projects/$ref/analytics/log-drains/$uuid': typeof ApiPlatformProjectsRefAnalyticsLogDrainsUuidRoute
   '/api/platform/projects/$ref/config/secrets/update-status': typeof ApiPlatformProjectsRefConfigSecretsUpdateStatusRoute
   '/api/platform/projects/$ref/content/folders/$id': typeof ApiPlatformProjectsRefContentFoldersIdRoute
   '/api/platform/projects/$ref/content/item/$id': typeof ApiPlatformProjectsRefContentItemIdRoute
   '/api/platform/storage/$ref/buckets/$id/empty': typeof ApiPlatformStorageRefBucketsIdEmptyRoute
+  '/api/v1/projects/$ref/config/database/postgres': typeof ApiV1ProjectsRefConfigDatabasePostgresRoute
   '/api/v1/projects/$ref/functions/$slug/body': typeof ApiV1ProjectsRefFunctionsSlugBodyRoute
   '/api/platform/auth/$ref/users/$id/': typeof ApiPlatformAuthRefUsersIdIndexRoute
+  '/api/platform/organizations/$slug/members/$gotrue_id/': typeof ApiPlatformOrganizationsSlugMembersGotrue_idIndexRoute
+  '/api/platform/organizations/$slug/members/invitations/': typeof ApiPlatformOrganizationsSlugMembersInvitationsIndexRoute
   '/api/platform/projects/$ref/content/folders/': typeof ApiPlatformProjectsRefContentFoldersIndexRoute
   '/api/platform/storage/$ref/buckets/$id/': typeof ApiPlatformStorageRefBucketsIdIndexRoute
   '/api/platform/storage/$ref/vector-buckets/$id/': typeof ApiPlatformStorageRefVectorBucketsIdIndexRoute
   '/api/v1/projects/$ref/functions/$slug/': typeof ApiV1ProjectsRefFunctionsSlugIndexRoute
   '/project/$ref/integrations/$id/$pageId/$childId/': typeof ProjectRefIntegrationsIdPageIdChildIdIndexRoute
+  '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id': typeof ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRoute
   '/api/platform/storage/$ref/buckets/$id/objects/download': typeof ApiPlatformStorageRefBucketsIdObjectsDownloadRoute
   '/api/platform/storage/$ref/buckets/$id/objects/list': typeof ApiPlatformStorageRefBucketsIdObjectsListRoute
   '/api/platform/storage/$ref/buckets/$id/objects/move': typeof ApiPlatformStorageRefBucketsIdObjectsMoveRoute
@@ -2429,9 +2649,11 @@ export interface FileRoutesByFullPath {
   '/api/platform/storage/$ref/buckets/$id/objects/sign-multi': typeof ApiPlatformStorageRefBucketsIdObjectsSignMultiRoute
   '/api/platform/storage/$ref/vector-buckets/$id/indexes/$indexName': typeof ApiPlatformStorageRefVectorBucketsIdIndexesIndexNameRoute
   '/api/v1/projects/$ref/config/auth/signing-keys/legacy': typeof ApiV1ProjectsRefConfigAuthSigningKeysLegacyRoute
+  '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId': typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRoute
   '/api/platform/storage/$ref/buckets/$id/objects/': typeof ApiPlatformStorageRefBucketsIdObjectsIndexRoute
   '/api/platform/storage/$ref/vector-buckets/$id/indexes/': typeof ApiPlatformStorageRefVectorBucketsIdIndexesIndexRoute
   '/api/v1/projects/$ref/config/auth/signing-keys/': typeof ApiV1ProjectsRefConfigAuthSigningKeysIndexRoute
+  '/api/v1/projects/$ref/config/auth/third-party-auth/': typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -2521,6 +2743,8 @@ export interface FileRoutesByTo {
   '/api/ai/sql/policy': typeof ApiAiSqlPolicyRoute
   '/api/ai/sql/title-v2': typeof ApiAiSqlTitleV2Route
   '/api/platform/integrations/$slug': typeof ApiPlatformIntegrationsSlugRoute
+  '/api/platform/profile/audit': typeof ApiPlatformProfileAuditRoute
+  '/api/platform/profile/password': typeof ApiPlatformProfilePasswordRoute
   '/api/platform/telemetry/event': typeof ApiPlatformTelemetryEventRoute
   '/project/$ref/advisors/health': typeof ProjectRefAdvisorsHealthRoute
   '/project/$ref/advisors/performance': typeof ProjectRefAdvisorsPerformanceRoute
@@ -2623,6 +2847,9 @@ export interface FileRoutesByTo {
   '/api/platform/integrations/github/authorization': typeof ApiPlatformIntegrationsGithubAuthorizationRoute
   '/api/platform/integrations/github/connections': typeof ApiPlatformIntegrationsGithubConnectionsRoute
   '/api/platform/integrations/github/repositories': typeof ApiPlatformIntegrationsGithubRepositoriesRoute
+  '/api/platform/organizations/$slug/audit': typeof ApiPlatformOrganizationsSlugAuditRoute
+  '/api/platform/organizations/$slug/projects': typeof ApiPlatformOrganizationsSlugProjectsRoute
+  '/api/platform/organizations/$slug/roles': typeof ApiPlatformOrganizationsSlugRolesRoute
   '/api/platform/pg-meta/$ref/column-privileges': typeof ApiPlatformPgMetaRefColumnPrivilegesRoute
   '/api/platform/pg-meta/$ref/extensions': typeof ApiPlatformPgMetaRefExtensionsRoute
   '/api/platform/pg-meta/$ref/foreign-tables': typeof ApiPlatformPgMetaRefForeignTablesRoute
@@ -2638,7 +2865,9 @@ export interface FileRoutesByTo {
   '/api/platform/projects/$ref/run-lints': typeof ApiPlatformProjectsRefRunLintsRoute
   '/api/platform/projects/$ref/settings': typeof ApiPlatformProjectsRefSettingsRoute
   '/api/platform/props/org/$slug': typeof ApiPlatformPropsOrgSlugRoute
+  '/api/platform/storage/$ref/s3-protocol': typeof ApiPlatformStorageRefS3ProtocolRoute
   '/api/v1/projects/$ref/api-keys': typeof ApiV1ProjectsRefApiKeysRouteWithChildren
+  '/api/v1/projects/$ref/secrets': typeof ApiV1ProjectsRefSecretsRoute
   '/integrations/vercel/$slug/deploy-button/new-project': typeof IntegrationsVercelSlugDeployButtonNewProjectRoute
   '/integrations/vercel/$slug/marketplace/choose-project': typeof IntegrationsVercelSlugMarketplaceChooseProjectRoute
   '/project/$ref/advisors/rules/performance': typeof ProjectRefAdvisorsRulesPerformanceRoute
@@ -2670,6 +2899,8 @@ export interface FileRoutesByTo {
   '/project/$ref/storage/files/settings': typeof ProjectRefStorageFilesSettingsRoute
   '/org/$slug/private-apps': typeof AppOrgSlugPrivateAppsIndexRoute
   '/org/$slug/webhooks': typeof AppOrgSlugWebhooksIndexRoute
+  '/api/platform/organizations/$slug': typeof ApiPlatformOrganizationsSlugIndexRoute
+  '/api/platform/profile/factors': typeof ApiPlatformProfileFactorsIndexRoute
   '/api/platform/projects/$ref': typeof ApiPlatformProjectsRefIndexRoute
   '/project/$ref/auth/templates': typeof ProjectRefAuthTemplatesIndexRoute
   '/project/$ref/database/publications': typeof ProjectRefDatabasePublicationsIndexRoute
@@ -2686,13 +2917,18 @@ export interface FileRoutesByTo {
   '/project/$ref/storage/analytics': typeof ProjectRefStorageAnalyticsIndexRoute
   '/project/$ref/storage/files': typeof ProjectRefStorageFilesIndexRoute
   '/project/$ref/storage/vectors': typeof ProjectRefStorageVectorsIndexRoute
+  '/api/platform/auth/$ref/config/hooks': typeof ApiPlatformAuthRefConfigHooksRoute
+  '/api/platform/auth/$ref/validate/spam': typeof ApiPlatformAuthRefValidateSpamRoute
   '/api/platform/organizations/$slug/billing/subscription': typeof ApiPlatformOrganizationsSlugBillingSubscriptionRoute
+  '/api/platform/profile/factors/$id/verify': typeof ApiPlatformProfileFactorsIdVerifyRoute
   '/api/platform/projects/$ref/analytics/log-drains': typeof ApiPlatformProjectsRefAnalyticsLogDrainsRouteWithChildren
   '/api/platform/projects/$ref/api-keys/temporary': typeof ApiPlatformProjectsRefApiKeysTemporaryRoute
   '/api/platform/projects/$ref/api/graphql': typeof ApiPlatformProjectsRefApiGraphqlRoute
   '/api/platform/projects/$ref/api/rest': typeof ApiPlatformProjectsRefApiRestRoute
   '/api/platform/projects/$ref/billing/addons': typeof ApiPlatformProjectsRefBillingAddonsRoute
   '/api/platform/projects/$ref/config/postgrest': typeof ApiPlatformProjectsRefConfigPostgrestRoute
+  '/api/platform/projects/$ref/config/realtime': typeof ApiPlatformProjectsRefConfigRealtimeRoute
+  '/api/platform/projects/$ref/config/storage': typeof ApiPlatformProjectsRefConfigStorageRoute
   '/api/platform/projects/$ref/content/count': typeof ApiPlatformProjectsRefContentCountRoute
   '/api/platform/props/project/$ref/api': typeof ApiPlatformPropsProjectRefApiRoute
   '/api/v1/projects/$ref/api-keys/$id': typeof ApiV1ProjectsRefApiKeysIdRoute
@@ -2703,8 +2939,11 @@ export interface FileRoutesByTo {
   '/project/$ref/storage/analytics/buckets/$bucketId': typeof ProjectRefStorageAnalyticsBucketsBucketIdRoute
   '/project/$ref/storage/files/buckets/$bucketId': typeof ProjectRefStorageFilesBucketsBucketIdRoute
   '/project/$ref/storage/vectors/buckets/$bucketId': typeof ProjectRefStorageVectorsBucketsBucketIdRoute
+  '/api/platform/auth/$ref/config': typeof ApiPlatformAuthRefConfigIndexRoute
   '/api/platform/auth/$ref/users': typeof ApiPlatformAuthRefUsersIndexRoute
+  '/api/platform/organizations/$slug/members': typeof ApiPlatformOrganizationsSlugMembersIndexRoute
   '/api/platform/pg-meta/$ref/query': typeof ApiPlatformPgMetaRefQueryIndexRoute
+  '/api/platform/profile/factors/$id': typeof ApiPlatformProfileFactorsIdIndexRoute
   '/api/platform/projects/$ref/config': typeof ApiPlatformProjectsRefConfigIndexRoute
   '/api/platform/projects/$ref/content': typeof ApiPlatformProjectsRefContentIndexRoute
   '/api/platform/props/project/$ref': typeof ApiPlatformPropsProjectRefIndexRoute
@@ -2712,20 +2951,29 @@ export interface FileRoutesByTo {
   '/api/platform/storage/$ref/vector-buckets': typeof ApiPlatformStorageRefVectorBucketsIndexRoute
   '/api/v1/projects/$ref/functions': typeof ApiV1ProjectsRefFunctionsIndexRoute
   '/project/$ref/integrations/$id/$pageId': typeof ProjectRefIntegrationsIdPageIdIndexRoute
+  '/api/platform/auth/$ref/templates/$template/react': typeof ApiPlatformAuthRefTemplatesTemplateReactRoute
+  '/api/platform/auth/$ref/templates/$template/reset': typeof ApiPlatformAuthRefTemplatesTemplateResetRoute
   '/api/platform/auth/$ref/users/$id/factors': typeof ApiPlatformAuthRefUsersIdFactorsRoute
+  '/api/platform/organizations/$slug/members/invitations/$id': typeof ApiPlatformOrganizationsSlugMembersInvitationsIdRoute
+  '/api/platform/organizations/$slug/members/invitations/smtp-status': typeof ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRoute
+  '/api/platform/organizations/$slug/members/mfa/enforcement': typeof ApiPlatformOrganizationsSlugMembersMfaEnforcementRoute
   '/api/platform/projects/$ref/analytics/endpoints/$name': typeof ApiPlatformProjectsRefAnalyticsEndpointsNameRoute
   '/api/platform/projects/$ref/analytics/log-drains/$uuid': typeof ApiPlatformProjectsRefAnalyticsLogDrainsUuidRoute
   '/api/platform/projects/$ref/config/secrets/update-status': typeof ApiPlatformProjectsRefConfigSecretsUpdateStatusRoute
   '/api/platform/projects/$ref/content/folders/$id': typeof ApiPlatformProjectsRefContentFoldersIdRoute
   '/api/platform/projects/$ref/content/item/$id': typeof ApiPlatformProjectsRefContentItemIdRoute
   '/api/platform/storage/$ref/buckets/$id/empty': typeof ApiPlatformStorageRefBucketsIdEmptyRoute
+  '/api/v1/projects/$ref/config/database/postgres': typeof ApiV1ProjectsRefConfigDatabasePostgresRoute
   '/api/v1/projects/$ref/functions/$slug/body': typeof ApiV1ProjectsRefFunctionsSlugBodyRoute
   '/api/platform/auth/$ref/users/$id': typeof ApiPlatformAuthRefUsersIdIndexRoute
+  '/api/platform/organizations/$slug/members/$gotrue_id': typeof ApiPlatformOrganizationsSlugMembersGotrue_idIndexRoute
+  '/api/platform/organizations/$slug/members/invitations': typeof ApiPlatformOrganizationsSlugMembersInvitationsIndexRoute
   '/api/platform/projects/$ref/content/folders': typeof ApiPlatformProjectsRefContentFoldersIndexRoute
   '/api/platform/storage/$ref/buckets/$id': typeof ApiPlatformStorageRefBucketsIdIndexRoute
   '/api/platform/storage/$ref/vector-buckets/$id': typeof ApiPlatformStorageRefVectorBucketsIdIndexRoute
   '/api/v1/projects/$ref/functions/$slug': typeof ApiV1ProjectsRefFunctionsSlugIndexRoute
   '/project/$ref/integrations/$id/$pageId/$childId': typeof ProjectRefIntegrationsIdPageIdChildIdIndexRoute
+  '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id': typeof ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRoute
   '/api/platform/storage/$ref/buckets/$id/objects/download': typeof ApiPlatformStorageRefBucketsIdObjectsDownloadRoute
   '/api/platform/storage/$ref/buckets/$id/objects/list': typeof ApiPlatformStorageRefBucketsIdObjectsListRoute
   '/api/platform/storage/$ref/buckets/$id/objects/move': typeof ApiPlatformStorageRefBucketsIdObjectsMoveRoute
@@ -2734,9 +2982,11 @@ export interface FileRoutesByTo {
   '/api/platform/storage/$ref/buckets/$id/objects/sign-multi': typeof ApiPlatformStorageRefBucketsIdObjectsSignMultiRoute
   '/api/platform/storage/$ref/vector-buckets/$id/indexes/$indexName': typeof ApiPlatformStorageRefVectorBucketsIdIndexesIndexNameRoute
   '/api/v1/projects/$ref/config/auth/signing-keys/legacy': typeof ApiV1ProjectsRefConfigAuthSigningKeysLegacyRoute
+  '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId': typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRoute
   '/api/platform/storage/$ref/buckets/$id/objects': typeof ApiPlatformStorageRefBucketsIdObjectsIndexRoute
   '/api/platform/storage/$ref/vector-buckets/$id/indexes': typeof ApiPlatformStorageRefVectorBucketsIdIndexesIndexRoute
   '/api/v1/projects/$ref/config/auth/signing-keys': typeof ApiV1ProjectsRefConfigAuthSigningKeysIndexRoute
+  '/api/v1/projects/$ref/config/auth/third-party-auth': typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -2840,6 +3090,8 @@ export interface FileRoutesById {
   '/api/ai/sql/policy': typeof ApiAiSqlPolicyRoute
   '/api/ai/sql/title-v2': typeof ApiAiSqlTitleV2Route
   '/api/platform/integrations/$slug': typeof ApiPlatformIntegrationsSlugRoute
+  '/api/platform/profile/audit': typeof ApiPlatformProfileAuditRoute
+  '/api/platform/profile/password': typeof ApiPlatformProfilePasswordRoute
   '/api/platform/telemetry/event': typeof ApiPlatformTelemetryEventRoute
   '/project/$ref/advisors/health': typeof ProjectRefAdvisorsHealthRoute
   '/project/$ref/advisors/performance': typeof ProjectRefAdvisorsPerformanceRoute
@@ -2945,6 +3197,9 @@ export interface FileRoutesById {
   '/api/platform/integrations/github/authorization': typeof ApiPlatformIntegrationsGithubAuthorizationRoute
   '/api/platform/integrations/github/connections': typeof ApiPlatformIntegrationsGithubConnectionsRoute
   '/api/platform/integrations/github/repositories': typeof ApiPlatformIntegrationsGithubRepositoriesRoute
+  '/api/platform/organizations/$slug/audit': typeof ApiPlatformOrganizationsSlugAuditRoute
+  '/api/platform/organizations/$slug/projects': typeof ApiPlatformOrganizationsSlugProjectsRoute
+  '/api/platform/organizations/$slug/roles': typeof ApiPlatformOrganizationsSlugRolesRoute
   '/api/platform/pg-meta/$ref/column-privileges': typeof ApiPlatformPgMetaRefColumnPrivilegesRoute
   '/api/platform/pg-meta/$ref/extensions': typeof ApiPlatformPgMetaRefExtensionsRoute
   '/api/platform/pg-meta/$ref/foreign-tables': typeof ApiPlatformPgMetaRefForeignTablesRoute
@@ -2960,7 +3215,9 @@ export interface FileRoutesById {
   '/api/platform/projects/$ref/run-lints': typeof ApiPlatformProjectsRefRunLintsRoute
   '/api/platform/projects/$ref/settings': typeof ApiPlatformProjectsRefSettingsRoute
   '/api/platform/props/org/$slug': typeof ApiPlatformPropsOrgSlugRoute
+  '/api/platform/storage/$ref/s3-protocol': typeof ApiPlatformStorageRefS3ProtocolRoute
   '/api/v1/projects/$ref/api-keys': typeof ApiV1ProjectsRefApiKeysRouteWithChildren
+  '/api/v1/projects/$ref/secrets': typeof ApiV1ProjectsRefSecretsRoute
   '/integrations/vercel/$slug/deploy-button/new-project': typeof IntegrationsVercelSlugDeployButtonNewProjectRoute
   '/integrations/vercel/$slug/marketplace/choose-project': typeof IntegrationsVercelSlugMarketplaceChooseProjectRoute
   '/project/$ref/advisors/rules/performance': typeof ProjectRefAdvisorsRulesPerformanceRoute
@@ -2992,6 +3249,8 @@ export interface FileRoutesById {
   '/project/$ref/storage/files/settings': typeof ProjectRefStorageFilesSettingsRoute
   '/_app/org/$slug/private-apps/': typeof AppOrgSlugPrivateAppsIndexRoute
   '/_app/org/$slug/webhooks/': typeof AppOrgSlugWebhooksIndexRoute
+  '/api/platform/organizations/$slug/': typeof ApiPlatformOrganizationsSlugIndexRoute
+  '/api/platform/profile/factors/': typeof ApiPlatformProfileFactorsIndexRoute
   '/api/platform/projects/$ref/': typeof ApiPlatformProjectsRefIndexRoute
   '/project/$ref/auth/templates/': typeof ProjectRefAuthTemplatesIndexRoute
   '/project/$ref/database/publications/': typeof ProjectRefDatabasePublicationsIndexRoute
@@ -3008,13 +3267,18 @@ export interface FileRoutesById {
   '/project/$ref/storage/analytics/': typeof ProjectRefStorageAnalyticsIndexRoute
   '/project/$ref/storage/files/': typeof ProjectRefStorageFilesIndexRoute
   '/project/$ref/storage/vectors/': typeof ProjectRefStorageVectorsIndexRoute
+  '/api/platform/auth/$ref/config/hooks': typeof ApiPlatformAuthRefConfigHooksRoute
+  '/api/platform/auth/$ref/validate/spam': typeof ApiPlatformAuthRefValidateSpamRoute
   '/api/platform/organizations/$slug/billing/subscription': typeof ApiPlatformOrganizationsSlugBillingSubscriptionRoute
+  '/api/platform/profile/factors/$id/verify': typeof ApiPlatformProfileFactorsIdVerifyRoute
   '/api/platform/projects/$ref/analytics/log-drains': typeof ApiPlatformProjectsRefAnalyticsLogDrainsRouteWithChildren
   '/api/platform/projects/$ref/api-keys/temporary': typeof ApiPlatformProjectsRefApiKeysTemporaryRoute
   '/api/platform/projects/$ref/api/graphql': typeof ApiPlatformProjectsRefApiGraphqlRoute
   '/api/platform/projects/$ref/api/rest': typeof ApiPlatformProjectsRefApiRestRoute
   '/api/platform/projects/$ref/billing/addons': typeof ApiPlatformProjectsRefBillingAddonsRoute
   '/api/platform/projects/$ref/config/postgrest': typeof ApiPlatformProjectsRefConfigPostgrestRoute
+  '/api/platform/projects/$ref/config/realtime': typeof ApiPlatformProjectsRefConfigRealtimeRoute
+  '/api/platform/projects/$ref/config/storage': typeof ApiPlatformProjectsRefConfigStorageRoute
   '/api/platform/projects/$ref/content/count': typeof ApiPlatformProjectsRefContentCountRoute
   '/api/platform/props/project/$ref/api': typeof ApiPlatformPropsProjectRefApiRoute
   '/api/v1/projects/$ref/api-keys/$id': typeof ApiV1ProjectsRefApiKeysIdRoute
@@ -3025,8 +3289,11 @@ export interface FileRoutesById {
   '/project/$ref/storage/analytics/buckets/$bucketId': typeof ProjectRefStorageAnalyticsBucketsBucketIdRoute
   '/project/$ref/storage/files/buckets/$bucketId': typeof ProjectRefStorageFilesBucketsBucketIdRoute
   '/project/$ref/storage/vectors/buckets/$bucketId': typeof ProjectRefStorageVectorsBucketsBucketIdRoute
+  '/api/platform/auth/$ref/config/': typeof ApiPlatformAuthRefConfigIndexRoute
   '/api/platform/auth/$ref/users/': typeof ApiPlatformAuthRefUsersIndexRoute
+  '/api/platform/organizations/$slug/members/': typeof ApiPlatformOrganizationsSlugMembersIndexRoute
   '/api/platform/pg-meta/$ref/query/': typeof ApiPlatformPgMetaRefQueryIndexRoute
+  '/api/platform/profile/factors/$id/': typeof ApiPlatformProfileFactorsIdIndexRoute
   '/api/platform/projects/$ref/config/': typeof ApiPlatformProjectsRefConfigIndexRoute
   '/api/platform/projects/$ref/content/': typeof ApiPlatformProjectsRefContentIndexRoute
   '/api/platform/props/project/$ref/': typeof ApiPlatformPropsProjectRefIndexRoute
@@ -3034,20 +3301,29 @@ export interface FileRoutesById {
   '/api/platform/storage/$ref/vector-buckets/': typeof ApiPlatformStorageRefVectorBucketsIndexRoute
   '/api/v1/projects/$ref/functions/': typeof ApiV1ProjectsRefFunctionsIndexRoute
   '/project/$ref/integrations/$id/$pageId/': typeof ProjectRefIntegrationsIdPageIdIndexRoute
+  '/api/platform/auth/$ref/templates/$template/react': typeof ApiPlatformAuthRefTemplatesTemplateReactRoute
+  '/api/platform/auth/$ref/templates/$template/reset': typeof ApiPlatformAuthRefTemplatesTemplateResetRoute
   '/api/platform/auth/$ref/users/$id/factors': typeof ApiPlatformAuthRefUsersIdFactorsRoute
+  '/api/platform/organizations/$slug/members/invitations/$id': typeof ApiPlatformOrganizationsSlugMembersInvitationsIdRoute
+  '/api/platform/organizations/$slug/members/invitations/smtp-status': typeof ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRoute
+  '/api/platform/organizations/$slug/members/mfa/enforcement': typeof ApiPlatformOrganizationsSlugMembersMfaEnforcementRoute
   '/api/platform/projects/$ref/analytics/endpoints/$name': typeof ApiPlatformProjectsRefAnalyticsEndpointsNameRoute
   '/api/platform/projects/$ref/analytics/log-drains/$uuid': typeof ApiPlatformProjectsRefAnalyticsLogDrainsUuidRoute
   '/api/platform/projects/$ref/config/secrets/update-status': typeof ApiPlatformProjectsRefConfigSecretsUpdateStatusRoute
   '/api/platform/projects/$ref/content/folders/$id': typeof ApiPlatformProjectsRefContentFoldersIdRoute
   '/api/platform/projects/$ref/content/item/$id': typeof ApiPlatformProjectsRefContentItemIdRoute
   '/api/platform/storage/$ref/buckets/$id/empty': typeof ApiPlatformStorageRefBucketsIdEmptyRoute
+  '/api/v1/projects/$ref/config/database/postgres': typeof ApiV1ProjectsRefConfigDatabasePostgresRoute
   '/api/v1/projects/$ref/functions/$slug/body': typeof ApiV1ProjectsRefFunctionsSlugBodyRoute
   '/api/platform/auth/$ref/users/$id/': typeof ApiPlatformAuthRefUsersIdIndexRoute
+  '/api/platform/organizations/$slug/members/$gotrue_id/': typeof ApiPlatformOrganizationsSlugMembersGotrue_idIndexRoute
+  '/api/platform/organizations/$slug/members/invitations/': typeof ApiPlatformOrganizationsSlugMembersInvitationsIndexRoute
   '/api/platform/projects/$ref/content/folders/': typeof ApiPlatformProjectsRefContentFoldersIndexRoute
   '/api/platform/storage/$ref/buckets/$id/': typeof ApiPlatformStorageRefBucketsIdIndexRoute
   '/api/platform/storage/$ref/vector-buckets/$id/': typeof ApiPlatformStorageRefVectorBucketsIdIndexRoute
   '/api/v1/projects/$ref/functions/$slug/': typeof ApiV1ProjectsRefFunctionsSlugIndexRoute
   '/project/$ref/integrations/$id/$pageId/$childId/': typeof ProjectRefIntegrationsIdPageIdChildIdIndexRoute
+  '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id': typeof ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRoute
   '/api/platform/storage/$ref/buckets/$id/objects/download': typeof ApiPlatformStorageRefBucketsIdObjectsDownloadRoute
   '/api/platform/storage/$ref/buckets/$id/objects/list': typeof ApiPlatformStorageRefBucketsIdObjectsListRoute
   '/api/platform/storage/$ref/buckets/$id/objects/move': typeof ApiPlatformStorageRefBucketsIdObjectsMoveRoute
@@ -3056,9 +3332,11 @@ export interface FileRoutesById {
   '/api/platform/storage/$ref/buckets/$id/objects/sign-multi': typeof ApiPlatformStorageRefBucketsIdObjectsSignMultiRoute
   '/api/platform/storage/$ref/vector-buckets/$id/indexes/$indexName': typeof ApiPlatformStorageRefVectorBucketsIdIndexesIndexNameRoute
   '/api/v1/projects/$ref/config/auth/signing-keys/legacy': typeof ApiV1ProjectsRefConfigAuthSigningKeysLegacyRoute
+  '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId': typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRoute
   '/api/platform/storage/$ref/buckets/$id/objects/': typeof ApiPlatformStorageRefBucketsIdObjectsIndexRoute
   '/api/platform/storage/$ref/vector-buckets/$id/indexes/': typeof ApiPlatformStorageRefVectorBucketsIdIndexesIndexRoute
   '/api/v1/projects/$ref/config/auth/signing-keys/': typeof ApiV1ProjectsRefConfigAuthSigningKeysIndexRoute
+  '/api/v1/projects/$ref/config/auth/third-party-auth/': typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -3161,6 +3439,8 @@ export interface FileRouteTypes {
     | '/api/ai/sql/policy'
     | '/api/ai/sql/title-v2'
     | '/api/platform/integrations/$slug'
+    | '/api/platform/profile/audit'
+    | '/api/platform/profile/password'
     | '/api/platform/telemetry/event'
     | '/project/$ref/advisors/health'
     | '/project/$ref/advisors/performance'
@@ -3266,6 +3546,9 @@ export interface FileRouteTypes {
     | '/api/platform/integrations/github/authorization'
     | '/api/platform/integrations/github/connections'
     | '/api/platform/integrations/github/repositories'
+    | '/api/platform/organizations/$slug/audit'
+    | '/api/platform/organizations/$slug/projects'
+    | '/api/platform/organizations/$slug/roles'
     | '/api/platform/pg-meta/$ref/column-privileges'
     | '/api/platform/pg-meta/$ref/extensions'
     | '/api/platform/pg-meta/$ref/foreign-tables'
@@ -3281,7 +3564,9 @@ export interface FileRouteTypes {
     | '/api/platform/projects/$ref/run-lints'
     | '/api/platform/projects/$ref/settings'
     | '/api/platform/props/org/$slug'
+    | '/api/platform/storage/$ref/s3-protocol'
     | '/api/v1/projects/$ref/api-keys'
+    | '/api/v1/projects/$ref/secrets'
     | '/integrations/vercel/$slug/deploy-button/new-project'
     | '/integrations/vercel/$slug/marketplace/choose-project'
     | '/project/$ref/advisors/rules/performance'
@@ -3313,6 +3598,8 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/files/settings'
     | '/org/$slug/private-apps/'
     | '/org/$slug/webhooks/'
+    | '/api/platform/organizations/$slug/'
+    | '/api/platform/profile/factors/'
     | '/api/platform/projects/$ref/'
     | '/project/$ref/auth/templates/'
     | '/project/$ref/database/publications/'
@@ -3329,13 +3616,18 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/analytics/'
     | '/project/$ref/storage/files/'
     | '/project/$ref/storage/vectors/'
+    | '/api/platform/auth/$ref/config/hooks'
+    | '/api/platform/auth/$ref/validate/spam'
     | '/api/platform/organizations/$slug/billing/subscription'
+    | '/api/platform/profile/factors/$id/verify'
     | '/api/platform/projects/$ref/analytics/log-drains'
     | '/api/platform/projects/$ref/api-keys/temporary'
     | '/api/platform/projects/$ref/api/graphql'
     | '/api/platform/projects/$ref/api/rest'
     | '/api/platform/projects/$ref/billing/addons'
     | '/api/platform/projects/$ref/config/postgrest'
+    | '/api/platform/projects/$ref/config/realtime'
+    | '/api/platform/projects/$ref/config/storage'
     | '/api/platform/projects/$ref/content/count'
     | '/api/platform/props/project/$ref/api'
     | '/api/v1/projects/$ref/api-keys/$id'
@@ -3346,8 +3638,11 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/analytics/buckets/$bucketId'
     | '/project/$ref/storage/files/buckets/$bucketId'
     | '/project/$ref/storage/vectors/buckets/$bucketId'
+    | '/api/platform/auth/$ref/config/'
     | '/api/platform/auth/$ref/users/'
+    | '/api/platform/organizations/$slug/members/'
     | '/api/platform/pg-meta/$ref/query/'
+    | '/api/platform/profile/factors/$id/'
     | '/api/platform/projects/$ref/config/'
     | '/api/platform/projects/$ref/content/'
     | '/api/platform/props/project/$ref/'
@@ -3355,20 +3650,29 @@ export interface FileRouteTypes {
     | '/api/platform/storage/$ref/vector-buckets/'
     | '/api/v1/projects/$ref/functions/'
     | '/project/$ref/integrations/$id/$pageId/'
+    | '/api/platform/auth/$ref/templates/$template/react'
+    | '/api/platform/auth/$ref/templates/$template/reset'
     | '/api/platform/auth/$ref/users/$id/factors'
+    | '/api/platform/organizations/$slug/members/invitations/$id'
+    | '/api/platform/organizations/$slug/members/invitations/smtp-status'
+    | '/api/platform/organizations/$slug/members/mfa/enforcement'
     | '/api/platform/projects/$ref/analytics/endpoints/$name'
     | '/api/platform/projects/$ref/analytics/log-drains/$uuid'
     | '/api/platform/projects/$ref/config/secrets/update-status'
     | '/api/platform/projects/$ref/content/folders/$id'
     | '/api/platform/projects/$ref/content/item/$id'
     | '/api/platform/storage/$ref/buckets/$id/empty'
+    | '/api/v1/projects/$ref/config/database/postgres'
     | '/api/v1/projects/$ref/functions/$slug/body'
     | '/api/platform/auth/$ref/users/$id/'
+    | '/api/platform/organizations/$slug/members/$gotrue_id/'
+    | '/api/platform/organizations/$slug/members/invitations/'
     | '/api/platform/projects/$ref/content/folders/'
     | '/api/platform/storage/$ref/buckets/$id/'
     | '/api/platform/storage/$ref/vector-buckets/$id/'
     | '/api/v1/projects/$ref/functions/$slug/'
     | '/project/$ref/integrations/$id/$pageId/$childId/'
+    | '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id'
     | '/api/platform/storage/$ref/buckets/$id/objects/download'
     | '/api/platform/storage/$ref/buckets/$id/objects/list'
     | '/api/platform/storage/$ref/buckets/$id/objects/move'
@@ -3377,9 +3681,11 @@ export interface FileRouteTypes {
     | '/api/platform/storage/$ref/buckets/$id/objects/sign-multi'
     | '/api/platform/storage/$ref/vector-buckets/$id/indexes/$indexName'
     | '/api/v1/projects/$ref/config/auth/signing-keys/legacy'
+    | '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId'
     | '/api/platform/storage/$ref/buckets/$id/objects/'
     | '/api/platform/storage/$ref/vector-buckets/$id/indexes/'
     | '/api/v1/projects/$ref/config/auth/signing-keys/'
+    | '/api/v1/projects/$ref/config/auth/third-party-auth/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -3469,6 +3775,8 @@ export interface FileRouteTypes {
     | '/api/ai/sql/policy'
     | '/api/ai/sql/title-v2'
     | '/api/platform/integrations/$slug'
+    | '/api/platform/profile/audit'
+    | '/api/platform/profile/password'
     | '/api/platform/telemetry/event'
     | '/project/$ref/advisors/health'
     | '/project/$ref/advisors/performance'
@@ -3571,6 +3879,9 @@ export interface FileRouteTypes {
     | '/api/platform/integrations/github/authorization'
     | '/api/platform/integrations/github/connections'
     | '/api/platform/integrations/github/repositories'
+    | '/api/platform/organizations/$slug/audit'
+    | '/api/platform/organizations/$slug/projects'
+    | '/api/platform/organizations/$slug/roles'
     | '/api/platform/pg-meta/$ref/column-privileges'
     | '/api/platform/pg-meta/$ref/extensions'
     | '/api/platform/pg-meta/$ref/foreign-tables'
@@ -3586,7 +3897,9 @@ export interface FileRouteTypes {
     | '/api/platform/projects/$ref/run-lints'
     | '/api/platform/projects/$ref/settings'
     | '/api/platform/props/org/$slug'
+    | '/api/platform/storage/$ref/s3-protocol'
     | '/api/v1/projects/$ref/api-keys'
+    | '/api/v1/projects/$ref/secrets'
     | '/integrations/vercel/$slug/deploy-button/new-project'
     | '/integrations/vercel/$slug/marketplace/choose-project'
     | '/project/$ref/advisors/rules/performance'
@@ -3618,6 +3931,8 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/files/settings'
     | '/org/$slug/private-apps'
     | '/org/$slug/webhooks'
+    | '/api/platform/organizations/$slug'
+    | '/api/platform/profile/factors'
     | '/api/platform/projects/$ref'
     | '/project/$ref/auth/templates'
     | '/project/$ref/database/publications'
@@ -3634,13 +3949,18 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/analytics'
     | '/project/$ref/storage/files'
     | '/project/$ref/storage/vectors'
+    | '/api/platform/auth/$ref/config/hooks'
+    | '/api/platform/auth/$ref/validate/spam'
     | '/api/platform/organizations/$slug/billing/subscription'
+    | '/api/platform/profile/factors/$id/verify'
     | '/api/platform/projects/$ref/analytics/log-drains'
     | '/api/platform/projects/$ref/api-keys/temporary'
     | '/api/platform/projects/$ref/api/graphql'
     | '/api/platform/projects/$ref/api/rest'
     | '/api/platform/projects/$ref/billing/addons'
     | '/api/platform/projects/$ref/config/postgrest'
+    | '/api/platform/projects/$ref/config/realtime'
+    | '/api/platform/projects/$ref/config/storage'
     | '/api/platform/projects/$ref/content/count'
     | '/api/platform/props/project/$ref/api'
     | '/api/v1/projects/$ref/api-keys/$id'
@@ -3651,8 +3971,11 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/analytics/buckets/$bucketId'
     | '/project/$ref/storage/files/buckets/$bucketId'
     | '/project/$ref/storage/vectors/buckets/$bucketId'
+    | '/api/platform/auth/$ref/config'
     | '/api/platform/auth/$ref/users'
+    | '/api/platform/organizations/$slug/members'
     | '/api/platform/pg-meta/$ref/query'
+    | '/api/platform/profile/factors/$id'
     | '/api/platform/projects/$ref/config'
     | '/api/platform/projects/$ref/content'
     | '/api/platform/props/project/$ref'
@@ -3660,20 +3983,29 @@ export interface FileRouteTypes {
     | '/api/platform/storage/$ref/vector-buckets'
     | '/api/v1/projects/$ref/functions'
     | '/project/$ref/integrations/$id/$pageId'
+    | '/api/platform/auth/$ref/templates/$template/react'
+    | '/api/platform/auth/$ref/templates/$template/reset'
     | '/api/platform/auth/$ref/users/$id/factors'
+    | '/api/platform/organizations/$slug/members/invitations/$id'
+    | '/api/platform/organizations/$slug/members/invitations/smtp-status'
+    | '/api/platform/organizations/$slug/members/mfa/enforcement'
     | '/api/platform/projects/$ref/analytics/endpoints/$name'
     | '/api/platform/projects/$ref/analytics/log-drains/$uuid'
     | '/api/platform/projects/$ref/config/secrets/update-status'
     | '/api/platform/projects/$ref/content/folders/$id'
     | '/api/platform/projects/$ref/content/item/$id'
     | '/api/platform/storage/$ref/buckets/$id/empty'
+    | '/api/v1/projects/$ref/config/database/postgres'
     | '/api/v1/projects/$ref/functions/$slug/body'
     | '/api/platform/auth/$ref/users/$id'
+    | '/api/platform/organizations/$slug/members/$gotrue_id'
+    | '/api/platform/organizations/$slug/members/invitations'
     | '/api/platform/projects/$ref/content/folders'
     | '/api/platform/storage/$ref/buckets/$id'
     | '/api/platform/storage/$ref/vector-buckets/$id'
     | '/api/v1/projects/$ref/functions/$slug'
     | '/project/$ref/integrations/$id/$pageId/$childId'
+    | '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id'
     | '/api/platform/storage/$ref/buckets/$id/objects/download'
     | '/api/platform/storage/$ref/buckets/$id/objects/list'
     | '/api/platform/storage/$ref/buckets/$id/objects/move'
@@ -3682,9 +4014,11 @@ export interface FileRouteTypes {
     | '/api/platform/storage/$ref/buckets/$id/objects/sign-multi'
     | '/api/platform/storage/$ref/vector-buckets/$id/indexes/$indexName'
     | '/api/v1/projects/$ref/config/auth/signing-keys/legacy'
+    | '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId'
     | '/api/platform/storage/$ref/buckets/$id/objects'
     | '/api/platform/storage/$ref/vector-buckets/$id/indexes'
     | '/api/v1/projects/$ref/config/auth/signing-keys'
+    | '/api/v1/projects/$ref/config/auth/third-party-auth'
   id:
     | '__root__'
     | '/'
@@ -3787,6 +4121,8 @@ export interface FileRouteTypes {
     | '/api/ai/sql/policy'
     | '/api/ai/sql/title-v2'
     | '/api/platform/integrations/$slug'
+    | '/api/platform/profile/audit'
+    | '/api/platform/profile/password'
     | '/api/platform/telemetry/event'
     | '/project/$ref/advisors/health'
     | '/project/$ref/advisors/performance'
@@ -3892,6 +4228,9 @@ export interface FileRouteTypes {
     | '/api/platform/integrations/github/authorization'
     | '/api/platform/integrations/github/connections'
     | '/api/platform/integrations/github/repositories'
+    | '/api/platform/organizations/$slug/audit'
+    | '/api/platform/organizations/$slug/projects'
+    | '/api/platform/organizations/$slug/roles'
     | '/api/platform/pg-meta/$ref/column-privileges'
     | '/api/platform/pg-meta/$ref/extensions'
     | '/api/platform/pg-meta/$ref/foreign-tables'
@@ -3907,7 +4246,9 @@ export interface FileRouteTypes {
     | '/api/platform/projects/$ref/run-lints'
     | '/api/platform/projects/$ref/settings'
     | '/api/platform/props/org/$slug'
+    | '/api/platform/storage/$ref/s3-protocol'
     | '/api/v1/projects/$ref/api-keys'
+    | '/api/v1/projects/$ref/secrets'
     | '/integrations/vercel/$slug/deploy-button/new-project'
     | '/integrations/vercel/$slug/marketplace/choose-project'
     | '/project/$ref/advisors/rules/performance'
@@ -3939,6 +4280,8 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/files/settings'
     | '/_app/org/$slug/private-apps/'
     | '/_app/org/$slug/webhooks/'
+    | '/api/platform/organizations/$slug/'
+    | '/api/platform/profile/factors/'
     | '/api/platform/projects/$ref/'
     | '/project/$ref/auth/templates/'
     | '/project/$ref/database/publications/'
@@ -3955,13 +4298,18 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/analytics/'
     | '/project/$ref/storage/files/'
     | '/project/$ref/storage/vectors/'
+    | '/api/platform/auth/$ref/config/hooks'
+    | '/api/platform/auth/$ref/validate/spam'
     | '/api/platform/organizations/$slug/billing/subscription'
+    | '/api/platform/profile/factors/$id/verify'
     | '/api/platform/projects/$ref/analytics/log-drains'
     | '/api/platform/projects/$ref/api-keys/temporary'
     | '/api/platform/projects/$ref/api/graphql'
     | '/api/platform/projects/$ref/api/rest'
     | '/api/platform/projects/$ref/billing/addons'
     | '/api/platform/projects/$ref/config/postgrest'
+    | '/api/platform/projects/$ref/config/realtime'
+    | '/api/platform/projects/$ref/config/storage'
     | '/api/platform/projects/$ref/content/count'
     | '/api/platform/props/project/$ref/api'
     | '/api/v1/projects/$ref/api-keys/$id'
@@ -3972,8 +4320,11 @@ export interface FileRouteTypes {
     | '/project/$ref/storage/analytics/buckets/$bucketId'
     | '/project/$ref/storage/files/buckets/$bucketId'
     | '/project/$ref/storage/vectors/buckets/$bucketId'
+    | '/api/platform/auth/$ref/config/'
     | '/api/platform/auth/$ref/users/'
+    | '/api/platform/organizations/$slug/members/'
     | '/api/platform/pg-meta/$ref/query/'
+    | '/api/platform/profile/factors/$id/'
     | '/api/platform/projects/$ref/config/'
     | '/api/platform/projects/$ref/content/'
     | '/api/platform/props/project/$ref/'
@@ -3981,20 +4332,29 @@ export interface FileRouteTypes {
     | '/api/platform/storage/$ref/vector-buckets/'
     | '/api/v1/projects/$ref/functions/'
     | '/project/$ref/integrations/$id/$pageId/'
+    | '/api/platform/auth/$ref/templates/$template/react'
+    | '/api/platform/auth/$ref/templates/$template/reset'
     | '/api/platform/auth/$ref/users/$id/factors'
+    | '/api/platform/organizations/$slug/members/invitations/$id'
+    | '/api/platform/organizations/$slug/members/invitations/smtp-status'
+    | '/api/platform/organizations/$slug/members/mfa/enforcement'
     | '/api/platform/projects/$ref/analytics/endpoints/$name'
     | '/api/platform/projects/$ref/analytics/log-drains/$uuid'
     | '/api/platform/projects/$ref/config/secrets/update-status'
     | '/api/platform/projects/$ref/content/folders/$id'
     | '/api/platform/projects/$ref/content/item/$id'
     | '/api/platform/storage/$ref/buckets/$id/empty'
+    | '/api/v1/projects/$ref/config/database/postgres'
     | '/api/v1/projects/$ref/functions/$slug/body'
     | '/api/platform/auth/$ref/users/$id/'
+    | '/api/platform/organizations/$slug/members/$gotrue_id/'
+    | '/api/platform/organizations/$slug/members/invitations/'
     | '/api/platform/projects/$ref/content/folders/'
     | '/api/platform/storage/$ref/buckets/$id/'
     | '/api/platform/storage/$ref/vector-buckets/$id/'
     | '/api/v1/projects/$ref/functions/$slug/'
     | '/project/$ref/integrations/$id/$pageId/$childId/'
+    | '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id'
     | '/api/platform/storage/$ref/buckets/$id/objects/download'
     | '/api/platform/storage/$ref/buckets/$id/objects/list'
     | '/api/platform/storage/$ref/buckets/$id/objects/move'
@@ -4003,9 +4363,11 @@ export interface FileRouteTypes {
     | '/api/platform/storage/$ref/buckets/$id/objects/sign-multi'
     | '/api/platform/storage/$ref/vector-buckets/$id/indexes/$indexName'
     | '/api/v1/projects/$ref/config/auth/signing-keys/legacy'
+    | '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId'
     | '/api/platform/storage/$ref/buckets/$id/objects/'
     | '/api/platform/storage/$ref/vector-buckets/$id/indexes/'
     | '/api/v1/projects/$ref/config/auth/signing-keys/'
+    | '/api/v1/projects/$ref/config/auth/third-party-auth/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -4058,6 +4420,8 @@ export interface RootRouteChildren {
   ApiAiSqlPolicyRoute: typeof ApiAiSqlPolicyRoute
   ApiAiSqlTitleV2Route: typeof ApiAiSqlTitleV2Route
   ApiPlatformIntegrationsSlugRoute: typeof ApiPlatformIntegrationsSlugRoute
+  ApiPlatformProfileAuditRoute: typeof ApiPlatformProfileAuditRoute
+  ApiPlatformProfilePasswordRoute: typeof ApiPlatformProfilePasswordRoute
   ApiPlatformTelemetryEventRoute: typeof ApiPlatformTelemetryEventRoute
   ApiPlatformOrganizationsIndexRoute: typeof ApiPlatformOrganizationsIndexRoute
   ApiPlatformProfileIndexRoute: typeof ApiPlatformProfileIndexRoute
@@ -4070,6 +4434,9 @@ export interface RootRouteChildren {
   ApiPlatformIntegrationsGithubAuthorizationRoute: typeof ApiPlatformIntegrationsGithubAuthorizationRoute
   ApiPlatformIntegrationsGithubConnectionsRoute: typeof ApiPlatformIntegrationsGithubConnectionsRoute
   ApiPlatformIntegrationsGithubRepositoriesRoute: typeof ApiPlatformIntegrationsGithubRepositoriesRoute
+  ApiPlatformOrganizationsSlugAuditRoute: typeof ApiPlatformOrganizationsSlugAuditRoute
+  ApiPlatformOrganizationsSlugProjectsRoute: typeof ApiPlatformOrganizationsSlugProjectsRoute
+  ApiPlatformOrganizationsSlugRolesRoute: typeof ApiPlatformOrganizationsSlugRolesRoute
   ApiPlatformPgMetaRefColumnPrivilegesRoute: typeof ApiPlatformPgMetaRefColumnPrivilegesRoute
   ApiPlatformPgMetaRefExtensionsRoute: typeof ApiPlatformPgMetaRefExtensionsRoute
   ApiPlatformPgMetaRefForeignTablesRoute: typeof ApiPlatformPgMetaRefForeignTablesRoute
@@ -4085,39 +4452,60 @@ export interface RootRouteChildren {
   ApiPlatformProjectsRefRunLintsRoute: typeof ApiPlatformProjectsRefRunLintsRoute
   ApiPlatformProjectsRefSettingsRoute: typeof ApiPlatformProjectsRefSettingsRoute
   ApiPlatformPropsOrgSlugRoute: typeof ApiPlatformPropsOrgSlugRoute
+  ApiPlatformStorageRefS3ProtocolRoute: typeof ApiPlatformStorageRefS3ProtocolRoute
   ApiV1ProjectsRefApiKeysRoute: typeof ApiV1ProjectsRefApiKeysRouteWithChildren
+  ApiV1ProjectsRefSecretsRoute: typeof ApiV1ProjectsRefSecretsRoute
+  ApiPlatformOrganizationsSlugIndexRoute: typeof ApiPlatformOrganizationsSlugIndexRoute
+  ApiPlatformProfileFactorsIndexRoute: typeof ApiPlatformProfileFactorsIndexRoute
   ApiPlatformProjectsRefIndexRoute: typeof ApiPlatformProjectsRefIndexRoute
+  ApiPlatformAuthRefConfigHooksRoute: typeof ApiPlatformAuthRefConfigHooksRoute
+  ApiPlatformAuthRefValidateSpamRoute: typeof ApiPlatformAuthRefValidateSpamRoute
   ApiPlatformOrganizationsSlugBillingSubscriptionRoute: typeof ApiPlatformOrganizationsSlugBillingSubscriptionRoute
+  ApiPlatformProfileFactorsIdVerifyRoute: typeof ApiPlatformProfileFactorsIdVerifyRoute
   ApiPlatformProjectsRefAnalyticsLogDrainsRoute: typeof ApiPlatformProjectsRefAnalyticsLogDrainsRouteWithChildren
   ApiPlatformProjectsRefApiKeysTemporaryRoute: typeof ApiPlatformProjectsRefApiKeysTemporaryRoute
   ApiPlatformProjectsRefApiGraphqlRoute: typeof ApiPlatformProjectsRefApiGraphqlRoute
   ApiPlatformProjectsRefApiRestRoute: typeof ApiPlatformProjectsRefApiRestRoute
   ApiPlatformProjectsRefBillingAddonsRoute: typeof ApiPlatformProjectsRefBillingAddonsRoute
   ApiPlatformProjectsRefConfigPostgrestRoute: typeof ApiPlatformProjectsRefConfigPostgrestRoute
+  ApiPlatformProjectsRefConfigRealtimeRoute: typeof ApiPlatformProjectsRefConfigRealtimeRoute
+  ApiPlatformProjectsRefConfigStorageRoute: typeof ApiPlatformProjectsRefConfigStorageRoute
   ApiPlatformProjectsRefContentCountRoute: typeof ApiPlatformProjectsRefContentCountRoute
   ApiPlatformPropsProjectRefApiRoute: typeof ApiPlatformPropsProjectRefApiRoute
   ApiV1ProjectsRefDatabaseMigrationsRoute: typeof ApiV1ProjectsRefDatabaseMigrationsRoute
   ApiV1ProjectsRefTypesTypescriptRoute: typeof ApiV1ProjectsRefTypesTypescriptRoute
+  ApiPlatformAuthRefConfigIndexRoute: typeof ApiPlatformAuthRefConfigIndexRoute
   ApiPlatformAuthRefUsersIndexRoute: typeof ApiPlatformAuthRefUsersIndexRoute
+  ApiPlatformOrganizationsSlugMembersIndexRoute: typeof ApiPlatformOrganizationsSlugMembersIndexRoute
   ApiPlatformPgMetaRefQueryIndexRoute: typeof ApiPlatformPgMetaRefQueryIndexRoute
+  ApiPlatformProfileFactorsIdIndexRoute: typeof ApiPlatformProfileFactorsIdIndexRoute
   ApiPlatformProjectsRefConfigIndexRoute: typeof ApiPlatformProjectsRefConfigIndexRoute
   ApiPlatformProjectsRefContentIndexRoute: typeof ApiPlatformProjectsRefContentIndexRoute
   ApiPlatformPropsProjectRefIndexRoute: typeof ApiPlatformPropsProjectRefIndexRoute
   ApiPlatformStorageRefBucketsIndexRoute: typeof ApiPlatformStorageRefBucketsIndexRoute
   ApiPlatformStorageRefVectorBucketsIndexRoute: typeof ApiPlatformStorageRefVectorBucketsIndexRoute
   ApiV1ProjectsRefFunctionsIndexRoute: typeof ApiV1ProjectsRefFunctionsIndexRoute
+  ApiPlatformAuthRefTemplatesTemplateReactRoute: typeof ApiPlatformAuthRefTemplatesTemplateReactRoute
+  ApiPlatformAuthRefTemplatesTemplateResetRoute: typeof ApiPlatformAuthRefTemplatesTemplateResetRoute
   ApiPlatformAuthRefUsersIdFactorsRoute: typeof ApiPlatformAuthRefUsersIdFactorsRoute
+  ApiPlatformOrganizationsSlugMembersInvitationsIdRoute: typeof ApiPlatformOrganizationsSlugMembersInvitationsIdRoute
+  ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRoute: typeof ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRoute
+  ApiPlatformOrganizationsSlugMembersMfaEnforcementRoute: typeof ApiPlatformOrganizationsSlugMembersMfaEnforcementRoute
   ApiPlatformProjectsRefAnalyticsEndpointsNameRoute: typeof ApiPlatformProjectsRefAnalyticsEndpointsNameRoute
   ApiPlatformProjectsRefConfigSecretsUpdateStatusRoute: typeof ApiPlatformProjectsRefConfigSecretsUpdateStatusRoute
   ApiPlatformProjectsRefContentFoldersIdRoute: typeof ApiPlatformProjectsRefContentFoldersIdRoute
   ApiPlatformProjectsRefContentItemIdRoute: typeof ApiPlatformProjectsRefContentItemIdRoute
   ApiPlatformStorageRefBucketsIdEmptyRoute: typeof ApiPlatformStorageRefBucketsIdEmptyRoute
+  ApiV1ProjectsRefConfigDatabasePostgresRoute: typeof ApiV1ProjectsRefConfigDatabasePostgresRoute
   ApiV1ProjectsRefFunctionsSlugBodyRoute: typeof ApiV1ProjectsRefFunctionsSlugBodyRoute
   ApiPlatformAuthRefUsersIdIndexRoute: typeof ApiPlatformAuthRefUsersIdIndexRoute
+  ApiPlatformOrganizationsSlugMembersGotrue_idIndexRoute: typeof ApiPlatformOrganizationsSlugMembersGotrue_idIndexRoute
+  ApiPlatformOrganizationsSlugMembersInvitationsIndexRoute: typeof ApiPlatformOrganizationsSlugMembersInvitationsIndexRoute
   ApiPlatformProjectsRefContentFoldersIndexRoute: typeof ApiPlatformProjectsRefContentFoldersIndexRoute
   ApiPlatformStorageRefBucketsIdIndexRoute: typeof ApiPlatformStorageRefBucketsIdIndexRoute
   ApiPlatformStorageRefVectorBucketsIdIndexRoute: typeof ApiPlatformStorageRefVectorBucketsIdIndexRoute
   ApiV1ProjectsRefFunctionsSlugIndexRoute: typeof ApiV1ProjectsRefFunctionsSlugIndexRoute
+  ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRoute: typeof ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRoute
   ApiPlatformStorageRefBucketsIdObjectsDownloadRoute: typeof ApiPlatformStorageRefBucketsIdObjectsDownloadRoute
   ApiPlatformStorageRefBucketsIdObjectsListRoute: typeof ApiPlatformStorageRefBucketsIdObjectsListRoute
   ApiPlatformStorageRefBucketsIdObjectsMoveRoute: typeof ApiPlatformStorageRefBucketsIdObjectsMoveRoute
@@ -4126,9 +4514,11 @@ export interface RootRouteChildren {
   ApiPlatformStorageRefBucketsIdObjectsSignMultiRoute: typeof ApiPlatformStorageRefBucketsIdObjectsSignMultiRoute
   ApiPlatformStorageRefVectorBucketsIdIndexesIndexNameRoute: typeof ApiPlatformStorageRefVectorBucketsIdIndexesIndexNameRoute
   ApiV1ProjectsRefConfigAuthSigningKeysLegacyRoute: typeof ApiV1ProjectsRefConfigAuthSigningKeysLegacyRoute
+  ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRoute: typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRoute
   ApiPlatformStorageRefBucketsIdObjectsIndexRoute: typeof ApiPlatformStorageRefBucketsIdObjectsIndexRoute
   ApiPlatformStorageRefVectorBucketsIdIndexesIndexRoute: typeof ApiPlatformStorageRefVectorBucketsIdIndexesIndexRoute
   ApiV1ProjectsRefConfigAuthSigningKeysIndexRoute: typeof ApiV1ProjectsRefConfigAuthSigningKeysIndexRoute
+  ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRoute: typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -5330,6 +5720,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlatformTelemetryEventRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/platform/profile/password': {
+      id: '/api/platform/profile/password'
+      path: '/api/platform/profile/password'
+      fullPath: '/api/platform/profile/password'
+      preLoaderRoute: typeof ApiPlatformProfilePasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/profile/audit': {
+      id: '/api/platform/profile/audit'
+      path: '/api/platform/profile/audit'
+      fullPath: '/api/platform/profile/audit'
+      preLoaderRoute: typeof ApiPlatformProfileAuditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/platform/integrations/$slug': {
       id: '/api/platform/integrations/$slug'
       path: '/api/platform/integrations/$slug'
@@ -5610,6 +6014,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlatformProjectsRefIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/platform/profile/factors/': {
+      id: '/api/platform/profile/factors/'
+      path: '/api/platform/profile/factors'
+      fullPath: '/api/platform/profile/factors/'
+      preLoaderRoute: typeof ApiPlatformProfileFactorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/organizations/$slug/': {
+      id: '/api/platform/organizations/$slug/'
+      path: '/api/platform/organizations/$slug'
+      fullPath: '/api/platform/organizations/$slug/'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_app/org/$slug/webhooks/': {
       id: '/_app/org/$slug/webhooks/'
       path: '/$slug/webhooks'
@@ -5827,11 +6245,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntegrationsVercelSlugDeployButtonNewProjectRouteImport
       parentRoute: typeof IntegrationsVercelRoute
     }
+    '/api/v1/projects/$ref/secrets': {
+      id: '/api/v1/projects/$ref/secrets'
+      path: '/api/v1/projects/$ref/secrets'
+      fullPath: '/api/v1/projects/$ref/secrets'
+      preLoaderRoute: typeof ApiV1ProjectsRefSecretsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/v1/projects/$ref/api-keys': {
       id: '/api/v1/projects/$ref/api-keys'
       path: '/api/v1/projects/$ref/api-keys'
       fullPath: '/api/v1/projects/$ref/api-keys'
       preLoaderRoute: typeof ApiV1ProjectsRefApiKeysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/storage/$ref/s3-protocol': {
+      id: '/api/platform/storage/$ref/s3-protocol'
+      path: '/api/platform/storage/$ref/s3-protocol'
+      fullPath: '/api/platform/storage/$ref/s3-protocol'
+      preLoaderRoute: typeof ApiPlatformStorageRefS3ProtocolRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/platform/props/org/$slug': {
@@ -5937,6 +6369,27 @@ declare module '@tanstack/react-router' {
       path: '/api/platform/pg-meta/$ref/column-privileges'
       fullPath: '/api/platform/pg-meta/$ref/column-privileges'
       preLoaderRoute: typeof ApiPlatformPgMetaRefColumnPrivilegesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/organizations/$slug/roles': {
+      id: '/api/platform/organizations/$slug/roles'
+      path: '/api/platform/organizations/$slug/roles'
+      fullPath: '/api/platform/organizations/$slug/roles'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugRolesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/organizations/$slug/projects': {
+      id: '/api/platform/organizations/$slug/projects'
+      path: '/api/platform/organizations/$slug/projects'
+      fullPath: '/api/platform/organizations/$slug/projects'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/organizations/$slug/audit': {
+      id: '/api/platform/organizations/$slug/audit'
+      path: '/api/platform/organizations/$slug/audit'
+      fullPath: '/api/platform/organizations/$slug/audit'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugAuditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/platform/integrations/github/repositories': {
@@ -6058,6 +6511,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlatformProjectsRefConfigIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/platform/profile/factors/$id/': {
+      id: '/api/platform/profile/factors/$id/'
+      path: '/api/platform/profile/factors/$id'
+      fullPath: '/api/platform/profile/factors/$id/'
+      preLoaderRoute: typeof ApiPlatformProfileFactorsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/platform/pg-meta/$ref/query/': {
       id: '/api/platform/pg-meta/$ref/query/'
       path: '/api/platform/pg-meta/$ref/query'
@@ -6065,11 +6525,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlatformPgMetaRefQueryIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/platform/organizations/$slug/members/': {
+      id: '/api/platform/organizations/$slug/members/'
+      path: '/api/platform/organizations/$slug/members'
+      fullPath: '/api/platform/organizations/$slug/members/'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugMembersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/platform/auth/$ref/users/': {
       id: '/api/platform/auth/$ref/users/'
       path: '/api/platform/auth/$ref/users'
       fullPath: '/api/platform/auth/$ref/users/'
       preLoaderRoute: typeof ApiPlatformAuthRefUsersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/auth/$ref/config/': {
+      id: '/api/platform/auth/$ref/config/'
+      path: '/api/platform/auth/$ref/config'
+      fullPath: '/api/platform/auth/$ref/config/'
+      preLoaderRoute: typeof ApiPlatformAuthRefConfigIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/project/$ref/storage/vectors/buckets/$bucketId': {
@@ -6142,6 +6616,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlatformProjectsRefContentCountRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/platform/projects/$ref/config/storage': {
+      id: '/api/platform/projects/$ref/config/storage'
+      path: '/api/platform/projects/$ref/config/storage'
+      fullPath: '/api/platform/projects/$ref/config/storage'
+      preLoaderRoute: typeof ApiPlatformProjectsRefConfigStorageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/projects/$ref/config/realtime': {
+      id: '/api/platform/projects/$ref/config/realtime'
+      path: '/api/platform/projects/$ref/config/realtime'
+      fullPath: '/api/platform/projects/$ref/config/realtime'
+      preLoaderRoute: typeof ApiPlatformProjectsRefConfigRealtimeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/platform/projects/$ref/config/postgrest': {
       id: '/api/platform/projects/$ref/config/postgrest'
       path: '/api/platform/projects/$ref/config/postgrest'
@@ -6184,11 +6672,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlatformProjectsRefAnalyticsLogDrainsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/platform/profile/factors/$id/verify': {
+      id: '/api/platform/profile/factors/$id/verify'
+      path: '/api/platform/profile/factors/$id/verify'
+      fullPath: '/api/platform/profile/factors/$id/verify'
+      preLoaderRoute: typeof ApiPlatformProfileFactorsIdVerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/platform/organizations/$slug/billing/subscription': {
       id: '/api/platform/organizations/$slug/billing/subscription'
       path: '/api/platform/organizations/$slug/billing/subscription'
       fullPath: '/api/platform/organizations/$slug/billing/subscription'
       preLoaderRoute: typeof ApiPlatformOrganizationsSlugBillingSubscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/auth/$ref/validate/spam': {
+      id: '/api/platform/auth/$ref/validate/spam'
+      path: '/api/platform/auth/$ref/validate/spam'
+      fullPath: '/api/platform/auth/$ref/validate/spam'
+      preLoaderRoute: typeof ApiPlatformAuthRefValidateSpamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/auth/$ref/config/hooks': {
+      id: '/api/platform/auth/$ref/config/hooks'
+      path: '/api/platform/auth/$ref/config/hooks'
+      fullPath: '/api/platform/auth/$ref/config/hooks'
+      preLoaderRoute: typeof ApiPlatformAuthRefConfigHooksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/project/$ref/integrations/$id/$pageId/$childId/': {
@@ -6226,6 +6735,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlatformProjectsRefContentFoldersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/platform/organizations/$slug/members/invitations/': {
+      id: '/api/platform/organizations/$slug/members/invitations/'
+      path: '/api/platform/organizations/$slug/members/invitations'
+      fullPath: '/api/platform/organizations/$slug/members/invitations/'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugMembersInvitationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/organizations/$slug/members/$gotrue_id/': {
+      id: '/api/platform/organizations/$slug/members/$gotrue_id/'
+      path: '/api/platform/organizations/$slug/members/$gotrue_id'
+      fullPath: '/api/platform/organizations/$slug/members/$gotrue_id/'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugMembersGotrue_idIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/platform/auth/$ref/users/$id/': {
       id: '/api/platform/auth/$ref/users/$id/'
       path: '/api/platform/auth/$ref/users/$id'
@@ -6238,6 +6761,13 @@ declare module '@tanstack/react-router' {
       path: '/api/v1/projects/$ref/functions/$slug/body'
       fullPath: '/api/v1/projects/$ref/functions/$slug/body'
       preLoaderRoute: typeof ApiV1ProjectsRefFunctionsSlugBodyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/projects/$ref/config/database/postgres': {
+      id: '/api/v1/projects/$ref/config/database/postgres'
+      path: '/api/v1/projects/$ref/config/database/postgres'
+      fullPath: '/api/v1/projects/$ref/config/database/postgres'
+      preLoaderRoute: typeof ApiV1ProjectsRefConfigDatabasePostgresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/platform/storage/$ref/buckets/$id/empty': {
@@ -6282,11 +6812,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPlatformProjectsRefAnalyticsEndpointsNameRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/platform/organizations/$slug/members/mfa/enforcement': {
+      id: '/api/platform/organizations/$slug/members/mfa/enforcement'
+      path: '/api/platform/organizations/$slug/members/mfa/enforcement'
+      fullPath: '/api/platform/organizations/$slug/members/mfa/enforcement'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugMembersMfaEnforcementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/organizations/$slug/members/invitations/smtp-status': {
+      id: '/api/platform/organizations/$slug/members/invitations/smtp-status'
+      path: '/api/platform/organizations/$slug/members/invitations/smtp-status'
+      fullPath: '/api/platform/organizations/$slug/members/invitations/smtp-status'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/organizations/$slug/members/invitations/$id': {
+      id: '/api/platform/organizations/$slug/members/invitations/$id'
+      path: '/api/platform/organizations/$slug/members/invitations/$id'
+      fullPath: '/api/platform/organizations/$slug/members/invitations/$id'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugMembersInvitationsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/platform/auth/$ref/users/$id/factors': {
       id: '/api/platform/auth/$ref/users/$id/factors'
       path: '/api/platform/auth/$ref/users/$id/factors'
       fullPath: '/api/platform/auth/$ref/users/$id/factors'
       preLoaderRoute: typeof ApiPlatformAuthRefUsersIdFactorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/auth/$ref/templates/$template/reset': {
+      id: '/api/platform/auth/$ref/templates/$template/reset'
+      path: '/api/platform/auth/$ref/templates/$template/reset'
+      fullPath: '/api/platform/auth/$ref/templates/$template/reset'
+      preLoaderRoute: typeof ApiPlatformAuthRefTemplatesTemplateResetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/auth/$ref/templates/$template/react': {
+      id: '/api/platform/auth/$ref/templates/$template/react'
+      path: '/api/platform/auth/$ref/templates/$template/react'
+      fullPath: '/api/platform/auth/$ref/templates/$template/react'
+      preLoaderRoute: typeof ApiPlatformAuthRefTemplatesTemplateReactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/projects/$ref/config/auth/third-party-auth/': {
+      id: '/api/v1/projects/$ref/config/auth/third-party-auth/'
+      path: '/api/v1/projects/$ref/config/auth/third-party-auth'
+      fullPath: '/api/v1/projects/$ref/config/auth/third-party-auth/'
+      preLoaderRoute: typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/v1/projects/$ref/config/auth/signing-keys/': {
@@ -6308,6 +6880,13 @@ declare module '@tanstack/react-router' {
       path: '/api/platform/storage/$ref/buckets/$id/objects'
       fullPath: '/api/platform/storage/$ref/buckets/$id/objects/'
       preLoaderRoute: typeof ApiPlatformStorageRefBucketsIdObjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId': {
+      id: '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId'
+      path: '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId'
+      fullPath: '/api/v1/projects/$ref/config/auth/third-party-auth/$tpaId'
+      preLoaderRoute: typeof ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/v1/projects/$ref/config/auth/signing-keys/legacy': {
@@ -6364,6 +6943,13 @@ declare module '@tanstack/react-router' {
       path: '/api/platform/storage/$ref/buckets/$id/objects/download'
       fullPath: '/api/platform/storage/$ref/buckets/$id/objects/download'
       preLoaderRoute: typeof ApiPlatformStorageRefBucketsIdObjectsDownloadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id': {
+      id: '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id'
+      path: '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id'
+      fullPath: '/api/platform/organizations/$slug/members/$gotrue_id/roles/$role_id'
+      preLoaderRoute: typeof ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -7139,6 +7725,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAiSqlPolicyRoute: ApiAiSqlPolicyRoute,
   ApiAiSqlTitleV2Route: ApiAiSqlTitleV2Route,
   ApiPlatformIntegrationsSlugRoute: ApiPlatformIntegrationsSlugRoute,
+  ApiPlatformProfileAuditRoute: ApiPlatformProfileAuditRoute,
+  ApiPlatformProfilePasswordRoute: ApiPlatformProfilePasswordRoute,
   ApiPlatformTelemetryEventRoute: ApiPlatformTelemetryEventRoute,
   ApiPlatformOrganizationsIndexRoute: ApiPlatformOrganizationsIndexRoute,
   ApiPlatformProfileIndexRoute: ApiPlatformProfileIndexRoute,
@@ -7154,6 +7742,12 @@ const rootRouteChildren: RootRouteChildren = {
     ApiPlatformIntegrationsGithubConnectionsRoute,
   ApiPlatformIntegrationsGithubRepositoriesRoute:
     ApiPlatformIntegrationsGithubRepositoriesRoute,
+  ApiPlatformOrganizationsSlugAuditRoute:
+    ApiPlatformOrganizationsSlugAuditRoute,
+  ApiPlatformOrganizationsSlugProjectsRoute:
+    ApiPlatformOrganizationsSlugProjectsRoute,
+  ApiPlatformOrganizationsSlugRolesRoute:
+    ApiPlatformOrganizationsSlugRolesRoute,
   ApiPlatformPgMetaRefColumnPrivilegesRoute:
     ApiPlatformPgMetaRefColumnPrivilegesRoute,
   ApiPlatformPgMetaRefExtensionsRoute: ApiPlatformPgMetaRefExtensionsRoute,
@@ -7173,10 +7767,19 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPlatformProjectsRefRunLintsRoute: ApiPlatformProjectsRefRunLintsRoute,
   ApiPlatformProjectsRefSettingsRoute: ApiPlatformProjectsRefSettingsRoute,
   ApiPlatformPropsOrgSlugRoute: ApiPlatformPropsOrgSlugRoute,
+  ApiPlatformStorageRefS3ProtocolRoute: ApiPlatformStorageRefS3ProtocolRoute,
   ApiV1ProjectsRefApiKeysRoute: ApiV1ProjectsRefApiKeysRouteWithChildren,
+  ApiV1ProjectsRefSecretsRoute: ApiV1ProjectsRefSecretsRoute,
+  ApiPlatformOrganizationsSlugIndexRoute:
+    ApiPlatformOrganizationsSlugIndexRoute,
+  ApiPlatformProfileFactorsIndexRoute: ApiPlatformProfileFactorsIndexRoute,
   ApiPlatformProjectsRefIndexRoute: ApiPlatformProjectsRefIndexRoute,
+  ApiPlatformAuthRefConfigHooksRoute: ApiPlatformAuthRefConfigHooksRoute,
+  ApiPlatformAuthRefValidateSpamRoute: ApiPlatformAuthRefValidateSpamRoute,
   ApiPlatformOrganizationsSlugBillingSubscriptionRoute:
     ApiPlatformOrganizationsSlugBillingSubscriptionRoute,
+  ApiPlatformProfileFactorsIdVerifyRoute:
+    ApiPlatformProfileFactorsIdVerifyRoute,
   ApiPlatformProjectsRefAnalyticsLogDrainsRoute:
     ApiPlatformProjectsRefAnalyticsLogDrainsRouteWithChildren,
   ApiPlatformProjectsRefApiKeysTemporaryRoute:
@@ -7187,14 +7790,22 @@ const rootRouteChildren: RootRouteChildren = {
     ApiPlatformProjectsRefBillingAddonsRoute,
   ApiPlatformProjectsRefConfigPostgrestRoute:
     ApiPlatformProjectsRefConfigPostgrestRoute,
+  ApiPlatformProjectsRefConfigRealtimeRoute:
+    ApiPlatformProjectsRefConfigRealtimeRoute,
+  ApiPlatformProjectsRefConfigStorageRoute:
+    ApiPlatformProjectsRefConfigStorageRoute,
   ApiPlatformProjectsRefContentCountRoute:
     ApiPlatformProjectsRefContentCountRoute,
   ApiPlatformPropsProjectRefApiRoute: ApiPlatformPropsProjectRefApiRoute,
   ApiV1ProjectsRefDatabaseMigrationsRoute:
     ApiV1ProjectsRefDatabaseMigrationsRoute,
   ApiV1ProjectsRefTypesTypescriptRoute: ApiV1ProjectsRefTypesTypescriptRoute,
+  ApiPlatformAuthRefConfigIndexRoute: ApiPlatformAuthRefConfigIndexRoute,
   ApiPlatformAuthRefUsersIndexRoute: ApiPlatformAuthRefUsersIndexRoute,
+  ApiPlatformOrganizationsSlugMembersIndexRoute:
+    ApiPlatformOrganizationsSlugMembersIndexRoute,
   ApiPlatformPgMetaRefQueryIndexRoute: ApiPlatformPgMetaRefQueryIndexRoute,
+  ApiPlatformProfileFactorsIdIndexRoute: ApiPlatformProfileFactorsIdIndexRoute,
   ApiPlatformProjectsRefConfigIndexRoute:
     ApiPlatformProjectsRefConfigIndexRoute,
   ApiPlatformProjectsRefContentIndexRoute:
@@ -7205,7 +7816,17 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPlatformStorageRefVectorBucketsIndexRoute:
     ApiPlatformStorageRefVectorBucketsIndexRoute,
   ApiV1ProjectsRefFunctionsIndexRoute: ApiV1ProjectsRefFunctionsIndexRoute,
+  ApiPlatformAuthRefTemplatesTemplateReactRoute:
+    ApiPlatformAuthRefTemplatesTemplateReactRoute,
+  ApiPlatformAuthRefTemplatesTemplateResetRoute:
+    ApiPlatformAuthRefTemplatesTemplateResetRoute,
   ApiPlatformAuthRefUsersIdFactorsRoute: ApiPlatformAuthRefUsersIdFactorsRoute,
+  ApiPlatformOrganizationsSlugMembersInvitationsIdRoute:
+    ApiPlatformOrganizationsSlugMembersInvitationsIdRoute,
+  ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRoute:
+    ApiPlatformOrganizationsSlugMembersInvitationsSmtpStatusRoute,
+  ApiPlatformOrganizationsSlugMembersMfaEnforcementRoute:
+    ApiPlatformOrganizationsSlugMembersMfaEnforcementRoute,
   ApiPlatformProjectsRefAnalyticsEndpointsNameRoute:
     ApiPlatformProjectsRefAnalyticsEndpointsNameRoute,
   ApiPlatformProjectsRefConfigSecretsUpdateStatusRoute:
@@ -7216,9 +7837,15 @@ const rootRouteChildren: RootRouteChildren = {
     ApiPlatformProjectsRefContentItemIdRoute,
   ApiPlatformStorageRefBucketsIdEmptyRoute:
     ApiPlatformStorageRefBucketsIdEmptyRoute,
+  ApiV1ProjectsRefConfigDatabasePostgresRoute:
+    ApiV1ProjectsRefConfigDatabasePostgresRoute,
   ApiV1ProjectsRefFunctionsSlugBodyRoute:
     ApiV1ProjectsRefFunctionsSlugBodyRoute,
   ApiPlatformAuthRefUsersIdIndexRoute: ApiPlatformAuthRefUsersIdIndexRoute,
+  ApiPlatformOrganizationsSlugMembersGotrue_idIndexRoute:
+    ApiPlatformOrganizationsSlugMembersGotrue_idIndexRoute,
+  ApiPlatformOrganizationsSlugMembersInvitationsIndexRoute:
+    ApiPlatformOrganizationsSlugMembersInvitationsIndexRoute,
   ApiPlatformProjectsRefContentFoldersIndexRoute:
     ApiPlatformProjectsRefContentFoldersIndexRoute,
   ApiPlatformStorageRefBucketsIdIndexRoute:
@@ -7227,6 +7854,8 @@ const rootRouteChildren: RootRouteChildren = {
     ApiPlatformStorageRefVectorBucketsIdIndexRoute,
   ApiV1ProjectsRefFunctionsSlugIndexRoute:
     ApiV1ProjectsRefFunctionsSlugIndexRoute,
+  ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRoute:
+    ApiPlatformOrganizationsSlugMembersGotrue_idRolesRole_idRoute,
   ApiPlatformStorageRefBucketsIdObjectsDownloadRoute:
     ApiPlatformStorageRefBucketsIdObjectsDownloadRoute,
   ApiPlatformStorageRefBucketsIdObjectsListRoute:
@@ -7243,15 +7872,20 @@ const rootRouteChildren: RootRouteChildren = {
     ApiPlatformStorageRefVectorBucketsIdIndexesIndexNameRoute,
   ApiV1ProjectsRefConfigAuthSigningKeysLegacyRoute:
     ApiV1ProjectsRefConfigAuthSigningKeysLegacyRoute,
+  ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRoute:
+    ApiV1ProjectsRefConfigAuthThirdPartyAuthTpaIdRoute,
   ApiPlatformStorageRefBucketsIdObjectsIndexRoute:
     ApiPlatformStorageRefBucketsIdObjectsIndexRoute,
   ApiPlatformStorageRefVectorBucketsIdIndexesIndexRoute:
     ApiPlatformStorageRefVectorBucketsIdIndexesIndexRoute,
   ApiV1ProjectsRefConfigAuthSigningKeysIndexRoute:
     ApiV1ProjectsRefConfigAuthSigningKeysIndexRoute,
+  ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRoute:
+    ApiV1ProjectsRefConfigAuthThirdPartyAuthIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
