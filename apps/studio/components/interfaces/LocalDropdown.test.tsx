@@ -196,7 +196,6 @@ vi.mock('ui', async () => {
 
 describe('LocalDropdown', () => {
   beforeEach(() => {
-    vi.clearAllMocks()
     mockUseIsManagementApiEnabled.mockReturnValue(false)
     mockUseProfile.mockReturnValue({ profile: undefined })
     mockUseDevToolbar.mockReturnValue({

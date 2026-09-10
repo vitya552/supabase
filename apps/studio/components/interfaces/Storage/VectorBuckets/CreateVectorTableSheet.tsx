@@ -411,6 +411,7 @@ export const CreateVectorTableSheet = ({ bucketName }: CreateVectorTableSheetPro
             Cancel
           </Button>
           <Button
+            variant="primary"
             form={formId}
             type="submit"
             loading={isCreating}
