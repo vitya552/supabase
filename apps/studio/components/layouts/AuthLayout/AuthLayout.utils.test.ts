@@ -109,7 +109,7 @@ describe('generateAuthMenu', () => {
     expect(configGroup.items[0].name).toBe('Policies')
   })
 
-  it('self-hosted with management API shows Auth config items but not platform-only items', () => {
+  it('self-hosted with management API shows all Auth config items', () => {
     const menu = generateAuthMenu({
       ...allFeaturesEnabled,
       isPlatform: false,
@@ -125,12 +125,11 @@ describe('generateAuthMenu', () => {
     expect(names).toContain('URL Configuration')
     expect(names).toContain('Attack Protection')
     expect(names).toContain('Auth Hooks')
-
-    expect(names).not.toContain('OAuth Apps')
-    expect(names).not.toContain('OAuth Server')
-    expect(names).not.toContain('Passkeys')
-    expect(names).not.toContain('Audit Logs')
-    expect(names).not.toContain('Performance')
+    expect(names).toContain('OAuth Apps')
+    expect(names).toContain('OAuth Server')
+    expect(names).toContain('Passkeys')
+    expect(names).toContain('Audit Logs')
+    expect(names).toContain('Performance')
   })
 
   it('shows Overview when showOverview is true', () => {
