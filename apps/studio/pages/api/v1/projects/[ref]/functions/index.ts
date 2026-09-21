@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-type EdgeFunctionsResponse = components['schemas']['FunctionResponse']
+type EdgeFunctionsResponse = components['schemas']['FunctionResponse_Output']
 
 const handleGetAll = async (req: NextApiRequest, res: NextApiResponse) => {
   if (IS_MANAGEMENT_API_ENABLED) {

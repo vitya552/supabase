@@ -45,7 +45,7 @@ import { IS_PLATFORM } from '@/lib/constants'
 const formId = 'realtime-configuration-form'
 
 const REALTIME_SOFT_LIMITS = {
-  max_concurrent_users: 50_000,
+  max_concurrent_users: 300_000,
   max_events_per_second: 50_000,
   max_presence_events_per_second: 5_000,
   max_payload_size_in_kb: 3_000,
@@ -433,7 +433,7 @@ export const RealtimeSettings = () => {
                                   </p>
                                 }
                                 actions={
-                                  <Button asChild variant="default">
+                                  <Button asChild>
                                     <Link href={`/project/${projectRef}/realtime/policies`}>
                                       Create policy
                                     </Link>
@@ -729,9 +729,7 @@ export const RealtimeSettings = () => {
                 </div>
                 <div className="flex items-center gap-x-2">
                   {form.formState.isDirty && (
-                    <Button variant="default" onClick={() => form.reset(formValues)}>
-                      Cancel
-                    </Button>
+                    <Button onClick={() => form.reset(formValues)}>Cancel</Button>
                   )}
                   <Button
                     variant="primary"

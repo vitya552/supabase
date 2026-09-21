@@ -28,6 +28,7 @@ import { CreateBucketButton } from '../NewBucketButton'
 import { CreateAnalyticsBucketModal } from './CreateAnalyticsBucketModal'
 import { AlertError } from '@/components/ui/AlertError'
 import { AlphaNotice } from '@/components/ui/AlphaNotice'
+import { TableRowNoResults } from '@/components/ui/TableRowNoResults'
 import {
   useIsAnalyticsBucketsEnabled,
   useProjectStorageConfigQuery,
@@ -160,14 +161,11 @@ export const AnalyticsBuckets = () => {
                           </TableHeader>
                           <TableBody>
                             {analyticsBuckets.length === 0 && filterString.length > 0 && (
-                              <TableRow className="[&>td]:hover:bg-inherit">
-                                <TableCell colSpan={3}>
-                                  <p className="text-sm text-foreground">No results found</p>
-                                  <p className="text-sm text-foreground-light">
-                                    Your search for "{filterString}" did not return any results
-                                  </p>
-                                </TableCell>
-                              </TableRow>
+                              <TableRowNoResults
+                                className="[&>td]:hover:bg-inherit"
+                                colSpan={3}
+                                search={filterString}
+                              />
                             )}
                             {analyticsBuckets.map((bucket) => {
                               const handleBucketNavigation = createNavigationHandler(

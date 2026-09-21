@@ -27,7 +27,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
 const handleGet = async (req: NextApiRequest, res: NextApiResponse) => {
   const ref = typeof req.query.ref === 'string' ? req.query.ref : 'default'
-  const fallback: components['schemas']['GetPostgrestConfigResponse'] = {
+  const fallback: components['schemas']['GetPostgrestConfigResponse_Output'] = {
     db_anon_role: 'anon',
     db_extra_search_path: process.env.PGRST_DB_EXTRA_SEARCH_PATH ?? 'public',
     db_schema: DEFAULT_EXPOSED_SCHEMAS,

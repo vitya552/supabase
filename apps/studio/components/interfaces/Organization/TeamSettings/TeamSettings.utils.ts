@@ -4,7 +4,7 @@ import {
   useOrganizationMembersQuery,
   type OrganizationMember,
 } from '@/data/organizations/organization-members-query'
-import { doPermissionsCheck, useGetPermissions } from '@/hooks/misc/useCheckPermissions'
+import { doPermissionsCheck } from '@/hooks/misc/useCheckPermissions'
 import { IS_PLATFORM } from '@/lib/constants'
 import { useProfile } from '@/lib/profile'
 import type { Permission, Role } from '@/types'
@@ -14,11 +14,6 @@ export const useGetRolesManagementPermissions = (
   roles?: Role[],
   permissions?: Permission[]
 ): { rolesAddable: Number[]; rolesRemovable: Number[] } => {
-  const { permissions: allPermissions, organizationSlug } = useGetPermissions(
-    permissions,
-    orgSlug,
-    permissions !== undefined && orgSlug !== undefined
-  )
   const { profile } = useProfile()
   const { data: members } = useOrganizationMembersQuery(
     { slug: orgSlug },
@@ -48,24 +43,24 @@ export const useGetRolesManagementPermissions = (
 
   roles.forEach((role: Role) => {
     const canAdd = doPermissionsCheck(
-      allPermissions,
+      permissions,
       PermissionAction.CREATE,
       'auth.subject_roles',
       {
         resource: { role_id: role.id },
       },
-      organizationSlug
+      orgSlug
     )
     if (canAdd) rolesAddable.push(role.id)
 
     const canRemove = doPermissionsCheck(
-      allPermissions,
+      permissions,
       PermissionAction.DELETE,
       'auth.subject_roles',
       {
         resource: { role_id: role.id },
       },
-      organizationSlug
+      orgSlug
     )
     if (canRemove) rolesRemovable.push(role.id)
   })

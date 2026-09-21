@@ -5,7 +5,7 @@ import { realtimeKeys } from './keys'
 import { get, handleError } from '@/data/fetchers'
 import type { ResponseError, UseCustomQueryOptions } from '@/types'
 
-type RealtimeConfigResponse = components['schemas']['RealtimeConfigResponse']
+type RealtimeConfigResponse = components['schemas']['RealtimeConfigResponse_Output']
 
 export type RealtimeConfigurationVariables = {
   projectRef?: string
