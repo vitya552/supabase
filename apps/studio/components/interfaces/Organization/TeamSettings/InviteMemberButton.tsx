@@ -116,10 +116,8 @@ export const InviteMemberButton = () => {
     permissions ?? []
   )
 
-  // Self-hosted has no platform permissions API; the management API enforces
-  // invite permissions server-side.
   const canInviteMembers = !IS_PLATFORM
-    ? true
+    ? rolesAddable.length > 0
     : hasOrgRole &&
       rolesAddable.length > 0 &&
       orgScopedRoles.some(({ id: role_id }) =>
