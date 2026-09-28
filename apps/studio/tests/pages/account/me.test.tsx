@@ -45,6 +45,14 @@ vi.mock('@/components/interfaces/Account/Preferences/ProfileInformation', () => 
   ProfileInformation: () => <div>ProfileInformation</div>,
 }))
 
+vi.mock('@/components/interfaces/Account/Preferences/DashboardProfileInformation', () => ({
+  DashboardProfileInformation: () => <div>DashboardProfileInformation</div>,
+}))
+
+vi.mock('@/components/interfaces/Account/Preferences/AccountPassword', () => ({
+  AccountPassword: () => <div>AccountPassword</div>,
+}))
+
 vi.mock('@/components/interfaces/Account/Preferences/AccountIdentities', () => ({
   AccountIdentities: () => <div>AccountIdentities</div>,
 }))
@@ -112,6 +120,8 @@ describe('/account/me', () => {
     expect(screen.getByText('DashboardSettings')).toBeInTheDocument()
     expect(screen.getByText('AnalyticsSettings')).toBeInTheDocument()
     expect(screen.getByText('AccountDeletion')).toBeInTheDocument()
+    expect(screen.queryByText('DashboardProfileInformation')).not.toBeInTheDocument()
+    expect(screen.queryByText('AccountPassword')).not.toBeInTheDocument()
   })
 
   it('renders only local preferences on self-hosted', () => {
@@ -119,6 +129,8 @@ describe('/account/me', () => {
 
     render(<PreferencesPage dehydratedState={{}} />)
 
+    expect(screen.getByText('DashboardProfileInformation')).toBeInTheDocument()
+    expect(screen.getByText('AccountPassword')).toBeInTheDocument()
     expect(screen.getByText('ThemeSettings')).toBeInTheDocument()
     expect(screen.getByText('TimezoneSettings')).toBeInTheDocument()
     expect(screen.getByText('HotkeySettings')).toBeInTheDocument()

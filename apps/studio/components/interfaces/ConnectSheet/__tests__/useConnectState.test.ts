@@ -3,8 +3,9 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 
 import { useConnectState } from '../useConnectState'
 
+const paramsMock = { ref: 'test-ref' }
 vi.mock('common', () => ({
-  useParams: () => ({ ref: 'test-ref' }),
+  useParams: () => paramsMock,
 }))
 
 const readReplicasMock: {
@@ -683,6 +684,7 @@ describe('useConnectState', () => {
         isCli: false,
         isSelfHosted: false,
       })
+      paramsMock.ref = 'test-ref'
     })
 
     describe('connectionMethod options filtering', () => {
@@ -708,7 +710,19 @@ describe('useConnectState', () => {
         expect(values).toEqual(['direct'])
       })
 
-      test('self-hosted exposes session, transaction, direct (session first)', () => {
+      test('self-hosted default project exposes session, transaction, direct (session first)', () => {
+        Object.assign(deploymentModeMock, {
+          isPlatform: false,
+          isCli: false,
+          isSelfHosted: true,
+        })
+        paramsMock.ref = 'default'
+        const { result } = renderHook(() => useConnectState({ mode: 'direct' }))
+        const values = result.current.getFieldOptions('connectionMethod').map((o) => o.value)
+        expect(values).toEqual(['session', 'transaction', 'direct'])
+      })
+
+      test('self-hosted non-default project exposes only direct', () => {
         Object.assign(deploymentModeMock, {
           isPlatform: false,
           isCli: false,
@@ -716,7 +730,7 @@ describe('useConnectState', () => {
         })
         const { result } = renderHook(() => useConnectState({ mode: 'direct' }))
         const values = result.current.getFieldOptions('connectionMethod').map((o) => o.value)
-        expect(values).toEqual(['session', 'transaction', 'direct'])
+        expect(values).toEqual(['direct'])
       })
 
       test('self-hosted overrides direct method description', () => {
@@ -738,6 +752,7 @@ describe('useConnectState', () => {
           isCli: false,
           isSelfHosted: true,
         })
+        paramsMock.ref = 'default'
         const { result } = renderHook(() => useConnectState({ mode: 'direct' }))
         const sessionOption = result.current
           .getFieldOptions('connectionMethod')

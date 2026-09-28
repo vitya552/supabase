@@ -118,7 +118,7 @@ describe('AccountLayout (self-hosted)', () => {
     document.title = ''
   })
 
-  it('keeps /account/me available and shows only the Preferences link', async () => {
+  it('keeps /account/me available and shows only the self-hosted links', async () => {
     render(
       <AccountLayout title="Preferences">
         <div>Preferences page</div>
@@ -130,8 +130,9 @@ describe('AccountLayout (self-hosted)', () => {
     })
 
     expect(screen.getByText('Preferences')).toBeInTheDocument()
+    expect(screen.getByText('Security')).toBeInTheDocument()
+    expect(screen.getByText('Audit Logs')).toBeInTheDocument()
     expect(screen.queryByText('Access Tokens')).not.toBeInTheDocument()
-    expect(screen.queryByText('Account Settings')).not.toBeInTheDocument()
     expect(mockRouter.push).not.toHaveBeenCalled()
   })
 
