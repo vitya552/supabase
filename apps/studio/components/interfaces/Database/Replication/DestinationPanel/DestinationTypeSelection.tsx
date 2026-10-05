@@ -25,7 +25,7 @@ interface DestinationTypeOption {
   value: DestinationType
   label: string
   description: string
-  stage: 'Public Alpha' | 'Early Access' | 'Deprecated' | null
+  stage: 'Public Alpha' | 'Deprecated' | null
   enabled: boolean
 }
 
@@ -78,30 +78,25 @@ export const DestinationTypeSelection = () => {
           stage: 'Public Alpha',
           enabled: isOptionVisible('BigQuery', etlEnableBigQuery),
         },
-      ],
-    },
-    {
-      label: 'Early Access',
-      options: [
         {
           value: 'DuckLake',
           label: 'DuckLake',
           description: 'Replicate changes to DuckLake for open lakehouse storage',
-          stage: 'Early Access',
+          stage: 'Public Alpha',
           enabled: isOptionVisible('DuckLake', etlEnableDucklake),
         },
         {
           value: 'Snowflake',
           label: 'Snowflake',
           description: 'Replicate changes to Snowflake for cloud data warehousing',
-          stage: 'Early Access',
+          stage: 'Public Alpha',
           enabled: isOptionVisible('Snowflake', etlEnableSnowflake),
         },
         {
           value: 'ClickHouse',
           label: 'ClickHouse',
           description: 'Replicate changes to ClickHouse for real-time analytics',
-          stage: 'Early Access',
+          stage: 'Public Alpha',
           enabled: isOptionVisible('ClickHouse', etlEnableClickHouse),
         },
       ],
@@ -127,18 +122,22 @@ export const DestinationTypeSelection = () => {
 
   const selectedOption = options.find((option) => option.value === destinationType)
 
-  const STAGE_DESCRIPTIONS: Record<NonNullable<DestinationTypeOption['stage']>, string> = {
-    'Public Alpha': 'In public alpha and may change.',
-    'Early Access': 'In early access and may change.',
-    Deprecated: 'This destination type is deprecated.',
+  const STAGE_DESCRIPTIONS: Record<
+    NonNullable<DestinationTypeOption['stage']>,
+    (type: DestinationType) => string
+  > = {
+    'Public Alpha': (type) => `${type} support is in public alpha.`,
+    Deprecated: (type) => `${type} is deprecated.`,
   }
 
-  const stageDescription = selectedOption?.stage ? STAGE_DESCRIPTIONS[selectedOption.stage] : null
+  const stageDescription = selectedOption?.stage
+    ? STAGE_DESCRIPTIONS[selectedOption.stage](selectedOption.value)
+    : null
 
   const typeDescription =
     !editMode || stageDescription ? (
       <span>
-        {!editMode && 'Cannot be changed after creation.'}
+        {!editMode && 'Destination type cannot be changed after creation.'}
         {!editMode && stageDescription ? ' ' : null}
         {stageDescription}
       </span>
