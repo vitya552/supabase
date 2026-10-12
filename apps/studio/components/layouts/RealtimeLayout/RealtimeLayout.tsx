@@ -8,7 +8,7 @@ import { generateRealtimeMenu, useShowRealtimeSettings } from './RealtimeMenu.ut
 import { HighAvailabilityDisabledEmptyState } from '@/components/ui/HighAvailability/HighAvailabilityDisabledEmptyState'
 import { ProductMenu } from '@/components/ui/ProductMenu'
 import { ProductMenuShortcuts } from '@/components/ui/ProductMenu/ProductMenuShortcuts'
-import { useHighAvailability } from '@/hooks/misc/useHighAvailability'
+import { useIsRealtimeUnavailable } from '@/hooks/misc/useHighAvailability'
 import { useSelectedProjectQuery } from '@/hooks/misc/useSelectedProject'
 import { withAuth } from '@/hooks/misc/withAuth'
 
@@ -37,13 +37,13 @@ export interface RealtimeLayoutProps {
 
 export const RealtimeLayout = ({ title, children }: PropsWithChildren<RealtimeLayoutProps>) => {
   const { data: project } = useSelectedProjectQuery()
-  const { isHighAvailability } = useHighAvailability()
+  const { isRealtimeUnavailable } = useIsRealtimeUnavailable()
   const router = useRouter()
   const page = router.pathname.split('/')[4]
   const showRealtimeSettings = useShowRealtimeSettings()
   const menu = generateRealtimeMenu(project, { showRealtimeSettings })
 
-  if (isHighAvailability) {
+  if (isRealtimeUnavailable) {
     return (
       <>
         <Head>
