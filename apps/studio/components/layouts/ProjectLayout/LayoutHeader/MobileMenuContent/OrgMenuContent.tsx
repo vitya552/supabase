@@ -1,7 +1,15 @@
 'use client'
 
 import { IS_PLATFORM, useIsMFAEnabled, useParams } from 'common'
-import { Blocks, Boxes, ChartArea, ChevronLeft, Receipt, Settings, Users } from 'lucide-react'
+import {
+  BlocksIcon,
+  BoxesIcon,
+  ChartAreaIcon,
+  ChevronLeftIcon,
+  ReceiptIcon,
+  SettingsIcon,
+  UsersIcon,
+} from 'lucide-react'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 import { Button, cn, SidebarGroup, SidebarMenu } from 'ui'
@@ -64,13 +72,13 @@ export function OrgMenuContent({ onCloseSheet }: OrgMenuContentProps) {
         label: 'Projects',
         href: `/org/${organizationSlug}`,
         key: 'projects',
-        icon: <Boxes size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+        icon: <BoxesIcon size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
       },
       {
         label: 'Team',
         href: `/org/${organizationSlug}/team`,
         key: 'team',
-        icon: <Users size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+        icon: <UsersIcon size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
       },
       ...(IS_PLATFORM
         ? [
@@ -78,13 +86,13 @@ export function OrgMenuContent({ onCloseSheet }: OrgMenuContentProps) {
               label: 'Integrations',
               href: `/org/${organizationSlug}/integrations`,
               key: 'integrations',
-              icon: <Blocks size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+              icon: <BlocksIcon size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
             },
             {
               label: 'Usage',
               href: `/org/${organizationSlug}/usage`,
               key: 'usage',
-              icon: <ChartArea size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+              icon: <ChartAreaIcon size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
             },
           ]
         : []),
@@ -94,7 +102,7 @@ export function OrgMenuContent({ onCloseSheet }: OrgMenuContentProps) {
               label: 'Billing',
               href: `/org/${organizationSlug}/billing`,
               key: 'billing',
-              icon: <Receipt size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+              icon: <ReceiptIcon size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
             },
           ]
         : []),
@@ -102,7 +110,7 @@ export function OrgMenuContent({ onCloseSheet }: OrgMenuContentProps) {
         label: 'Organization settings',
         href: `/org/${organizationSlug}/general`,
         key: 'settings',
-        icon: <Settings size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
+        icon: <SettingsIcon size={ICON_SIZE} strokeWidth={ICON_STROKE_WIDTH} />,
       },
     ],
     [organizationSlug, showBilling]
@@ -127,7 +135,7 @@ export function OrgMenuContent({ onCloseSheet }: OrgMenuContentProps) {
           <Button
             variant="text"
             className="p-1! justify-start"
-            icon={<ChevronLeft size={20} />}
+            icon={<ChevronLeftIcon size={20} />}
             onClick={handleBackToTop}
             aria-label="Back to menu"
             block

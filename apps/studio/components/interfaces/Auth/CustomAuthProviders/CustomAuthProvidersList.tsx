@@ -1,6 +1,15 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'common'
-import { Edit, MoreVertical, Plus, Power, PowerOff, Search, Trash, X } from 'lucide-react'
+import {
+  EditIcon,
+  MoreVerticalIcon,
+  PlusIcon,
+  PowerIcon,
+  PowerOffIcon,
+  SearchIcon,
+  TrashIcon,
+  XIcon,
+} from 'lucide-react'
 import { parseAsBoolean, parseAsStringLiteral, useQueryState } from 'nuqs'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
@@ -83,7 +92,7 @@ const NewProviderButton = ({
     <Button
       variant="primary"
       disabled={!canCreateProvider}
-      icon={<Plus />}
+      icon={<PlusIcon />}
       onClick={() => setShowCreateSheet(true)}
       className="grow"
     >
@@ -315,7 +324,7 @@ export const CustomAuthProvidersList = () => {
                 onKeyDown={onSearchInputEscape(filterString, setFilterString)}
               />
               <InputGroupAddon>
-                <Search />
+                <SearchIcon />
               </InputGroupAddon>
             </InputGroup>
             <FilterPopover
@@ -343,7 +352,7 @@ export const CustomAuthProvidersList = () => {
               onSaveFilters={setFilteredEnabledStatuses}
             />
             {hasActiveFilters && (
-              <Button size="tiny" className="px-1" icon={<X />} onClick={handleResetFilters} />
+              <Button size="tiny" className="px-1" icon={<XIcon />} onClick={handleResetFilters} />
             )}
           </div>
           <div className="flex items-center gap-x-2">
@@ -396,7 +405,7 @@ export const CustomAuthProvidersList = () => {
                 <Button
                   variant="primary"
                   disabled={!canCreateProvider}
-                  icon={<Plus />}
+                  icon={<PlusIcon />}
                   onClick={() => setShowCreateSheet(true)}
                   className="grow"
                 >
@@ -477,7 +486,7 @@ export const CustomAuthProvidersList = () => {
                         <div className="absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center border-l @[944px]:border-l-0">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button className="px-1" icon={<MoreVertical />} />
+                              <Button className="px-1" icon={<MoreVerticalIcon />} />
                             </DropdownMenuTrigger>
                             <DropdownMenuContent side="bottom" align="end" className="w-48">
                               <DropdownMenuItem
@@ -486,7 +495,7 @@ export const CustomAuthProvidersList = () => {
                                   setSelectedProviderToEdit(provider.id)
                                 }}
                               >
-                                <Edit size={12} />
+                                <EditIcon size={12} />
                                 <p>Update</p>
                               </DropdownMenuItem>
                               {provider.enabled ? (
@@ -494,7 +503,7 @@ export const CustomAuthProvidersList = () => {
                                   className="space-x-2"
                                   onClick={() => setSelectedProviderToDisable(provider.id)}
                                 >
-                                  <PowerOff size={12} />
+                                  <PowerOffIcon size={12} />
                                   <p>Disable</p>
                                 </DropdownMenuItem>
                               ) : (
@@ -509,7 +518,7 @@ export const CustomAuthProvidersList = () => {
                                     })
                                   }
                                 >
-                                  <Power size={12} />
+                                  <PowerIcon size={12} />
                                   <p>Enable</p>
                                 </DropdownMenuItem>
                               )}
@@ -517,7 +526,7 @@ export const CustomAuthProvidersList = () => {
                                 className="space-x-2"
                                 onClick={() => setSelectedProviderToDelete(provider.id)}
                               >
-                                <Trash size={12} />
+                                <TrashIcon size={12} />
                                 <p>Delete</p>
                               </DropdownMenuItem>
                             </DropdownMenuContent>
