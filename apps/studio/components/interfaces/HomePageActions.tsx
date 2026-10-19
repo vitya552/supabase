@@ -170,7 +170,7 @@ export const HomePageActions = ({ slug: _slug, hideNewProject = false }: HomePag
         {!IS_PLATFORM && !hideNewProject && (
           <ButtonTooltip
             disabled
-            icon={<Plus />}
+            icon={<PlusIcon />}
             variant="primary"
             size="tiny"
             tooltip={{
