@@ -418,7 +418,7 @@ export const TemplateEditor = ({ template, isReadOnly = false }: TemplateEditorP
                     id="react-email-editor"
                     language="typescript"
                     isReadOnly={!canEdit}
-                    className="mb-0! relative h-96 outline-hidden outline-offset-0 outline-width-0 outline-0"
+                    className="mb-0! relative h-96 outline-hidden outline-offset-0 outline-0"
                     onInputChange={(e: string | undefined) => {
                       setEditedReactSource(e ?? '')
                       if (reactSource !== e) setHasUnsavedChanges(true)
