@@ -43,7 +43,7 @@ export const DeleteProjectModal = ({
   const projectRef = project?.ref
   const { data: subscription } = useOrgSubscriptionQuery({ orgSlug: organization?.slug })
   const projectPlan = subscription?.plan?.id ?? 'free'
-  const shouldShowExitSurvey = IS_PLATFORM && ['pro', 'team'].includes(projectPlan)
+  const shouldShowExitSurvey = ['pro', 'team'].includes(projectPlan)
 
   const [message, setMessage] = useState<string>('')
   const [selectedReason, setSelectedReason] = useState<string[]>([])
