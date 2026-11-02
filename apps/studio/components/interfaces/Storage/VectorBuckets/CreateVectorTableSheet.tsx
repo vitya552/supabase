@@ -32,6 +32,7 @@ import { useS3VectorsWrapperInstance } from './useS3VectorsWrapperInstance'
 import { ButtonTooltip } from '@/components/ui/ButtonTooltip'
 import { DocsButton } from '@/components/ui/DocsButton'
 import { useFDWImportForeignSchemaMutation } from '@/data/fdw/fdw-import-foreign-schema-mutation'
+import { unguarded } from '@/data/fetchers'
 import { useExecuteSqlMutation } from '@/data/sql/execute-sql-mutation'
 import { useVectorBucketIndexCreateMutation } from '@/data/storage/vector-bucket-index-create-mutation'
 import { FGA_PERMISSIONS, useAsyncCheckPermissionsV2 } from '@/hooks/misc/useCheckPermissionsV2'
@@ -182,6 +183,7 @@ export const CreateVectorTableSheet = ({ bucketName }: CreateVectorTableSheetPro
           projectRef: project.ref,
           connectionString: project?.connectionString,
           sql: safeSql`create schema if not exists ${ident(schema)};`,
+          grant: unguarded.migrating,
         })
         await importForeignSchema({
           projectRef: project.ref,
